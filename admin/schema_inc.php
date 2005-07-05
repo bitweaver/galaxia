@@ -102,7 +102,7 @@ global $gBitInstaller;
 $gBitInstaller->makePackageHomeable(GALAXIA_PKG_NAME);
 
 foreach( array_keys( $tables ) AS $tableName ) {
-	$gBitInstaller->registerSchemaTable( GALAXIA_PKG_DIR, $tableName, $tables[$tableName] );
+	$gBitInstaller->registerSchemaTable( GALAXIA_PKG_NAME, $tableName, $tables[$tableName] );
 }
 
 $gBitInstaller->registerPackageInfo( GALAXIA_PKG_NAME, array(
