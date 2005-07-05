@@ -25,7 +25,7 @@ class GUI extends Base {
     $sort_mode = $this->convert_sortmode($sort_mode);
 
     if (!isset($user_id))
-	$gBitSystem->error(tra("No user id"));
+	$gBitSystem->fatalError(tra("No user id"));
 
     $mid = "where gp.`is_active`=? and ugm.`user_id`=?";
     $bindvars = array('y',$user_id);
@@ -84,8 +84,8 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON gar.`role_id`=ggr.`role_id`
 				INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=ggr.`group_id`
 				INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ug.`group_id`
-				where gi.`p_id`=? and ((gia.`user_id`=?) or (gia.`user_id`=? and ugm.`user_id`=?))",
-		array($p_id,$user_id,NULL,$user_id));
+				where gi.`p_id`=? and ugm.`user_id`=?",
+		array($p_id,$user_id));
       $ret[] = $res;
     }
     $retval = Array();
@@ -101,7 +101,7 @@ class GUI extends Base {
     $sort_mode = $this->convert_sortmode($sort_mode);
 
     if (!isset($user_id))
-	$gBitSystem->error(tra("No user id"));
+	$gBitSystem->fatalError(tra("No user id"));
 
     $mid = "where gp.`is_active`=? and ugm.`user_id`=?";
     $bindvars = array('y',$user_id);
@@ -155,8 +155,7 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON gar.`role_id`=ggr.`role_id`
 				INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=ggr.`group_id`
 				INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ug.`group_id`
-				where gia.`activity_id`=? and (gia.`user_id`=? or ugm.`user_id`=?)",
-/*				where gia.`activity_id`=? and ((gia.`user_id`=?) or (gia.`user_id`=? and ugm.`user_id`=?))",*/
+				where gia.`activity_id`=? and (gia.`group_id`=? or ugm.`user_id`=?)",
 		array($res['activity_id'],NULL,$user_id));
       $ret[] = $res;
     }
@@ -173,7 +172,7 @@ class GUI extends Base {
     $sort_mode = $this->convert_sortmode($sort_mode);
 
     if (!isset($user_id))
-	$gBitSystem->error(tra("No user id"));
+	$gBitSystem->fatalError(tra("No user id"));
 
     $mid = "where ugm.`user_id`=?";
     $bindvars = array($user_id);
@@ -190,7 +189,7 @@ class GUI extends Base {
     $query = "select distinct(gi.`instance_id`),
                      gi.`started`,
                      gi.`owner_id`,
-                     gia.`user_id`,
+                     gia.`group_id`,
                      gi.`status`,
                      gia.`status` as `actstatus`,
                      ga.`name`,
@@ -241,8 +240,10 @@ class GUI extends Base {
   {
     // Users can only abort instances they're currently running, or instances that they're the owner of
     if(!$this->getOne("select count(*)
-                       from `".GALAXIA_TABLE_PREFIX."instance_activities` gia, `".GALAXIA_TABLE_PREFIX."instances` gi
-                       where gia.`instance_id`=gi.`instance_id` and `activity_id`=? and gia.`instance_id`=? and (`user_id`=? or `owner_id`=?)",
+                       from `".GALAXIA_TABLE_PREFIX."instance_activities` gia
+			INNER JOIN `".GALAXIA_TABLE_PREFIX."instances` gi ON gia.`instance_id`=gi.`instance_id`
+			INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=gia.`group_id`
+                       where `activity_id`=? and gia.`instance_id`=? and (ugm.`user_id`=? or gi.`owner_id`=?)",
                        array($activity_id,$instance_id,$user_id,$user_id)))
       return false;
     include_once(GALAXIA_LIBRARY.'/src/API/Instance.php');
@@ -263,7 +264,9 @@ class GUI extends Base {
     // Users can only do exception handling for instances they're currently running, or instances that they're the owner of
     if(!$this->getOne("select count(*)
                        from `".GALAXIA_TABLE_PREFIX."instance_activities` gia, `".GALAXIA_TABLE_PREFIX."instances` gi
-                       where gia.`instance_id`=gi.`instance_id` and `activity_id`=? and gia.`instance_id`=? and (`user_id`=? or `owner_id`=?)",
+			INNER JOIN `".GALAXIA_TABLE_PREFIX."instances` gi ON gia.`instance_id`=gi.`instance_id`
+			INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=gia.`group_id`
+                       where `activity_id`=? and gia.`instance_id`=? and (`user_id`=? or `owner_id`=?)",
                        array($activity_id,$instance_id,$user_id,$user_id)))
       return false;
     $query = "update `".GALAXIA_TABLE_PREFIX."instances`
@@ -293,7 +296,7 @@ class GUI extends Base {
   function gui_send_instance($user_id,$activity_id,$instance_id)
   {
     if (!isset($user_id))
-	$gBitSystem->error(tra("No user id"));
+	$gBitSystem->fatalError(tra("No user id"));
 
     if(!
       ($this->getOne("select count(*)
@@ -332,7 +335,7 @@ class GUI extends Base {
   function gui_grab_instance($user_id,$activity_id,$instance_id)
   {
     if (!isset($user_id))
-	$gBitSystem->error(tra("No user id"));
+	$gBitSystem->fatalError(tra("No user id"));
 
     // Grab only if roles are ok
     if(!$this->getOne("select count(*)

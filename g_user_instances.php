@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1 2005/07/02 16:36:59 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.1 2005/07/05 10:25:32 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -84,7 +84,8 @@ if (isset($_REQUEST["find"])) {
 	$find = '';
 }
 
-$smarty->assign_by_ref('user_info', $gBitUser->mInfo);
+$groups = $gBitUser->getGroups();
+$smarty->assign_by_ref('groups', $groups);
 
 $smarty->assign('find', $find);
 $smarty->assign('where', $where);

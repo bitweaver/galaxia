@@ -397,7 +397,7 @@ class Instance extends Base {
         $putuser = $this->getOwner();
       } else {
         $started=$act['started'];
-        $putuser = $act['user_id'];
+        $putuser = $act['group_id'];
       }
       $ended = date("U");
       $properties = serialize($this->properties);
@@ -494,7 +494,7 @@ class Instance extends Base {
         $putuser = $this->getOwner();
       } else {
         $started=$act['started'];
-        $putuser = $act['user_id'];
+        $putuser = $act['group_id'];
       }
       $ended = date("U");
       $properties = serialize($this->properties);
@@ -579,7 +579,7 @@ class Instance extends Base {
     $iid = $this->instance_id;
     $query="delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=? and `activity_id`=?";
     $this->query($query,array((int)$iid,(int)$activity_id));
-    $query="insert into `".GALAXIA_TABLE_PREFIX."instance_activities`(`instance_id`,`activity_id`,`user_id`,`status`,`started`,`ended`) values(?,?,?,?,?,?)";
+    $query="insert into `".GALAXIA_TABLE_PREFIX."instance_activities`(`instance_id`,`activity_id`,`group_id`,`status`,`started`,`ended`) values(?,?,?,?,?,?)";
     $this->query($query,array((int)$iid,(int)$activity_id,$putgroup,'running',(int)$now,0));
     
     //we are now in a new activity

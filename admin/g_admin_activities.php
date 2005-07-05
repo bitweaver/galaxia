@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.1 2005/07/02 16:37:03 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.1.1.1.2.1 2005/07/05 10:25:32 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -15,7 +15,7 @@ $gBitSystem->verifyPermission( 'bit_p_admin_workflow', "Permission denied you ca
 
 
 if (!isset($_REQUEST['pid'])) {
-	$gBitSystem->error(tra("No process indicated"));
+	$gBitSystem->fatalError(tra("No process indicated"));
 	die;
 }
 
@@ -108,7 +108,7 @@ if (isset($_REQUEST['save_act'])) {
 	);
 
 	if ($activityManager->activity_name_exists($_REQUEST['pid'], $_REQUEST['name']) && $_REQUEST['activity_id'] == 0) {
-		$gBitSystem->error(tra("Activity name already exists"));
+		$gBitSystem->fatalError(tra("Activity name already exists"));
 		die;
 	}
 

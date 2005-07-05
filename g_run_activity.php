@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.1 2005/07/02 16:37:00 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.1.1.1.2.1 2005/07/05 10:25:32 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -22,7 +22,7 @@ if (!isset($_REQUEST['auto'])) {
 // parameter and get the activity information
 // load then the compiled version of the activity
 if (!isset($_REQUEST['activity_id'])) {
-	$gBitSystem->error(tra("No activity indicated"));
+	$gBitSystem->fatalError(tra("No activity indicated"));
 	die;
 }
 
@@ -40,7 +40,7 @@ $user_roles = $activity->getUserRoles($user_id);
 // activity
 if ($activity->is_interactive() == 'y') {
 	if (!count(array_intersect($act_roles, $user_roles))) {
-		$gBitSystem->error(tra("You cant execute this activity"));
+		$gBitSystem->fatalError(tra("You cant execute this activity"));
 		die;
 	}
 }

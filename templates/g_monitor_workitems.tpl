@@ -48,7 +48,7 @@
 	<select name="filter_user">
 		<option {if '' eq $smarty.request.filter_user}selected="selected"{/if} value="">{tr}All{/tr}</option>
 		{section loop=$users name=ix}
-			<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{$users[ix]}</option>
+			<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{displayname user_id=$users[ix]}</option>
 		{/section}
 	</select>
 </td><td>	
@@ -85,7 +85,7 @@
 		{$proc.order_id}</td><td style="text-align:center;">
 		{$proc.started|bit_short_datetime}</td><td style="text-align:center;">
 		{$proc.duration|duration}</td><td style="text-align:center;">
-		{$proc.user}
+		{displayname user_id=$proc.user_id}
 </td></tr>
 {foreachelse}
 	<tr class="norecords"><td colspan="8">
