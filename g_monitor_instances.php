@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.2 2005/07/09 03:47:00 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.3 2005/07/09 06:36:18 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -74,8 +74,12 @@ if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
 if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 	$wheres[] = "gia.`activity_id`=" . $_REQUEST['filter_activity'] . "";
 
-if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user'])
-	$wheres[] = "`user_id`='" . $_REQUEST['filter_user'] . "'";
+if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user']) {
+	if ($_REQUEST['filter_user'] == '*')
+		$wheres[] = "`user_id` is NULL";
+	elseif (is_numeric($_REQUEST['filter_user']))
+		$wheres[] = "`user_id`='" . $_REQUEST['filter_user'] . "'";
+}
 
 if (isset($_REQUEST['filter_owner']) && $_REQUEST['filter_owner'])
 	$wheres[] = "`owner_id`='" . $_REQUEST['filter_owner'] . "'";

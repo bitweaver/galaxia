@@ -31,16 +31,16 @@
 </td><td>
 	<select name="filter_process">
 		<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
-		{section loop=$all_procs name=ix}
-			<option {if $all_procs[ix].p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$all_procs[ix].p_id|escape}">{$all_procs[ix].name} {$all_procs[ix].version}</option>
-		{/section}
+		{foreach from=$all_procs item=proc}
+			<option {if $proc.p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$proc.p_id|escape}">{$proc.name} {$proc.version}</option>
+		{/foreach}
 	</select>
 </td><td>
 	<select name="filter_activity">
 		<option {if '' eq $smarty.request.filter_activity}selected="selected"{/if} value="">{tr}All{/tr}</option>
-		{section loop=$all_procs name=ix}
-			<option {if $all_acts[ix].activity_id eq $smarty.request.filter_activity}selected="selected"{/if} value="{$all_acts[ix].activity_id|escape}">{$all_acts[ix].name}</option>
-		{/section}
+		{foreach from=$all_acts item=act}
+			<option {if $act.activity_id eq $smarty.request.filter_activity}selected="selected"{/if} value="{$act.activity_id|escape}">{$act.name}</option>
+		{/foreach}
 	</select>
 </td><td>
 	<input type="text" name="filter_instance" value="{$smarty.request.filter_instance|escape}" size="4" />

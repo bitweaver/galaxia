@@ -31,14 +31,14 @@
 <td><select name="filter_process">
 	<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
     {foreach from=$all_procs item=proc}
-	<option {if $proc.p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$proc.p_id|escape}">{$proc.name}</option>
+	<option {if $proc.p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$proc.p_id|escape}">{$proc.name} {$proc.version}</option>
 	{/foreach}
 	</select>
 </td>
 <td><select name="filter_activity">
 	<option {if '' eq $smarty.request.filter_activity}selected="selected"{/if} value="">{tr}All{/tr}</option>
-    {foreach from=$all_procs item=proc}
-	<option {if $proc.p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$proc.p_id|escape}">{$proc.name}</option>
+	{foreach from=$all_acts item=act}
+	<option {if $act.activity_id eq $smarty.request.filter_activity}selected="selected"{/if} value="{$act.activity_id|escape}">{$act.name}</option>
 	{/foreach}
 	</select>
 </td>
@@ -59,7 +59,8 @@
 </td><td>
 	<select name="filter_user">
 	{section loop=$users name=ix}
-	<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{if $users[ix] eq ''}{tr}All{/tr}{else}{$users[ix]}{/if}</option>
+	<option {if $smarty.request.filter_user eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
+	<option {if ($users[ix] ne '' and $users[ix] eq $smarty.request.filter_user) or $smarty.request.filter_user eq '*'}selected="selected"{/if} value="{if $users[ix] eq ''}*{else}{$users[ix]|escape}{/if}">{if $users[ix] eq ''}*{else}{displayname user_id=$users[ix]}{/if}</option>
 	{/section}
 	</select>
 </td><td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>
@@ -94,7 +95,7 @@
 		{$proc.status}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
-		{$proc.user_id}
+		{if $proc.user_id eq ''}*{else}{displayname user_id=$proc.user_id}{/if}
 	</td>
 </tr>
 {foreachelse}

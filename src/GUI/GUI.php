@@ -47,16 +47,14 @@ class GUI extends Base {
               from `".GALAXIA_TABLE_PREFIX."processes` gp
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gp.`p_id`=ga.`p_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gar.`activity_id`=ga.`activity_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."roles` gr ON gr.`role_id`=gar.`role_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gr.`role_id`
+                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gar.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
 				$mid order by $sort_mode";
     $query_cant = "select count(distinct(gp.`p_id`))
               from `".GALAXIA_TABLE_PREFIX."processes` gp
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gp.`p_id`=ga.`p_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gar.`activity_id`=ga.`activity_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."roles` gr ON gr.`role_id`=gar.`role_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gr.`role_id`
+                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gar.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
 				$mid";
     $result = $this->query($query,$bindvars,$maxRecords,$offset);
@@ -69,8 +67,7 @@ class GUI extends Base {
               from `".GALAXIA_TABLE_PREFIX."processes` gp
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gp.`p_id`=ga.`p_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gar.`activity_id`=ga.`activity_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."roles` gr ON gr.`role_id`=gar.`role_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gr.`role_id`
+                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gar.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
 				where gp.`p_id`=? and ugm.`user_id`=?",
               array($p_id,$user_id));
@@ -80,9 +77,8 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gia.`activity_id`=gar.`activity_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON gar.`role_id`=ggr.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
-		INNER JOIN `".BIT_DB_PREFIX."users_users` uu ON uu.`user_id`=ugm.`user_id`
-				where gi.`p_id`=? and ((gia.`user_id`=?) or (gia.`user_id`=? and uu.`user_id`=?))",
-		array($p_id,$user_id,NULL,$user_id));
+				where gi.`p_id`=? and (gia.`user_id` is ? or gia.`user_id`=?)",
+		array($p_id,NULL,$user_id));
       $ret[] = $res;
     }
     $retval = Array();
@@ -126,16 +122,14 @@ class GUI extends Base {
               from `".GALAXIA_TABLE_PREFIX."processes` gp
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gp.`p_id`=ga.`p_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gar.`activity_id`=ga.`activity_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."roles` gr ON gr.`role_id`=gar.`role_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gr.`role_id`
+                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gar.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
 				$mid order by $sort_mode";
     $query_cant = "select count(distinct(ga.`activity_id`))
               from `".GALAXIA_TABLE_PREFIX."processes` gp
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gp.`p_id`=ga.`p_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gar.`activity_id`=ga.`activity_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."roles` gr ON gr.`role_id`=gar.`role_id`
-                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gr.`role_id`
+                INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gar.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
 				$mid";
     $result = $this->query($query,$bindvars,$maxRecords,$offset);
@@ -149,9 +143,8 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gia.`activity_id`=gar.`activity_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON gar.`role_id`=ggr.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
-		INNER JOIN `".BIT_DB_PREFIX."users_users` uu ON uu.`user_id`=ugm.`user_id`
-				where gia.`activity_id`=? and ((gia.`user_id`=?) or (gia.`user_id`=? and uu.`user_id`=?))",
-		array($res['activity_id'],$user_id,NULL,$user_id));
+				where gia.`activity_id`=? and (gia.`user_id` is ? or gia.`user_id`=?)",
+		array($res['activity_id'],NULL,$user_id));
       $ret[] = $res;
     }
     $retval = Array();
@@ -300,8 +293,7 @@ class GUI extends Base {
                       INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gar.`activity_id`=gia.`activity_id`
                       INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON gar.`role_id`=ggr.`role_id`
 		      INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
-		      INNER JOIN `".BIT_DB_PREFIX."users_users` uu ON uu.`user_id`=ugm.`user_id`
-                      where gia.`instance_id`=? and gia.`activity_id`=? and gia.`user_id`=? and ugm.`user_id`=?",
+                      where gia.`instance_id`=? and gia.`activity_id`=? and gia.`user_id` is ? and gia.`user_id`=?",
                       array($instance_id,$activity_id,NULL,$user_id)))
       ) return false;
     include_once(GALAXIA_LIBRARY.'/src/API/Instance.php');
@@ -334,8 +326,7 @@ class GUI extends Base {
                       INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gar.`activity_id`=gia.`activity_id`
                       INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON gar.`role_id`=ggr.`role_id`
 		      INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
-		      INNER JOIN `".BIT_DB_PREFIX."users_users` uu ON uu.`user_id`=ugm.`user_id`
-                      where gia.`instance_id`=? and gia.`activity_id`=? and gia.`user_id`=? and ugm.`user_id`=?",
+                      where gia.`instance_id`=? and gia.`activity_id`=? and gia.`user_id` is ? and gia.`user_id`=?",
                       array($instance_id,$activity_id,NULL,$user_id)))  return false;
     $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities`
               set `user_id`=?
