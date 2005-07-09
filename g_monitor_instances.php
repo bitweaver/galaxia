@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.1 2005/07/05 10:25:32 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.2 2005/07/09 03:47:00 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -162,17 +162,17 @@ $sameurl_elements = array(
 	'filter_status',
 	'filter_act_status',
 	'filter_type',
-	'processId',
+	'process_id',
 	'filter_process',
 	'filter_owner',
 	'filter_activity'
 );
 
 $smarty->assign('statuses', $processMonitor->monitor_list_statuses());
-$smarty->assign('groups', $processMonitor->monitor_list_groups());
+$smarty->assign('users', $processMonitor->monitor_list_users());
 $smarty->assign('owners', $processMonitor->monitor_list_owners());
 
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_monitor_instances.tpl');
+$gBitSystem->display( 'bitpackage:Galaxia/g_monitor_instances.tpl', tra('Monitor Instances') );
 
 ?>

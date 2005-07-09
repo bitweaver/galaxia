@@ -25,7 +25,7 @@ $tables = array(
   activity_id I4 PRIMARY,
   started I8 NOTNULL,
   ended I8 NOTNULL,
-  group_id I4,
+  user_id I4,
   status C(12) NOTNULL
 ",
 

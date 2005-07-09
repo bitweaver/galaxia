@@ -33,7 +33,7 @@
 {tr}Owner{/tr}</td><td>
 	<select name="owner">
 	{section name=ix loop=$users}
-	<option value="{$users[ix].user|escape}" {if $users[ix].user eq $ins_info.owner}selected="selected"{/if}>{$users[ix].user}</option>
+	<option value="{$users[ix].user_id|escape}" {if $users[ix].user_id eq $ins_info.owner_id}selected="selected"{/if}>{displayname user_id=$users[ix].user_id}</option>
 	{/section}
 	</select>
 </td></tr>
@@ -64,9 +64,9 @@
 			</td><td>
 {$acts[ix].actstatus}</td><td>
 			<select name="acts[{$acts[ix].activity_id}]">
-				<option value="*" value="*" {if $acts[ix].user eq '*'}selected='selected'{/if}>*</option>
+				<option value="" {if $acts[ix].user_id eq ''}selected='selected'{/if}>{tr}Any{/tr}</option>
 			{section name=ix loop=$users}
-				<option value="{$users[ix].user|escape}" {if $users[ix].user eq $acts[ix].user}selected="selected"{/if}>{$users[ix].user}</option>
+				<option value="{$users[ix].user_id|escape}" {if $users[ix].user_id eq $acts[ix].user_id}selected="selected"{/if}>{displayname user_id=$users[ix].user_id}</option>
 			{/section}
 			</select>
 		</td></tr>

@@ -23,7 +23,7 @@
 <th>{tr}act{/tr}</th>
 <th>{tr}status{/tr}</th>
 <th>{tr}act status{/tr}</th>
-<th>{tr}group{/tr}</th>
+<th>{tr}user{/tr}</th>
 <th>&nbsp;</th>	
 </tr>
 <tr>
@@ -57,10 +57,9 @@
 	<option value="completed" {if 'n' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}completed{/tr}</option>
 	</select>
 </td><td>
-	<select name="filter_group">
-	<option {if '' eq $smarty.request.filter_group}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	{section loop=$groups name=ix}
-	<option {if $types[ix] eq $smarty.request.filter_group}selected="selected"{/if} value="{$groups[ix]|escape}">{$groups[ix]}</option>
+	<select name="filter_user">
+	{section loop=$users name=ix}
+	<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{if $users[ix] eq ''}{tr}All{/tr}{else}{$users[ix]}{/if}</option>
 	{/section}
 	</select>
 </td><td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>
@@ -80,7 +79,7 @@
 <th><a href="{if $sort_mode eq 'instance_id_desc'}{sameurl sort_mode='instance_id_asc'}{else}{sameurl sort_mode='instance_id_desc'}{/if}">{tr}ID{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Activity{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'status_desc'}{sameurl sort_mode='status_asc'}{else}{sameurl sort_mode='status_desc'}{/if}">{tr}Status{/tr}</a></th>
-<th><a href="{if $sort_mode eq 'group_desc'}{sameurl sort_mode='group_asc'}{else}{sameurl sort_mode='group_desc'}{/if}">{tr}Group{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'user_desc'}{sameurl sort_mode='user_asc'}{else}{sameurl sort_mode='user_desc'}{/if}">{tr}User{/tr}</a></th>
 </tr>
 {cycle values="even,odd" print=false}
 {foreach from=$items item=proc}
@@ -95,7 +94,7 @@
 		{$proc.status}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
-		{$proc.group_id}
+		{$proc.user_id}
 	</td>
 </tr>
 {foreachelse}

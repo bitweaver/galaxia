@@ -74,14 +74,22 @@ class RoleManager extends BaseManager {
     if($find) {
       // no more quoting here - this is done in bind vars already
       $findesc = '%'.$find.'%';
-      $query = "select `name`,`gr`.`role_id`,gur.`group_id` as group_id,`group_name` from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id` where `gr`.`role_id`=`gur`.`role_id` and `gur`.`p_id`=? and ((`name` like ?) or (`group_id` like ?) or (`description` like ?)) order by $sort_mode";
+      $query = "select `name`,`gr`.`role_id`,gur.`group_id` as group_id,`group_name` from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur
+	INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id`
+	where `gr`.`role_id`=`gur`.`role_id` and `gur`.`p_id`=? and ((`name` like ?) or (`group_id` like ?) or (`description` like ?)) order by $sort_mode";
       $result = $this->query($query,array($p_id,$findesc,$findesc,$findesc), $maxRecords, $offset);
-      $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id` where `gr`.`role_id`=`gur`.`role_id` and `gur`.`p_id`=? and ((`name` like ?) or (`group_id` like ?) or (`description` like ?))";
+      $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur
+	INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id`
+	where `gr`.`role_id`=`gur`.`role_id` and `gur`.`p_id`=? and ((`name` like ?) or (`group_id` like ?) or (`description` like ?))";
       $cant = $this->getOne($query_cant,array($p_id,$findesc,$findesc,$findesc));
     } else {
-      $query = "select `name`,`gr`.`role_id`,gur.`group_id` as group_id,`group_name` from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id` where `gr`.`role_id`=`gur`.`role_id` and `gur`.`p_id`=? order by $sort_mode";
+      $query = "select `name`,`gr`.`role_id`,gur.`group_id` as group_id,`group_name` from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur
+	INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id`
+	where `gr`.`role_id`=`gur`.`role_id` and `gur`.`p_id`=? order by $sort_mode";
       $result = $this->query($query,array($p_id), $maxRecords, $offset);
-      $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id` where `gr`.`role_id`=`gur`.`role_id` and `gur`.`p_id`=?";
+      $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur
+	INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id`
+	where `gr`.`role_id`=`gur`.`role_id` and `gur`.`p_id`=?";
       $cant = $this->getOne($query_cant,array($p_id));
     }
     $ret = Array();

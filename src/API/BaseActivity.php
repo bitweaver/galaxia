@@ -92,8 +92,7 @@ class BaseActivity extends Base {
 //vd($user);
     if (isset($user_id))
         $query = "SELECT `role_id` FROM `".GALAXIA_TABLE_PREFIX."group_roles` AS gur
-        INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id`
-	INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ug.`group_id`
+	INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=gur.`group_id`
 	WHERE ugm.`user_id`=?";
 	    $result=$this->query($query,array($user_id));
 

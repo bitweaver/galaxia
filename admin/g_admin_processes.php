@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1 2005/07/02 16:37:03 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1.1.1.2.1 2005/07/09 03:47:01 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -214,6 +214,6 @@ $all_procs = $items = $processManager->list_processes(0, -1, 'name_desc', '', ''
 $smarty->assign_by_ref('all_procs', $all_procs['data']);
 
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_admin_processes.tpl');
+$gBitSystem->display( 'bitpackage:Galaxia/g_admin_processes.tpl', tra('Admin Processes') );
 
 ?>

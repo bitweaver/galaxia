@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.1.1.1.2.1 2005/07/05 10:25:32 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.1.1.1.2.2 2005/07/09 03:47:01 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -300,6 +300,6 @@ $smarty->assign_by_ref('items', $activities['data']);
 
 $activityManager->build_process_graph($_REQUEST['pid']);
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_admin_activities.tpl');
+$gBitSystem->display( 'bitpackage:Galaxia/g_admin_activities.tpl', tra('Admin Activites') );
 
 ?>

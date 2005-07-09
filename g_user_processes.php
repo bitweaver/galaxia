@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_processes.php,v 1.1 2005/07/02 16:36:59 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_processes.php,v 1.1.1.1.2.1 2005/07/09 03:47:01 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -84,6 +84,6 @@ $sameurl_elements = array(
 );
 
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_user_processes.tpl');
+$gBitSystem->display( 'bitpackage:Galaxia/g_user_processes.tpl', tra('User Processes') );
 
 ?>

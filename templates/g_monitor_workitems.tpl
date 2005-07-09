@@ -46,9 +46,8 @@
 	<input type="text" name="filter_instance" value="{$smarty.request.filter_instance|escape}" size="4" />
 </td><td>
 	<select name="filter_user">
-		<option {if '' eq $smarty.request.filter_user}selected="selected"{/if} value="">{tr}All{/tr}</option>
 		{section loop=$users name=ix}
-			<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{displayname user_id=$users[ix]}</option>
+			<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{if $users[ix] eq ''}{tr}All{/tr}{else}{displayname user_id=$users[ix]}{/if}</option>
 		{/section}
 	</select>
 </td><td>	
