@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.1.1.1.2.1 2005/07/05 10:25:32 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.1.1.1.2.2 2005/07/10 01:50:18 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -101,13 +101,13 @@ if (!isset($_REQUEST['auto']) && $__activity_completed && $activity->is_interact
 
 	$smarty->assign('procversion', $process->getVersion());
 	$smarty->assign('actname', $activity->getName());
-	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl');
+	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl', tra("Activity Completed") );
 	} else {
 	if (!isset($_REQUEST['auto']) && $activity->is_interactive()) {
 		$section = 'workflow';
 
 				$template = $activity->getNormalizedName(). '.tpl';
-		$gBitSystem->display( GALAXIA_PROCESSES . $process->getNormalizedName(). '/code/templates/' . $template);
+		$gBitSystem->display( GALAXIA_PROCESSES . $process->getNormalizedName(). '/code/templates/' . $template, tra("Run Activity") );
 			}
 }
 
