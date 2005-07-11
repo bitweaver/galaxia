@@ -112,7 +112,7 @@ class Instance extends Base {
     // Then add in ".GALAXIA_TABLE_PREFIX."instance_activities an entry for the
     // activity the user and status running and started now
     $query = "insert into `".GALAXIA_TABLE_PREFIX."instance_activities`(`instance_id`,`activity_id`,`user_id`,`started`,`ended`,`status`) values(?,?,?,?,?,?)";
-    $this->query($query,array((int)$iid,(int)$activity_id,NULL,(int)$now,0,'running'));
+    $this->query($query,array((int)$iid,(int)$activity_id,$user_id,(int)$now,0,'running'));
   }
   
   /*! 
@@ -179,6 +179,23 @@ class Instance extends Base {
   }
   
   /*! 
+  Returns the name associated to the instance
+  */
+  function getName() {
+    return $this->name;
+  }
+  
+    /*! 
+  Sets the instance name user 
+  */
+  function setName($name) {
+    $this->name = $name;
+    // save database
+    $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `name`=? where `instanceId`=?";
+    $this->query($query,array($name,(int)$this->instanceId));  
+  }
+  
+  /*! 
   Returns the user that created the instance
   */
   function getOwner() {
@@ -201,15 +218,7 @@ class Instance extends Base {
   you can't program who will execute an activity.
   */
   function setActivityUser($activity_id,$theuser) {
-    if(empty($theuser)) {
-      global $gBitUser;
-      if(empty($gBitUser->getUserId)) {
-          $theuser = NULL;
-      } else {
-          $theuser = $gBitUser->getUserId();
-      }
-    }
-    
+    if(empty($theuser)) $theuser = NULL;
     for($i=0;$i<count($this->activities);$i++) {
       if($this->activities[$i]['activity_id']==$activity_id) {
         $this->activities[$i]['user_id']=$theuser;
@@ -238,13 +247,13 @@ class Instance extends Base {
   'running' or 'completed'
   */  
   function setActivityStatus($activity_id,$status) {
-    for($i=0;$i<count($this->activities);$i++) {
-      if($this->activities[$i]['activity_id']==$activity_id) {
-        $this->activities[$i]['status']=$status;
+//    for($i=0;$i<count($this->activities);$i++) {
+//      if($this->activities[$i]['activity_id']==$activity_id) {
+//        $this->activities[$i]['status']=$status;
         $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities` set `status`=? where `activity_id`=? and `instance_id`=?";
         $this->query($query,array($status,(int)$activity_id,(int)$this->instance_id));
-      }
-    }  
+//      }
+//    }  
   }
   
   
@@ -354,16 +363,7 @@ class Instance extends Base {
     
     $__activity_completed = true;
   
-/* old code
-    if(empty($user)) {$theuser='*';} else {$theuser=$user;}
-
-    removed because it doesn't seem to work atm - wolff_borg
-    if(empty($gBitUser->getUserId)) {
-        $theuser = NULL;
-    } else {
-*/
-        $theuser = $gBitUser->getUserId();
-//    }
+    $theuser = $gBitUser->getUserId();
     
     if($activity_id==0) {
       $activity_id=$_REQUEST['activity_id'];
@@ -521,8 +521,8 @@ class Instance extends Base {
     $now = date("U");
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `status`=?, `ended`=? where `instance_id`=?";
     $this->query($query,array($status,(int)$now,(int)$this->instance_id));
-    $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=?";
-    $this->query($query,array((int)$this->instance_id));
+    //$query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=?";
+    //$this->query($query,array((int)$this->instance_id));
     $this->status = $status;
     $this->activities = Array();
   }
@@ -555,9 +555,8 @@ class Instance extends Base {
       $result = $this->query($query,array((int)$activity_id)); 
       while ($res = $result->fetchRow()) {
         $role_id = $res['role_id'];
-        $query2 = "select uu.`user_id` from `".GALAXIA_TABLE_PREFIX."group_roles` ggr
+        $query2 = "select ugm.`user_id` from `".GALAXIA_TABLE_PREFIX."group_roles` ggr
 				INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
-				INNER JOIN `".BIT_DB_PREFIX."users_users` uu ON uu.`user_id`=ugm.`user_id`
 				where `role_id`=?";
         $result2 = $this->query($query2,array((int)$role_id)); 
         while ($res2 = $result2->fetchRow()) {
@@ -575,8 +574,8 @@ class Instance extends Base {
     //if not splitting delete first
     //please update started,status,user
     if(!$split) {
-      $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=? and `activity_id`=?";
-      $this->query($query,array((int)$this->instance_id,$from));
+//      $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=? and `activity_id`=?";
+//      $this->query($query,array((int)$this->instance_id,$from));
     }
     $now = date("U");
     $iid = $this->instance_id;
@@ -632,7 +631,7 @@ class Instance extends Base {
   */
   function replace_instance_comment($c_id, $activity_id, $activity, $user_id, $title, $comment) {
     if (!$user_id) {
-      $user_id = 'Anonymous';
+      $user_id = $gBitUser->getUserId();
     }
     $iid = $this->instance_id;
     if ($c_id) {
@@ -661,10 +660,10 @@ class Instance extends Base {
   /*!
   Lists instance comments
   */
-  function get_instance_comments() {
+  function get_instance_comments($aid) {
     $iid = $this->instance_id;
-    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? order by ".$this->convert_sortmode("timestamp_desc");
-    $result = $this->query($query,array((int)$iid));    
+    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `activity_id`=? order by ".$this->convert_sortmode("timestamp_desc");
+    $result = $this->query($query,array((int)$iid,(int)$aid));    
     $ret = Array();
     while($res = $result->fetchRow()) {    
       $ret[] = $res;

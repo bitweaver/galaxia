@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_processes.php,v 1.1.1.1.2.1 2005/07/09 03:47:01 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_processes.php,v 1.1.1.1.2.2 2005/07/11 12:30:53 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -25,7 +25,7 @@ if(isset($_REQUEST['filter_valid'])&&$_REQUEST['filter_valid']) $wheres[]="is_va
 if(isset($_REQUEST['filter_process'])&&$_REQUEST['filter_process']) $wheres[]="p_id=".$_REQUEST['filter_process']."";
 $where = implode(' and ',$wheres);
 */
-if ( empty( $_REQUEST["sort_mode"] ) ) {
+if ( !isset( $_REQUEST["sort_mode"] ) ) {
 	$sort_mode = 'procname_asc';
 } else {
 	$sort_mode = $_REQUEST["sort_mode"];

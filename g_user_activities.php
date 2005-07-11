@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.1.1.1.2.1 2005/07/09 03:47:00 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.1.1.1.2.2 2005/07/11 12:30:53 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -76,6 +76,49 @@ $smarty->assign_by_ref('items', $items["data"]);
 $processes = $GUI->gui_list_user_processes($gBitUser->getUserId(), 0, -1, 'procname_asc', '', '');
 $smarty->assign_by_ref('all_procs', $processes['data']);
 
+if (count($processes['data']) == 1 && empty($_REQUEST['filter_process'])) {
+    $_REQUEST['filter_process'] = $processes['data'][0]['p_id'];
+}
+
+if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process']) {
+    $actid2item = array();
+    foreach (array_keys($items["data"]) as $index) {
+        $actid2item[$items["data"][$index]['activity_id']] = $index;
+    }
+    foreach ($processes['data'] as $info) {
+        if ($info['p_id'] == $_REQUEST['filter_process'] && !empty($info['normalized_name'])) {
+            $graph = $info['normalized_name']."/graph/".$info['normalized_name'].".png";
+            $mapfile = $info['normalized_name']."/graph/".$info['normalized_name'].".map";
+            if (file_exists(GALAXIA_PROCESSES.$graph) && file_exists(GALAXIA_PROCESSES.$mapfile)) {
+                $maplines = file(GALAXIA_PROCESSES.$mapfile);
+                $map = '';
+                foreach ($maplines as $mapline) {
+                    if (!preg_match('/activity_id=(\d+)/', $mapline, $matches)) continue;
+                    $actid = $matches[1];
+                    if (!isset($actid2item[$actid])) continue;
+                    $index = $actid2item[$actid];
+                    $item = $items['data'][$index];
+                    if ($item['instances'] > 0) {
+                        $url = GALAXIA_PKG_URL."g_user_instances.php?filter_process=".$info['p_id'];
+                        $mapline = preg_replace('/href=".*?activity_id/', 'href="' . $url . '&amp;filter_activity', $mapline);
+                        $map .= $mapline;
+                    } elseif ($item['is_interactive'] == 'y' && ($item['type'] == 'start' || $item['type'] == 'standalone')) {
+                        $url = GALAXIA_PKG_URL."g_run_activity.php?";
+                        $mapline = preg_replace('/href=".*?activity_id/', 'href="' . $url . '&amp;activity_id', $mapline);
+                        $map .= $mapline;
+                    }
+                }
+                $smarty->assign('graph', GALAXIA_PROCESSES_URL.$graph);
+                $smarty->assign('map', $map);
+                $smarty->assign('procname', $info['procname']);
+            } else {
+                $smarty->assign('graph', '');
+            }
+            break;
+        }
+    }
+}
+
 $section = 'workflow';
 $sameurl_elements = array(
 	'offset',
@@ -86,7 +129,7 @@ $sameurl_elements = array(
 	'filter_is_auto_routed',
 	'filter_activity',
 	'filter_type',
-	'processId',
+	'p_id',
 	'filter_process'
 );
 

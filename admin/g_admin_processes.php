@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1.1.1.2.1 2005/07/09 03:47:01 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1.1.1.2.2 2005/07/11 12:30:54 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -59,7 +59,7 @@ if (isset($_FILES['userfile1']) && is_uploaded_file($_FILES['userfile1']['tmp_na
 	$process_data = $processManager->unserialize_process($data);
 
 	if ($processManager->process_name_exists($process_data['name'], $process_data['version'])) {
-		$gBitSystem->fatalError(tra("The process name already exists"));
+		galaxia_show_error("The process name already exists");
 		die;
 	} else {
 		$processManager->import_process($process_data);
@@ -93,7 +93,7 @@ if (isset($_REQUEST['save'])) {
 	);
 
 	if ($processManager->process_name_exists($_REQUEST['name'], $_REQUEST['version']) && $_REQUEST['pid'] == 0) {
-		$gBitSystem->fatalError(tra("Process already exists"));
+		galaxia_show_error("Process already exists");
 		die;
 	}
 
@@ -210,7 +210,7 @@ $sameurl_elements = array(
 	'filter_active'
 );
 
-$all_procs = $items = $processManager->list_processes(0, -1, 'name_desc', '', '');
+$all_procs = $processManager->list_processes(0, -1, 'name_desc', '', '');
 $smarty->assign_by_ref('all_procs', $all_procs['data']);
 
 

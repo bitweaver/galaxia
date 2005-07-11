@@ -337,7 +337,16 @@ class ProcessMonitor extends Base {
     return $ret;
   }
   
-  
+  function monitor_list_instances_names() {
+  	$query = "select distinct(`name`) from `".GALAXIA_TABLE_PREFIX."instances`";
+  	$result = $this->query($query);
+  	$ret = array();
+    while($res = $result->fetchRow()) {
+      $ret[] = $res['name'];
+    }
+    return $ret;
+  }
+
   function monitor_list_activity_types() {
     $query = "select distinct(`type`) from `".GALAXIA_TABLE_PREFIX."activities`";
     $result = $this->query($query);
@@ -388,7 +397,5 @@ class ProcessMonitor extends Base {
     $retval["cant"] = $cant;
     return $retval;
   }
-  
-
 }
 ?>

@@ -49,11 +49,10 @@
 </td>
 <td>
 <select name="filter_user">
-	<option {if '' eq $smarty.request.filter_user}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	<option {if '*' eq $smarty.request.filter_user}selected="selected"{/if} value="*">*</option>
-	{foreach key=key item=user from=$users}
-	<option {if $key eq $smarty.request.filter_user}selected="selected"{/if} value="{$key|escape}">{$user.user_name}</option>
-	{/foreach}
+	<option {if $smarty.request.filter_user eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
+	{section loop=$users name=ix}
+	<option {if ($users[ix] ne '' and $users[ix] eq $smarty.request.filter_user) or ($users[ix] eq '' and $smarty.request.filter_user eq '*')}selected="selected"{/if} value="{if $users[ix] eq ''}*{else}{$users[ix]|escape}{/if}">{if $users[ix] eq ''}*{else}{displayname user_id=$users[ix]}{/if}</option>
+	{/section}
 	</select>
 </td>
 <td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>
@@ -89,8 +88,7 @@
 	<td style="text-align:center;">{$items[ix].status}</td>
 	<td style="text-align:center;">{$items[ix].procname} {$items[ix].version}</td>
 	<td style="text-align:center;">{$items[ix].type|act_icon:"$items[ix].is_interactive"} {$items[ix].name}</td>
-	{assign var=user_id value=$items[ix].user_id}
-	<td style="text-align:center;">{if $user_id eq ''}*{else}{displayname user_id=$user_id}{/if}</td>
+	<td style="text-align:center;">{if $items[ix].user_id eq ''}*{else}{displayname user_id=$items[ix].user_id}{/if}</td>
 	<td style="text-align:center;">{$items[ix].actstatus}</td>
 	<td>{*actions*}<table>
 	  <tr>

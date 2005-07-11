@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.2 2005/07/09 03:47:00 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.3 2005/07/11 12:30:53 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -56,8 +56,12 @@ if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
 if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 	$wheres[] = "gia.`activity_id`=" . $_REQUEST['filter_activity'] . "";
 
-if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user'])
-	$wheres[] = "ugm.`user_id`=" . ($_REQUEST['filter_user']=='*') ? NULL : "'" . $_REQUEST['filter_user'] . "'";
+if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user']) {
+	if ($_REQUEST['filter_user'] == '*')
+		$wheres[] = "ugm.`user_id` is NULL";
+	elseif (is_numeric($_REQUEST['filter_user']))
+		$wheres[] = "ugm.`user_id`='" . $_REQUEST['filter_user'] . "'";
+}
 
 if (isset($_REQUEST['filter_owner']) && $_REQUEST['filter_owner'])
 	$wheres[] = "gi.`owner_id`='" . $_REQUEST['filter_owner'] . "'";
@@ -122,8 +126,7 @@ $all_statuses = array(
 );
 
 $smarty->assign('statuses', $all_statuses);
-
-$section = 'workflow';
+$smarty->assign('user_id', $gBitUser->getUserId());
 
 $sameurl_elements = array(
 	'offset',

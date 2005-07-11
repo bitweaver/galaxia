@@ -23,7 +23,7 @@
 <th>{tr}act{/tr}</th>
 <th>{tr}status{/tr}</th>
 <th>{tr}act status{/tr}</th>
-<th>{tr}user{/tr}</th>
+<th>{tr}creator{/tr}</th>
 <th>&nbsp;</th>	
 </tr>
 <tr>
@@ -57,10 +57,10 @@
 	<option value="completed" {if 'n' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}completed{/tr}</option>
 	</select>
 </td><td>
-	<select name="filter_user">
+	<select name="filter_owner">
+	<option {if $smarty.request.filter_owner eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
 	{section loop=$users name=ix}
-	<option {if $smarty.request.filter_user eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	<option {if ($users[ix] ne '' and $users[ix] eq $smarty.request.filter_user) or $smarty.request.filter_user eq '*'}selected="selected"{/if} value="{if $users[ix] eq ''}*{else}{$users[ix]|escape}{/if}">{if $users[ix] eq ''}*{else}{displayname user_id=$users[ix]}{/if}</option>
+	<option {if $users[ix] eq $smarty.request.filter_owner}selected="selected"{/if} value="{$users[ix]|escape}">{displayname user_id=$users[ix]}</option>
 	{/section}
 	</select>
 </td><td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>
@@ -80,7 +80,7 @@
 <th><a href="{if $sort_mode eq 'instance_id_desc'}{sameurl sort_mode='instance_id_asc'}{else}{sameurl sort_mode='instance_id_desc'}{/if}">{tr}ID{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Activity{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'status_desc'}{sameurl sort_mode='status_asc'}{else}{sameurl sort_mode='status_desc'}{/if}">{tr}Status{/tr}</a></th>
-<th><a href="{if $sort_mode eq 'user_desc'}{sameurl sort_mode='user_asc'}{else}{sameurl sort_mode='user_desc'}{/if}">{tr}User{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'owner_desc'}{sameurl sort_mode='owner_asc'}{else}{sameurl sort_mode='owner_desc'}{/if}">{tr}User{/tr}</a></th>
 </tr>
 {cycle values="even,odd" print=false}
 {foreach from=$items item=proc}
@@ -95,7 +95,7 @@
 		{$proc.status}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
-		{if $proc.user_id eq ''}*{else}{displayname user_id=$proc.user_id}{/if}
+		{$proc.owner_id}
 	</td>
 </tr>
 {foreachelse}

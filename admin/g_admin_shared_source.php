@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_shared_source.php,v 1.1.1.1.2.2 2005/07/09 03:47:01 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_shared_source.php,v 1.1.1.1.2.3 2005/07/11 12:30:54 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -15,7 +15,7 @@ $gBitSystem->verifyPermission( 'bit_p_admin_workflow', "Permission denied you ca
 
 
 if (!isset($_REQUEST['pid'])) {
-	$gBitSystem->fatalError(tra("No process indicated"));
+	galaxia_show_error("No process indicated");
 	die;
 }
 

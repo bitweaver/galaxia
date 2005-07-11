@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.3 2005/07/09 06:36:18 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.4 2005/07/11 12:30:52 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -76,9 +76,9 @@ if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 
 if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user']) {
 	if ($_REQUEST['filter_user'] == '*')
-		$wheres[] = "`user_id` is NULL";
+		$wheres[] = "`gia.user_id` is NULL";
 	elseif (is_numeric($_REQUEST['filter_user']))
-		$wheres[] = "`user_id`='" . $_REQUEST['filter_user'] . "'";
+		$wheres[] = "`gia.user_id`='" . $_REQUEST['filter_user'] . "'";
 }
 
 if (isset($_REQUEST['filter_owner']) && $_REQUEST['filter_owner'])
@@ -131,7 +131,7 @@ if ($offset > 0) {
 
 $smarty->assign_by_ref('items', $items["data"]);
 
-$all_procs = $items = $processMonitor->monitor_list_processes(0, -1, 'name_desc', '', '');
+$all_procs = $processMonitor->monitor_list_processes(0, -1, 'name_desc', '', '');
 $smarty->assign_by_ref('all_procs', $all_procs["data"]);
 
 if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process']) {
