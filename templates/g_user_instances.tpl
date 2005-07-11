@@ -102,7 +102,7 @@
 	  {*exception*}
       {if $gBitUser->hasPermission('bit_p_exception_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].status ne 'exception' and $items[ix].user_id eq $user_id}
-	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to expception this instance?{/tr}');" title="{tr}exception instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?exception=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance" iclass="icon"}</a></td>
+	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to exception this instance?{/tr}');" title="{tr}exception instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?exception=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance" iclass="icon"}</a></td>
 	  {/if}
       {/if}
 	  {if $items[ix].is_auto_routed eq 'n' and $items[ix].actstatus eq 'completed'}

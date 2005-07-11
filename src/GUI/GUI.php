@@ -249,7 +249,7 @@ class GUI extends Base {
     // Users can only do exception handling for instances they're currently running, or instances that they're the owner of
     if(!$this->getOne("select count(*)
                        from `".GALAXIA_TABLE_PREFIX."instance_activities` gia, `".GALAXIA_TABLE_PREFIX."instances` gi
-                       where `activity_id`=? and gia.`instance_id`=? and (gia.`user_id`=? or gia.`owner_id`=?)",
+                       where `activity_id`=? and gia.`instance_id`=? and (gia.`user_id`=? or gi.`owner_id`=?)",
                        array($activity_id,$instance_id,$user_id,$user_id)))
       return false;
     $query = "update `".GALAXIA_TABLE_PREFIX."instances`

@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.4 2005/07/11 13:03:49 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.5 2005/07/11 15:12:10 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -22,13 +22,13 @@ if (isset($_REQUEST['send'])) {
 }
 
 if (isset($_REQUEST['abort'])) {
-	$gBitSystem->fatalPermission('bit_p_abort_instance', tra("You couldn't abort a instance"));
+	$gBitSystem->verifyPermission('bit_p_abort_instance', tra("You don't have permission to abort an instance"));
 
         $GUI->gui_abort_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
 }
 
 if (isset($_REQUEST['exception'])) {
-        $gBitSystem->fatalPermission('tiki_p_exception_instance', tra("You couldn't exception a instance"));
+        $gBitSystem->verifyPermission('bit_p_exception_instance', tra("You don't have permission to exception an instance"));
 
         $GUI->gui_exception_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
 }
