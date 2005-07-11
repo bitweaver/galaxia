@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.3 2005/07/11 12:30:53 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.4 2005/07/11 13:03:49 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -22,13 +22,15 @@ if (isset($_REQUEST['send'])) {
 }
 
 if (isset($_REQUEST['abort'])) {
-	
-	$GUI->gui_abort_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
+	$gBitSystem->fatalPermission('bit_p_abort_instance', tra("You couldn't abort a instance"));
+
+        $GUI->gui_abort_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
 }
 
 if (isset($_REQUEST['exception'])) {
-	
-	$GUI->gui_exception_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
+        $gBitSystem->fatalPermission('tiki_p_exception_instance', tra("You couldn't exception a instance"));
+
+        $GUI->gui_exception_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
 }
 
 if (isset($_REQUEST['grab'])) {
@@ -47,8 +49,11 @@ $wheres = array();
 if (isset($_REQUEST['filter_status']) && $_REQUEST['filter_status'])
 	$wheres[] = "gi.`status`='" . $_REQUEST['filter_status'] . "'";
 
-if (isset($_REQUEST['filter_act_status']) && $_REQUEST['filter_act_status'])
-	$wheres[] = "`actstatus`='" . $_REQUEST['filter_act_status'] . "'";
+// This search is fixed to "completed" cause it doesn't make sense to list
+// the instances completed to the users.
+//if (isset($_REQUEST['filter_act_status']) && $_REQUEST['filter_act_status'])
+//	$wheres[] = "gia.`status`='" . $_REQUEST['filter_act_status'] . "'";
+$wheres[] = "gia.`status` <> 'completed'";// . $_REQUEST['filter_act_status'] . "'";
 
 if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
 	$wheres[] = "gi.`p_id`=" . $_REQUEST['filter_process'] . "";
@@ -58,9 +63,9 @@ if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 
 if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user']) {
 	if ($_REQUEST['filter_user'] == '*')
-		$wheres[] = "ugm.`user_id` is NULL";
+		$wheres[] = "gia.`user_id` is NULL";
 	elseif (is_numeric($_REQUEST['filter_user']))
-		$wheres[] = "ugm.`user_id`='" . $_REQUEST['filter_user'] . "'";
+		$wheres[] = "gia.`user_id`='" . $_REQUEST['filter_user'] . "'";
 }
 
 if (isset($_REQUEST['filter_owner']) && $_REQUEST['filter_owner'])
@@ -68,7 +73,7 @@ if (isset($_REQUEST['filter_owner']) && $_REQUEST['filter_owner'])
 
 $where = implode(' and ', $wheres);
 
-if ( empty( $_REQUEST["sort_mode"] ) ) {
+if (!isset($_REQUEST["sort_mode"])) {
 	$sort_mode = 'procname_asc';
 } else {
 	$sort_mode = $_REQUEST["sort_mode"];
@@ -115,6 +120,7 @@ if ($offset > 0) {
 }
 
 $smarty->assign_by_ref('items', $items["data"]);
+$smarty->assign_by_ref('expiration_time',$items["expiration_time"]);
 
 $processes = $GUI->gui_list_user_processes($gBitUser->getUserId(), 0, -1, 'procname_asc', '', '');
 $smarty->assign_by_ref('all_procs', $processes['data']);

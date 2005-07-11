@@ -90,12 +90,21 @@
 	<td style="text-align:center;">{$items[ix].type|act_icon:"$items[ix].is_interactive"} {$items[ix].name}</td>
 	<td style="text-align:center;">{if $items[ix].user_id eq ''}*{else}{displayname user_id=$items[ix].user_id}{/if}</td>
 	<td style="text-align:center;">{$items[ix].actstatus}</td>
+	{*<td class="{cycle advance=false}">
+	{if $items[ix].exptime eq 0}
+	    {tr}Not defined{/tr}
+	{else}
+	  {$items[ix].exptime|date_format:"%A, %B %e, %H:%M:%S"}
+	{/if}
+	</td>*}
 	<td>{*actions*}<table>
 	  <tr>
 	  {*exception*}
+      {if $gBitUser->hasPermission('bit_p_exception_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].status ne 'exception' and $items[ix].user_id eq $user_id}
-	  <td><a title="{tr}exception instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance" iclass="icon"}</a></td>
+	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to expception this instance?{/tr}');" title="{tr}exception instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?exception=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance" iclass="icon"}</a></td>
 	  {/if}
+      {/if}
 	  {if $items[ix].is_auto_routed eq 'n' and $items[ix].actstatus eq 'completed'}
 	  {*send*}
 	  <td><a title="{tr}send instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?send=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="linkto" iexplain="send instance" iclass="icon"}</a></td>
@@ -105,8 +114,10 @@
 	  <td><a title="{tr}run instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?iid={$items[ix].instance_id}&amp;activity_id={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run instance" iclass="icon"}</a></td>
 	  {/if}
 	  {*abort*}
+      {if $gBitUser->hasPermission('bit_p_abort_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].user_id eq $user_id}
-	  <td><a title="{tr}abort instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance" iclass="icon"}</a></td>
+	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to abort this instance?{/tr}');" title="{tr}abort instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance" iclass="icon"}</a></td>
+      {/if}
 	  {/if}
 	  {if $items[ix].user_id eq NULL and $items[ix].status eq 'active'}
 	  {*grab*}
