@@ -13,7 +13,7 @@
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
 //
-// $Id: GraphViz.php,v 1.1 2005/07/02 16:37:02 bitweaver Exp $
+// $Id: GraphViz.php,v 1.1.1.1.2.1 2005/07/11 15:49:13 wolff_borg Exp $
 //
 
 /**
@@ -114,21 +114,21 @@ class Process_GraphViz {
             $command .= " -T$format -o$outputfile $file";
 
             @`$command`;
-	    if (!file_exists($outputfile)) {
+/*	    if (!file_exists($outputfile)) {
                 if ($this->graph['directed']) {
                     trigger_error(tra('Fatal error: command '.$this->dotCommand.' does not exist'),E_USER_WARNING);
                 } else {
                     trigger_error(tra('Fatal error: command '.$this->neatoCommand.' does not exist'),E_USER_WARNING);
                 }
             }
-
+*/
             $command = $this->dotCommand;
             $command.= " -Tcmap -o$outputfile2 $file";
             @`$command`;
-	    if (!file_exists($outputfile2)) {
+/*	    if (!file_exists($outputfile2)) {
 	        trigger_error(tra('Fatal error: command '.$this->dotCommand.' does not exist'),E_USER_WARNING);
             }
-
+*/
             $fr = fopen($outputfile2,"r");
             $map = fread($fr,filesize($outputfile2));
             fclose($fr);
@@ -172,22 +172,22 @@ class Process_GraphViz {
             $command  = $this->graph['directed'] ? $this->dotCommand : $this->neatoCommand;
             $command .= " -T$format -o $outputfile $file";
             @`$command`;
-	    if (!file_exists($outputfile)) {
+/*	    if (!file_exists($outputfile)) {
                 if ($this->graph['directed']) {
                     trigger_error(tra('Fatal error: command '.$this->dotCommand.' does not exist'),E_USER_WARNING);
                 } else {
                     trigger_error(tra('Fatal error: command '.$this->neatoCommand.' does not exist'),E_USER_WARNING);
                 }
             }
-
+*/
 
             $command = $this->dotCommand;
             $command.= " -Tcmap -o $outputfile2 $file";
             @`$command`;
-	    if (!file_exists($outputfile2)) {
+/*	    if (!file_exists($outputfile2)) {
 	        trigger_error(tra('Fatal error: command '.$this->dotCommand.' does not exist'),E_USER_WARNING);
             }
-
+*/
             @unlink($file);
             return true;
         }
@@ -202,10 +202,10 @@ class Process_GraphViz {
             $command = $this->dotCommand;
             $command.= " -Tcmap -o$outputfile2 $file";
             @`$command`;
-	    if (!file_exists($outputfile2)) {
+/*	    if (!file_exists($outputfile2)) {
 	        trigger_error(tra('Fatal error: command '.$this->dotCommand.' does not exist'),E_USER_WARNING);
             }
-
+*/
             $fr = fopen($outputfile2,"r");
             $map = fread($fr,filesize($outputfile2));
             fclose($fr);
