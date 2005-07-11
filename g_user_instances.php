@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.5 2005/07/11 15:12:10 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.6 2005/07/11 16:19:27 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -143,7 +143,7 @@ $sameurl_elements = array(
 	'filter_status',
 	'filter_act_status',
 	'filter_type',
-	'processId',
+	'pid',
 	'filter_process',
 	'filter_owner',
 	'filter_activity'

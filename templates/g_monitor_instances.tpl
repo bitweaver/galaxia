@@ -78,7 +78,10 @@
 <table class="data">
 <tr>
 <th><a href="{if $sort_mode eq 'instance_id_desc'}{sameurl sort_mode='instance_id_asc'}{else}{sameurl sort_mode='instance_id_desc'}{/if}">{tr}ID{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'insName_desc'}{sameurl sort_mode='insName_asc'}{else}{sameurl sort_mode='insName_desc'}{/if}">{tr}Name{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Activity{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'started_desc'}{sameurl sort_mode='started_asc'}{else}{sameurl sort_mode='started_desc'}{/if}">{tr}Started{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'ended_desc'}{sameurl sort_mode='ended_asc'}{else}{sameurl sort_mode='ended_desc'}{/if}">{tr}Ended{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'status_desc'}{sameurl sort_mode='status_asc'}{else}{sameurl sort_mode='status_desc'}{/if}">{tr}Status{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'owner_desc'}{sameurl sort_mode='owner_asc'}{else}{sameurl sort_mode='owner_desc'}{/if}">{tr}User{/tr}</a></th>
 </tr>
@@ -89,13 +92,22 @@
 	<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.instance_id}</a>
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
+	<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.insName}</a>
+	</td>
+	<td class="{cycle advance=false}" style="text-align:center;">
 		{$proc.name}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
 		{$proc.status}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
-		{$proc.owner_id}
+		{$proc.started|date_format}
+	</td>
+	<td class="{cycle advance=false}" style="text-align:center;">
+		{if $proc.ended eq 0} {tr}Not ended{/tr} {else} {$proc.ended|date_format} {/if}
+	</td>
+	<td class="{cycle advance=false}" style="text-align:center;">
+		{displayname user_id=$proc.owner_id}
 	</td>
 </tr>
 {foreachelse}
