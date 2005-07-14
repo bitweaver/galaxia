@@ -19,20 +19,18 @@
 <table class="find">
 <tr>
 <th>{tr}find{/tr}</th>
-<th>{tr}proc{/tr}</th>
+<th>&nbsp;</th>	
 <th>{tr}status{/tr}</th>
-<th>{tr}act status{/tr}</th>
+<th>{tr}proc{/tr}</th>
+<th>&nbsp;</th>	
 <th>{tr}user{/tr}</th>
+<th><!--{tr}act status{/tr}--></th>
 <th>&nbsp;</th>	
 </tr><tr>
-<td><input size="8" type="text" name="find" value="{$find|escape}" /></td>
 <td>
-	<select name="filter_process">
-	<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	{section loop=$all_procs name=ix}
-	<option {if $all_procs[ix].p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$all_procs[ix].p_id|escape}">{$all_procs[ix].procname} {$all_procs[ix].version}</option>
-	{/section}
-	</select>
+	<input size="8" type="text" name="find" value="{$find|escape}" />
+</td><td>
+	&nbsp;
 </td><td>
 	<select name="filter_status">
 	<option {if '' eq $smarty.request.filter_status}selected="selected"{/if} value="">{tr}All{/tr}</option>
@@ -41,21 +39,30 @@
 	{/section}
 	</select>
 </td><td>
-	<select name="filter_act_status">
+	<select name="filter_process">
+	<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
+	{section loop=$all_procs name=ix}
+	<option {if $all_procs[ix].p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$all_procs[ix].p_id|escape}">{$all_procs[ix].procname} {$all_procs[ix].version}</option>
+	{/section}
+	</select>
+</td><td>
+<!--	<select name="filter_act_status">
 	<option {if '' eq $smarty.request.filter_act_status}selected="selected"{/if} value="">{tr}All{/tr}</option>
 	<option value="running" {if 'y' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}running{/tr}</option>
 	<option value="completed" {if 'n' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}completed{/tr}</option>
-	</select>
+	</select>-->
 </td>
 <td>
 <select name="filter_user">
 	<option {if $smarty.request.filter_user eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	{section loop=$users name=ix}
-	<option {if ($users[ix] ne '' and $users[ix] eq $smarty.request.filter_user) or ($users[ix] eq '' and $smarty.request.filter_user eq '*')}selected="selected"{/if} value="{if $users[ix] eq ''}*{else}{$users[ix]|escape}{/if}">{if $users[ix] eq ''}*{else}{displayname user_id=$users[ix]}{/if}</option>
-	{/section}
+	<option {if $smarty.request.filter_user eq '*'}selected="selected"{/if} value="*">*</option>
+	<option {if $smarty.request.filter_user eq $user_id}selected="selected"{/if} value="{$user_id|escape}">{displayname user_id=$user_id}</option>
 	</select>
+</td><td>
+	&nbsp;
+</td><td>
+	<input type="submit" name="filter" value="{tr}filter{/tr}" />
 </td>
-<td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>
 </tr>
 </table>	
 </form>

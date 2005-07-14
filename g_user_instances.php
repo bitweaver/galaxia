@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.6 2005/07/11 16:19:27 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1.1.1.2.7 2005/07/14 13:47:28 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -51,9 +51,10 @@ if (isset($_REQUEST['filter_status']) && $_REQUEST['filter_status'])
 
 // This search is fixed to "completed" cause it doesn't make sense to list
 // the instances completed to the users.
-//if (isset($_REQUEST['filter_act_status']) && $_REQUEST['filter_act_status'])
-//	$wheres[] = "gia.`status`='" . $_REQUEST['filter_act_status'] . "'";
-$wheres[] = "gia.`status` <> 'completed'";// . $_REQUEST['filter_act_status'] . "'";
+if (isset($_REQUEST['filter_act_status']) && $_REQUEST['filter_act_status'])
+	$wheres[] = "gia.`status`='" . $_REQUEST['filter_act_status'] . "'";
+
+$wheres[] = "gia.`status` <> 'completed'";
 
 if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
 	$wheres[] = "gi.`p_id`=" . $_REQUEST['filter_process'] . "";

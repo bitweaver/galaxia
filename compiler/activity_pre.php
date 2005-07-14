@@ -8,13 +8,18 @@ if(empty($instance->instance_id)) {
     $instance->getInstance($_REQUEST['iid']);
   } else {
     // defined in lib/Galaxia/config.php
-    galaxia_show_error("No instance indicated");
+    galaxia_show_error(tra("No instance indicated"));
     die;  
   }
 }
+if ($instance->getActivityStatus($_REQUEST['activity_id']) == "completed")
+{
+	galaxia_show_error(tra("This instance of activity is already complete"));
+}
+
 // Set the current user for this activity
-if(isset($user) && !empty($instance->instance_id) && !empty($activity->activity_id)) {
-  $instance->setActivityUser($activity->activity_id,$user);
+if(!empty($instance->instance_id) && !empty($activity->activity_id)) {
+  $instance->setActivityUser($activity->activity_id,$gBitUser->getUserId());
 }
 
 ?>

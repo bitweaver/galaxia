@@ -19,15 +19,26 @@
 <table class="find">
 <tr>
 <th>{tr}find{/tr}</th>
+<th>{tr}name{/tr}</th>
 <th>{tr}proc{/tr}</th>
 <th>{tr}act{/tr}</th>
 <th>{tr}status{/tr}</th>
 <th>{tr}act status{/tr}</th>
-<th>{tr}creator{/tr}</th>
+<th>{tr}owner{/tr}</th>
 <th>&nbsp;</th>	
 </tr>
 <tr>
 <td><input size="8" type="text" name="find" value="{$find|escape}" /></td>
+<td >
+	<select name="filter_instanceName">
+	<option {if '' eq $smarty.request.filter_instanceName}selected="selected"{/if} value="">{tr}All{/tr}</option>
+    {*foreach from=$names item=name*}
+    {section loop=$names name=ix}
+    <option {if $names[ix] eq $smarty.request.filter_instanceName}selected="selected"{/if} value="{$names[ix]|escape}">{$names[ix]}</option>
+    {/section}
+    {*/foreach*}
+	</select>
+</td>
 <td><select name="filter_process">
 	<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
     {foreach from=$all_procs item=proc}
@@ -38,7 +49,7 @@
 <td><select name="filter_activity">
 	<option {if '' eq $smarty.request.filter_activity}selected="selected"{/if} value="">{tr}All{/tr}</option>
 	{foreach from=$all_acts item=act}
-	<option {if $act.activity_id eq $smarty.request.filter_activity}selected="selected"{/if} value="{$act.activity_id|escape}">{$act.name}</option>
+	<option {if $act.activity_id eq $smarty.request.filter_activity}selected="selected"{/if} value="{$act.activity_id|escape}">{$act.name} {$act.version}</option>
 	{/foreach}
 	</select>
 </td>
@@ -59,8 +70,8 @@
 </td><td>
 	<select name="filter_owner">
 	<option {if $smarty.request.filter_owner eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	{section loop=$users name=ix}
-	<option {if $users[ix] eq $smarty.request.filter_owner}selected="selected"{/if} value="{$users[ix]|escape}">{displayname user_id=$users[ix]}</option>
+	{section loop=$owners name=ix}
+	<option {if $owners[ix] eq $smarty.request.filter_owner}selected="selected"{/if} value="{$owners[ix]|escape}">{displayname user_id=$owners[ix]}</option>
 	{/section}
 	</select>
 </td><td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>

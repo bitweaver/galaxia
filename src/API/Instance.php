@@ -13,6 +13,7 @@ class Instance extends Base {
   var $owner_id;
   var $status = '';
   var $started;
+  var $name = '';
   var $next_activity;
   var $next_group_id;
   var $ended;
@@ -40,6 +41,7 @@ class Instance extends Base {
     $this->instance_id = $res['instance_id'];
     $this->owner_id = $res['owner_id'];
     $this->started = $res['started'];
+    $this->name = $res['name'];
     $this->ended = $res['ended'];
     $this->next_activity = $res['next_activity'];
     $this->next_group_id = $res['next_group_id'];

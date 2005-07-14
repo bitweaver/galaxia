@@ -7,6 +7,8 @@
 </div>
 
 {include file="bitpackage:Galaxia/monitor_nav.tpl}
+<div class="body">
+
 <h3>{tr}Workitem information{/tr}</h3>
 <table class="panel">
 <tr>
@@ -27,7 +29,7 @@
 </tr>
 <tr>
 	<td><b>User</b></td>
-	<td>{$wi.user}</td>
+	<td>{displayname user_id=$wi.user_id}</td>
 </tr>
 <tr>
 	<td><b>Started</b></td>
@@ -52,3 +54,6 @@
 </tr>
 {/foreach}
 </table>
+</div>
+
+</div> {* end .workflow *}

@@ -59,8 +59,8 @@
 			<a href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?filter_process={$items[ix].p_id}&amp;filter_activity={$items[ix].activity_id}">{$items[ix].name}</a>
 		{else}
 			{if $items[ix].is_interactive eq 'y' and ($items[ix].type eq 'start' or $items[ix].type eq 'standalone')}
-			<a href="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}">
-			<!--<a href="#" onClick="var answer = prompt('{tr}Enter the name of this instance{/tr}:',''); while(answer == '')answer = prompt('{tr}The name is not valid. Please, enter the name again{/tr}:',''); if (answer != null) window.location = '{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}&name='+answer;">-->
+			<!--<a href="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}">-->
+			<a href="#" onClick="var answer = prompt('{tr}Enter the name of this instance{/tr}:',''); while(answer == '')answer = prompt('{tr}The name is not valid. Please, enter the name again{/tr}:',''); if (answer != null) window.location = '{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}&name='+answer;">
 			{/if}
 			{$items[ix].name}
 		{/if}

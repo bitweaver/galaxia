@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.5 2005/07/14 10:31:39 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.6 2005/07/14 13:47:25 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -74,20 +74,16 @@ if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
 if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 	$wheres[] = "gia.`activity_id`=" . $_REQUEST['filter_activity'] . "";
 
-if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user']) {
-	if ($_REQUEST['filter_user'] == '*')
-		$wheres[] = "`gia.user_id` is NULL";
-	elseif (is_numeric($_REQUEST['filter_user']))
-		$wheres[] = "`gia.user_id`='" . $_REQUEST['filter_user'] . "'";
-}
+if (isset($_REQUEST['filter_instanceName']) && $_REQUEST['filter_instanceName'])
+	$wheres[] = "gi.name='" . $_REQUEST['filter_instanceName'] . "'";
 
 if (isset($_REQUEST['filter_owner']) && $_REQUEST['filter_owner'])
-	$wheres[] = "`owner_id`='" . $_REQUEST['filter_owner'] . "'";
+	$wheres[] = "gia.`owner_id`='" . $_REQUEST['filter_owner'] . "'";
 
 $where = implode(' and ', $wheres);
 
 if ( empty( $_REQUEST["sort_mode"] ) ) {
-	$sort_mode = 'name_asc';
+	$sort_mode = 'instance_id_asc';
 } else {
 	$sort_mode = $_REQUEST["sort_mode"];
 }
@@ -165,7 +161,6 @@ $sameurl_elements = array(
 	'sort_mode',
 	'where',
 	'find',
-	'filter_user',
 	'filter_status',
 	'filter_act_status',
 	'filter_type',
@@ -176,7 +171,6 @@ $sameurl_elements = array(
 );
 
 $smarty->assign('statuses', $processMonitor->monitor_list_statuses());
-$smarty->assign('users', $processMonitor->monitor_list_users());
 $smarty->assign('owners', $processMonitor->monitor_list_owners());
 
 
