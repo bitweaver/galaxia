@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.4 2005/07/11 12:30:52 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.5 2005/07/14 10:31:39 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -145,6 +145,9 @@ $smarty->assign_by_ref('all_acts', $all_acts["data"]);
 
 $types = $processMonitor->monitor_list_activity_types();
 $smarty->assign_by_ref('types', $types);
+
+$names = $processMonitor->monitor_list_instances_names();
+$smarty->assign_by_ref('names', $names);
 
 $smarty->assign('stats', $processMonitor->monitor_stats());
 
