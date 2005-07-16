@@ -18,7 +18,7 @@
 </tr>
 <tr>
 	<td>{tr}Created{/tr}</td>
-	<td>{$ins_info.started|bit_long_date}</td>
+	<td>{$ins_info.started|bit_long_datetime</td>
 </tr>
 <tr>
 	<td>{tr}Workitems{/tr}</td>
@@ -66,10 +66,10 @@
 		{foreach item=act from=$acts}
 		<tr class="odd"><td>
 			<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php?iid={$iid}&aid={$act.activity_id}">{$act.name}</a></td><td>
-			{$act.ia_started|bit_long_date}</td><td>
+			{$act.ia_started|bit_long_datetime</td><td>
 			{$act.actstatus}</td><td>
-			<!--{if $act.exptime eq 0 && $act.type eq 'activity' && $act.isInteractive eq 'y'}{tr}Not Defined{/tr}{elseif $act.type != 'activity'}&lt;{$act.type}&gt;{elseif $act.isInteractive eq 'n'}{tr}Not Interactive{/tr}{else}{$act.exptime|bit_long_date}{/if}</td><td>-->
-			{if $act.ended eq 0}{tr}Not Ended{/tr}{else}{$act.ended|bit_long_date}{/if}</td><td>
+			<!--{if $act.exptime eq 0 && $act.type eq 'activity' && $act.isInteractive eq 'y'}{tr}Not Defined{/tr}{elseif $act.type != 'activity'}&lt;{$act.type}&gt;{elseif $act.isInteractive eq 'n'}{tr}Not Interactive{/tr}{else}{$act.exptime|bit_long_datetime{/if}</td><td>-->
+			{if $act.ended eq 0}{tr}Not Ended{/tr}{else}{$act.ended|bit_long_datetime{/if}</td><td>
 			<select name="acts[{$act.activity_id}]">
 				<option value="" {if $act.user_id eq ''}selected='selected'{/if}>{tr}Any{/tr}</option>
 			{section name=ix loop=$users}

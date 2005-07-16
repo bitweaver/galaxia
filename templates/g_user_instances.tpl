@@ -101,7 +101,7 @@
 	{if $items[ix].exptime eq 0}
 	    {tr}Not defined{/tr}
 	{else}
-	  {$items[ix].exptime|date_format:"%A, %B %e, %H:%M:%S"}
+	  {$items[ix].exptime|bit_long_datetime"}
 	{/if}
 	</td>*}
 	<td>{*actions*}<table>

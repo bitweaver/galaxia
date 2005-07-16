@@ -109,10 +109,10 @@
 		{$proc.procname}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
-		{$proc.started|date_format}
+		{$proc.started|bit_long_datetime}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
-		{if $proc.ended eq 0} {tr}Not ended{/tr} {else} {$proc.ended|date_format} {/if}
+		{if $proc.ended eq 0} {tr}Not ended{/tr} {else} {$proc.ended|bit_long_datetime} {/if}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
 		{$proc.status}
