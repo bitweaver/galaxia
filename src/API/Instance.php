@@ -101,8 +101,8 @@ class Instance extends Base {
     $this->started=$now;
     $this->owner_id = $user_id;
     $props=serialize($this->properties);
-    $query = "insert into `".GALAXIA_TABLE_PREFIX."instances`(`started`,`ended`,`status`,`p_id`,`owner_id`,`properties`) values(?,?,?,?,?,?)";
-    $this->query($query,array($now,0,'active',$pid,$user_id,$props));
+    $query = "insert into `".GALAXIA_TABLE_PREFIX."instances`(`started`,`ended`,`status`, `name`, `p_id`,`owner_id`,`properties`) values(?,?,?,?,?,?,?)";
+    $this->query($query,array($now,0,'active',$this->name,$pid,$user_id,$props));
     $this->instance_id = $this->getOne("select max(`instance_id`) from `".GALAXIA_TABLE_PREFIX."instances` where `started`=? and `owner_id`=?",array((int)$now,$user_id));
     $iid=$this->instance_id;
     
@@ -193,8 +193,8 @@ class Instance extends Base {
   function setName($name) {
     $this->name = $name;
     // save database
-    $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `name`=? where `instanceId`=?";
-    $this->query($query,array($name,(int)$this->instanceId));  
+    $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `name`=? where `instance_id`=?";
+    $this->query($query,array($name,(int)$this->instance_id));  
   }
   
   /*! 
@@ -664,7 +664,7 @@ class Instance extends Base {
   */
   function get_instance_comments($aid) {
     $iid = $this->instance_id;
-    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `activity_id`=? order by ".$this->convert_sortmode("timestamp_desc");
+    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `activity_id`=? order by ".$this->convert_sortmode("timestamp_asc");
     $result = $this->query($query,array((int)$iid,(int)$aid));    
     $ret = Array();
     while($res = $result->fetchRow()) {    

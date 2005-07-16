@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_view_workitem.php,v 1.1.1.1.2.2 2005/07/11 12:30:53 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_view_workitem.php,v 1.1.1.1.2.3 2005/07/16 13:08:08 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -31,6 +31,6 @@ $sameurl_elements = array(
 );
 
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_view_workitem.tpl');
+$gBitSystem->display( 'bitpackage:Galaxia/g_view_workitem.tpl', tra("View Workitem") );
 
 ?>

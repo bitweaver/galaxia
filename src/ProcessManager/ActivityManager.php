@@ -870,7 +870,7 @@ class ActivityManager extends BaseManager {
     //$query = "update ".GALAXIA_TABLE_PREFIX."activities set flow_num=0 where flow_num=$cant+1";
     //$this->query($query);
   }
-    
+   
 }
 
 

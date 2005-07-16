@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`overlib.js"}
+{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -76,7 +76,8 @@
 <table class="data">
 <tr>
 <th><a href="{if $sort_mode eq 'type_desc'}{sameurl sort_mode='type_asc'}{else}{sameurl sort_mode='type_desc'}{/if}">{tr}Type{/tr}</a></th>
-<th style="text-align:left;"><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Name{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'proc_desc'}{sameurl sort_mode='proc_asc'}{else}{sameurl sort_mode='proc_desc'}{/if}">{tr}Process{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Name{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'type_desc'}{sameurl sort_mode='type_asc'}{else}{sameurl sort_mode='type_desc'}{/if}">{tr}Type{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'is_interactive_desc'}{sameurl sort_mode='is_interactive_asc'}{else}{sameurl sort_mode='is_interactive_desc'}{/if}">{tr}int{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'is_auto_routed_desc'}{sameurl sort_mode='is_auto_routed_asc'}{else}{sameurl sort_mode='is_auto_routed_desc'}{/if}">{tr}routing{/tr}</a></th>
@@ -89,6 +90,9 @@
 		{$act.type|act_icon:$act.is_interactive}
 	</td>
 
+	<td class="{cycle advance=false}" style="text-align:center;">
+		{$act.procname} {$act.version}
+	</td>
 
 	<td class="{cycle advance=false}">
 	  <a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?pid={$act.p_id}&amp;activity_id={$act.activity_id}">{$act.name}</a>

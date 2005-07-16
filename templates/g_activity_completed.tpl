@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`overlib.js"}
+{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
 <h1>{tr}Activity completed{/tr}</h1>
 {include file="bitpackage:Galaxia/user_nav.tpl"}
 <br /><br />

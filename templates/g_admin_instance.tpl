@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`overlib.js"}
+{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -7,10 +7,15 @@
 </div>
 
 {include file="bitpackage:Galaxia/monitor_nav.tpl"}
-<h3>{tr}Instance{/tr}: {$ins_info.instance_id} (Process: {$proc_info.name} {$proc_info.version})</h3>
+<h3>{tr}Instance Name{/tr}: {$ins_info.name} {$ins_info.instance_id} (Process: {$proc_info.name} {$proc_info.version})</h3>
 <form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php" method="post">
 <input type="hidden" name="iid" value="{$iid|escape}" />
+<input type="hidden" name="aid" value="{$aid|escape}" />
 <table class="panel">
+<tr>
+	<td>{tr}Instance{/tr}</td>
+	<td><input type="text" name="name" value="{$ins_info.name}"></td>
+</tr>
 <tr>
 	<td>{tr}Created{/tr}</td>
 	<td>{$ins_info.started|bit_long_date}</td>
@@ -51,29 +56,31 @@
 		{if count($acts)}
 		<table>
 		<tr><th>
-			{tr}Activity{/tr}</th><th>
-			{tr}Status{/tr}</th><th>
+			{tr}Name{/tr}</th><th>
+			{tr}Started{/tr}</th><th>
+			{tr}Act status{/tr}</th><th>
+			<!--{tr}Expiration Date{/tr}</th><th>-->
+			{tr}Ended{/tr}</th><th>
 			{tr}User{/tr}</th>
 		</tr>
-		{section name=ix loop=$acts}
+		{foreach item=act from=$acts}
 		<tr class="odd"><td>
-			{$acts[ix].name}
-			{if $acts[ix].is_interactive eq 'y'}
-			<a title="{tr}run{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$acts[ix].activity_id}&amp;iid={$iid}">{biticon ipackage="Galaxia" iname="next" iexplain="{tr}run{/tr}"}</a>
-			{/if}
-			</td><td>
-{$acts[ix].actstatus}</td><td>
-			<select name="acts[{$acts[ix].activity_id}]">
-				<option value="" {if $acts[ix].user_id eq ''}selected='selected'{/if}>{tr}Any{/tr}</option>
+			<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php?iid={$iid}&aid={$act.activity_id}">{$act.name}</a></td><td>
+			{$act.ia_started|bit_long_date}</td><td>
+			{$act.actstatus}</td><td>
+			<!--{if $act.exptime eq 0 && $act.type eq 'activity' && $act.isInteractive eq 'y'}{tr}Not Defined{/tr}{elseif $act.type != 'activity'}&lt;{$act.type}&gt;{elseif $act.isInteractive eq 'n'}{tr}Not Interactive{/tr}{else}{$act.exptime|bit_long_date}{/if}</td><td>-->
+			{if $act.ended eq 0}{tr}Not Ended{/tr}{else}{$act.ended|bit_long_date}{/if}</td><td>
+			<select name="acts[{$act.activity_id}]">
+				<option value="" {if $act.user_id eq ''}selected='selected'{/if}>{tr}Any{/tr}</option>
 			{section name=ix loop=$users}
-				<option value="{$users[ix].user_id|escape}" {if $users[ix].user_id eq $acts[ix].user_id}selected="selected"{/if}>{displayname user_id=$users[ix].user_id}</option>
+				<option value="{$users[ix].user_id|escape}" {if $users[ix].user_id eq $act.user_id}selected="selected"{/if}>{displayname user_id=$users[ix].user_id}</option>
 			{/section}
 			</select>
 		</td></tr>
-		{/section}
+		{/foreach}
 		</table>
 		{else}
-		&nbsp;
+		-
 		{/if}
 	</td>
 </tr>
@@ -85,6 +92,7 @@
 <h3>{tr}Properties{/tr}</h3>
 <form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php" method="post">
 <input type="hidden" name="iid" value="{$iid|escape}" />
+<input type="hidden" name="aid" value="{$aid|escape}" />
 <table>
 <tr><th>
 	{tr}Property{/tr}</th><th>
@@ -98,7 +106,7 @@
 	{if strlen($item)>80}
 	<textarea name="props[$key]" cols="80" rows="{$item|div:80:20}">{$item|escape}</textarea>
 	{else}
-	<input type="text" name="props[{$key}]" value="{$item|escape}" />
+	<input type="text" name="props[{$key}]" value="{$item|escape}" size="80" />
 	{/if}
 	</td>
 </tr>
@@ -112,6 +120,7 @@
 <h3>{tr}Add property{/tr}</h3>
 <form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php" method="post">
 <input type="hidden" name="iid" value="{$iid|escape}" />
+<input type="hidden" name="aid" value="{$aid|escape}" />
 <table class="panel">
 <tr>
 	<td>{tr}name{/tr}</td>

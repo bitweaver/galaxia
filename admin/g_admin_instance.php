@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance.php,v 1.1.1.1.2.2 2005/07/11 12:30:54 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance.php,v 1.1.1.1.2.3 2005/07/16 13:08:09 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -15,11 +15,18 @@ $gBitSystem->verifyPermission( 'bit_p_admin_workflow', "Permission denied you ca
 
 
 if (!isset($_REQUEST['iid'])) {
-	galaxia_show_error("No instance indicated");
+	galaxia_show_error(tra("No instance indicated"));
 	die;
 }
 
+/*if (!isset($_REQUEST['aid'])) {
+	$smarty->assign('msg', tra("No activity indicated"));
+
+	$smarty->display("error.tpl");
+	d*/
+
 $smarty->assign('iid', $_REQUEST['iid']);
+//$smarty->assign('aid', $_REQUEST['aid']);
 
 // Get workitems and list the workitems with an option to edit workitems for
 // this instance
@@ -27,15 +34,15 @@ if (isset($_REQUEST['save'])) {
 	
 	//status, owner
 	$instanceManager->set_instance_status($_REQUEST['iid'], $_REQUEST['status']);
-
+	$instanceManager->set_instance_name($_REQUEST['iid'],$_REQUEST['name']);
 	$instanceManager->set_instance_owner($_REQUEST['iid'], $_REQUEST['owner']);
-	//y luego acts[activity_id][user] para reasignar users
+/*	//y luego acts[activity_id][user] para reasignar users
 	if (isset($_REQUEST['acts'])) {
 		foreach (array_keys($_REQUEST['acts'])as $act) {
 		$instanceManager->set_instance_user($_REQUEST['iid'], $act, $_REQUEST['acts'][$act]);
 		}
 	}
-
+*/
 	if ($_REQUEST['sendto']) {
 		$instanceManager->set_instance_destination($_REQUEST['iid'], $_REQUEST['sendto']);
 	}
@@ -111,12 +118,13 @@ if (!isset($_REQUEST['__cid']))
 
 if (isset($_REQUEST['__post'])) {
 	
-	$instance->replace_instance_comment($_REQUEST['__cid'], 0, '', $user_id, $_REQUEST['__title'], $_REQUEST['__comment']);
+	$instance->replace_instance_comment($_REQUEST['__cid'], $_REQUEST['aid'], '', $user_id, $_REQUEST['__title'], $_REQUEST['__comment']);
 }
 
-$__comments = $instance->get_instance_comments();
+//$__comments = $instance->get_instance_comments($_REQUEST['aid']);
+$smarty->assign('comments',$__comments);
 
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_admin_instance.tpl');
+$gBitSystem->display( 'bitpackage:Galaxia/g_admin_instance.tpl', tra("Admin Instance") );
 
 ?>

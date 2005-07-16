@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`overlib.js"}
+{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -39,15 +39,16 @@
 	<select name="filter_activity">
 		<option {if '' eq $smarty.request.filter_activity}selected="selected"{/if} value="">{tr}All{/tr}</option>
 		{foreach from=$all_acts item=act}
-			<option {if $act.activity_id eq $smarty.request.filter_activity}selected="selected"{/if} value="{$act.activity_id|escape}">{$act.name}</option>
+			<option {if $act.activity_id eq $smarty.request.filter_activity}selected="selected"{/if} value="{$act.activity_id|escape}">{$act.name} {$act.version}</option>
 		{/foreach}
 	</select>
 </td><td>
 	<input type="text" name="filter_instance" value="{$smarty.request.filter_instance|escape}" size="4" />
 </td><td>
 	<select name="filter_user">
+		<option {if $smarty.request.filter_user eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
 		{section loop=$users name=ix}
-			<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{if $users[ix] eq ''}{tr}All{/tr}{else}{displayname user_id=$users[ix]}{/if}</option>
+			<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{displayname user_id=$users[ix]}</option>
 		{/section}
 	</select>
 </td><td>	
@@ -83,7 +84,7 @@
 		<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.instance_id}</a></td><td style="text-align:center;">
 		{$proc.order_id}</td><td style="text-align:center;">
 		{$proc.started|bit_short_datetime}</td><td style="text-align:center;">
-		{$proc.duration|duration}</td><td style="text-align:center;">
+		{if $proc.duration eq 0}-{else}{$proc.duration|duration}{/if}</td><td style="text-align:center;">
 		{displayname user_id=$proc.user_id}
 </td></tr>
 {foreachelse}

@@ -8,6 +8,10 @@ include_once(GALAXIA_LIBRARY.'/src/ProcessManager/BaseManager.php');
 */
 class InstanceManager extends BaseManager {
   
+  /*!
+    Constructor takes a PEAR::Db object to be used
+    to manipulate roles in the database.
+  */
   function InstanceManager() 
   {
 	BaseManager::BaseManager();
@@ -21,25 +25,25 @@ class InstanceManager extends BaseManager {
   	else {
   		$and = "and ga.`activity_id` = $aid";
   	}
-    $query = "select ga.`type`, ga.`is_interactive`, ga.`is_auto_routed`, gi.`p_id`, ga.`activity_id`, ga.`name`,
-		gi.`instance_id`, gi.`status`, gia.`activity_id`, gia.`user_id`,
-		gi.`started`, gia.`status` as `actstatus` FROM `".GALAXIA_TABLE_PREFIX."activities` ga
-		INNER JOIN `".GALAXIA_TABLE_PREFIX."instances` gi ON gi.`instance_id`=gia.`instance_id`
+    $query = "select ga.`activity_id`, ga.`type`, ga.`is_interactive`, ga.`is_auto_routed`, gi.`p_id`, ga.`name`,
+		gi.`instance_id`, gi.`status`, gia.`user_id`, gi.`started`, gia.`started` as ia_started, gia.`status` as `actstatus`, gia.`ended`
+		FROM `".GALAXIA_TABLE_PREFIX."activities` ga
 		INNER JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON ga.`activity_id`=gia.`activity_id`
+		INNER JOIN `".GALAXIA_TABLE_PREFIX."instances` gi ON gi.`instance_id`=gia.`instance_id`
 		WHERE gi.`instance_id`=? $and ORDER BY gia.`started`";
     $result = $this->query($query,array($iid));
     $ret = Array();
     if ($and == "") {
     	while($res = $result->fetchRow()) {
     		// Number of active instances
-//    		$res['exptime'] = $this->make_ending_date($res['ia_started'],$res['exptime']);
+    		//$res['exptime'] = $this->make_ending_date($res['ia_started'],$res['exptime']);
     		$ret[] = $res;
     	}
     	return $ret;
     }
     else {
     	$res = $result->fetchRow();
-//    	$res['exptime'] = $this->make_ending_date($res['ia_started'],$res['exptime']);
+    	//$res['exptime'] = $this->make_ending_date($res['ia_started'],$res['exptime']);
     	return $res;
     }
   }
@@ -68,8 +72,8 @@ class InstanceManager extends BaseManager {
   
   function set_instance_name($iid,$name)
   {
-    $query = "update ".GALAXIA_TABLE_PREFIX."instances set name='$name' where instance_id=$iid";
-    $this->query($query);
+    $query = "update ".GALAXIA_TABLE_PREFIX."instances set name=? where instance_id=?";
+    $this->query($query, array($name,$iid) );
   }
   
   function set_instance_owner($iid,$owner)
