@@ -28,7 +28,15 @@
 					<div class="row">
 						{formlabel label="Process Name" for="name"}
 						{forminput}
-							<input type="text" maxlength="80" name="name" id="name" value="{$info.name|escape}" /> {tr}ver:{/tr}{$info.version}
+							<input type="text" maxlength="80" name="name" id="name" value="{$info.name|escape}" />
+							{formhelp note=""}
+						{/forminput}
+					</div>
+
+					<div class="row">
+						{formlabel label="Version" for=""}
+						{forminput}
+							{$info.version}
 							{formhelp note=""}
 						{/forminput}
 					</div>
@@ -37,7 +45,7 @@
 						{formlabel label="Description" for="description"}
 						{forminput}
 							<textarea rows="5" cols="60" name="description" id="description">{$info.description|escape}</textarea>
-							{formhelp note=""}
+							{formhelp note="A brief description about the purpose of the process"}
 						{/forminput}
 					</div>
 
@@ -45,7 +53,7 @@
 						{formlabel label="Is Process Active?" for="is_active"}
 						{forminput}
 							<input type="checkbox" name="is_active" id="is_active" {if $info.is_active eq 'y'}checked="checked"{/if} />
-							{formhelp note=$is_active_help}
+							{formhelp note="Indicates if the process is active. Invalid processes cannot be active"}
 						{/forminput}
 					</div>
 
@@ -82,21 +90,26 @@
 					<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 
 					<div class="row">
-						{formlabel label="Find" for="find"}
+						{formlabel label="Processes" for="filter_name"}
 						{forminput}
-							<input type="text" name="find" id="find" value="{$find|escape}" />
+							<select name="filter_name" id="filter_name">
+								<option value="">{tr}All{/tr}</option>
+								{foreach from=$all_proc_names item=name}
+									<option {if $name eq $smarty.request.filter_name}selected="selected"{/if} value="{$name|escape}">{$name}</option>
+								{/foreach}
+							</select>
 							{formhelp note=""}
 						{/forminput}
 					</div>
 
 					<div class="row">
-						{formlabel label="Precesses" for="filter_name"}
+						{formlabel label="Version" for="filter_version"}
 						{forminput}
-							<select name="filter_name" id="filter_name">
+							<select name="filter_version" id="filter_version">
 								<option value="">{tr}All{/tr}</option>
-								{section loop=$all_procs name=ix}
-									<option  value="{$all_procs[ix].name|escape}">{$all_procs[ix].name}</option>
-								{/section}
+								{foreach from=$all_proc_versions item=version}
+									<option {if $version eq $smarty.request.filter_version}selected="selected"{/if} value="{$version}">{$version}</option>
+								{/foreach}
 							</select>
 							{formhelp note=""}
 						{/forminput}
@@ -106,9 +119,21 @@
 						{formlabel label="Status" for="filter_active"}
 						{forminput}
 							<select name="filter_active" id="filter_active">
-								<option value="">{tr}All{/tr}</option>
-								<option value="y">{tr}Active{/tr}</option>
-								<option value="n">{tr}Inactive{/tr}</option>
+								<option {if $smarty.request.filter_active eq ""}selected="selected"{/if} value="">{tr}All{/tr}</option>
+								<option {if $smarty.request.filter_active eq "y"}selected="selected"{/if} value="y">{tr}Active{/tr}</option>
+								<option {if $smarty.request.filter_active eq "n"}selected="selected"{/if} value="n">{tr}Inactive{/tr}</option>
+							</select>
+							{formhelp note=""}
+						{/forminput}
+					</div>
+
+					<div class="row">
+						{formlabel label="Valid" for="filter_valid"}
+						{forminput}
+							<select name="filter_valid" id="filter_valid">
+								<option {if $smarty.request.filter_valid eq ""}selected="selected"{/if} value="">{tr}All{/tr}</option>
+								<option {if $smarty.request.filter_valid eq "y"}selected="selected"{/if} value="y">{tr}Valid{/tr}</option>
+								<option {if $smarty.request.filter_valid eq "n"}selected="selected"{/if} value="n">{tr}Invalid{/tr}</option>
 							</select>
 							{formhelp note=""}
 						{/forminput}
@@ -129,6 +154,7 @@
 			<table class="data">
 				<caption>{tr}List of processes{/tr}</caption>
 				<tr>
+					<th>&nbsp;</th>
 					<th style="width:40%;">{smartlink ititle="Name" isort=name find=$find where=$where offset=$offset}</th>
 					<th style="width:10%;">{smartlink ititle="Version" isort=version find=$find where=$where offset=$offset}</th>
 					<th style="width:10%;">{smartlink ititle="Active" isort=is_active find=$find where=$where offset=$offset}</th>
@@ -138,7 +164,12 @@
 				{section name=ix loop=$items}
 					<tr class="{cycle values='odd,even'}">
 						<td>
-							<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?find={$find}&amp;where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid={$items[ix].p_id}">{$items[ix].name}</a></td><td style="text-align:center;">
+							<input title="{tr}Select this Process{/tr}" type="checkbox" name="process[{$items[ix].p_id}]" />
+						</td>
+						<td>
+							<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?find={$find}&amp;where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid={$items[ix].p_id}">{$items[ix].name}</a>
+						</td>
+						<td style="text-align:center;">
 							{$items[ix].version}</td><td style="text-align:center;">
 							{if $items[ix].is_active eq 'y'}
 								{biticon ipackage="Galaxia" iname="refresh2" iexplain="active process"}
@@ -154,11 +185,10 @@
 							{/if}
 						</td>
 						<td class="actionicon">
-							{smartlink ititle="Activities" ibiticon="galaxia/activity" pid=$items[ix].p_id}
+							{smartlink ititle="Activities" ifile="g_admin_activities.php" ibiticon="galaxia/activity" pid=$items[ix].p_id}
 							{smartlink ititle="Code" ifile="g_admin_shared_source.php" ibiticon="galaxia/book" pid=$items[ix].p_id}
 							{smartlink ititle="Roles" ifile="g_admin_roles.php" ibiticon="galaxia/myinfo" pid=$items[ix].p_id}
 							{smartlink ititle="Export" ifile="g_save_process.php" ibiticon="galaxia/export" pid=$items[ix].p_id}
-							<input title="{tr}Select this Process{/tr}" type="checkbox" name="process[{$items[ix].p_id}]" />
 							<br />
 							{smartlink ititle="New minor" sort_mode=$sort_mode find=$find where=$where offset=$offset newminor=$items[ix].p_id}
 							&nbsp;&bull; {smartlink ititle="New major" sort_mode=$sort_mode find=$find where=$where offset=$offset newmajor=$items[ix].p_id}
@@ -166,7 +196,7 @@
 					</tr>
 				{sectionelse}
 					<tr class="norecords">
-						<td colspan="15">
+						<td colspan="6">
 							{tr}No processes defined yet{/tr}
 						</td>
 					</tr>	
@@ -174,7 +204,7 @@
 			</table>
 
 			{if $items}
-				<div style="text-align:right;"><input type="submit" name="delete" value="{tr}Remove Selected{/tr}" /></div>
+				<input type="submit" name="delete" value="{tr}Remove Selected{/tr}" />
 			{/if}
 		{/form}
 

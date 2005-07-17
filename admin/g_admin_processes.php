@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1.1.1.2.2 2005/07/11 12:30:54 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1.1.1.2.3 2005/07/17 08:28:10 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -8,8 +8,6 @@
 require_once( '../../bit_setup_inc.php' );
 
 include_once( GALAXIA_PKG_PATH.'ProcessManager.php');
-
-$smarty->assign('is_active_help', tra('indicates if the process is active. Invalid processes cant be active'));
 
 // The galaxia process manager PHP script.
 $gBitSystem->verifyPackage( 'galaxia' );
@@ -130,8 +128,16 @@ if (isset($_REQUEST['filter'])) {
 		$wheres[] = " `name`='" . $_REQUEST['filter_name'] . "'";
 	}
 
+	if ($_REQUEST['filter_version']) {
+		$wheres[] = " `version`='" . $_REQUEST['filter_version'] . "'";
+	}
+
 	if ($_REQUEST['filter_active']) {
 		$wheres[] = " `is_active`='" . $_REQUEST['filter_active'] . "'";
+	}
+
+	if ($_REQUEST['filter_valid']) {
+		$wheres[] = " `is_valid`='" . $_REQUEST['filter_valid'] . "'";
 	}
 
 	$where = implode('and', $wheres);
@@ -207,12 +213,23 @@ $sameurl_elements = array(
 	'where',
 	'find',
 	'filter_name',
-	'filter_active'
+	'filter_version',
+	'filter_active',
+	'filter_valid'
 );
 
 $all_procs = $processManager->list_processes(0, -1, 'name_desc', '', '');
 $smarty->assign_by_ref('all_procs', $all_procs['data']);
 
+foreach ($all_procs['data'] as $item) {
+	$all_proc_names[$item['name']] = $item['name'];
+}
+$smarty->assign_by_ref('all_proc_names', $all_proc_names);
+
+foreach ($all_procs['data'] as $item) {
+	$all_proc_versions[$item['version']] = $item['version'];
+}
+$smarty->assign_by_ref('all_proc_versions', $all_proc_versions);
 
 $gBitSystem->display( 'bitpackage:Galaxia/g_admin_processes.tpl', tra('Admin Processes') );
 
