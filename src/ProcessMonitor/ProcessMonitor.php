@@ -182,7 +182,7 @@ class ProcessMonitor extends Base {
         $mid.= " where ($where) ";
       }
     }
-    $query = "select gp.`name` as `procname`, gp.`version`, ga.*
+    $query = "select gp.`procname`, gp.`version`, ga.*
               from `".GALAXIA_TABLE_PREFIX."activities` ga
                 left join `".GALAXIA_TABLE_PREFIX."processes` gp on gp.`p_id`=ga.`p_id`
               $mid order by $sort_mode";
@@ -243,11 +243,11 @@ class ProcessMonitor extends Base {
         $mid.= " where ($where) ";
       }
     }
-    $query = "select gp.`p_id`, ga.`is_interactive`, gi.`owner_id`, gp.`name` as `procname`, gp.`version`, ga.`type`,
+    $query = "select gp.`p_id`, ga.`is_interactive`, gi.`owner_id`, gp.`procname`, gp.`version`, ga.`type`,
         ga.`activity_id`, ga.`name`, gi.`instance_id`, gi.`status`, gia.`activity_id`, gia.`user_id`, gi.`started`, gi.`name` as ins_name, gi.`ended`, gia.`status` as `actstatus`
         from `".GALAXIA_TABLE_PREFIX."instances` gi LEFT JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON gi.`instance_id`=gia.`instance_id`
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gia.`activity_id` = ga.`activity_id`
-        LEFT JOIN `".GALAXIA_TABLE_PREFIX."processes` gp ON gp.`p_id`=gi.`p_id` $mid order by ".$this->convert_sortmode($sort_mode);   
+        LEFT JOIN `".GALAXIA_TABLE_PREFIX."processes` gp ON gp.`p_id`=gi.`p_id` $mid order by gi.".$this->convert_sortmode($sort_mode);   
 
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."instances` gi
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON gi.`instance_id`=gia.`instance_id`
@@ -358,7 +358,7 @@ class ProcessMonitor extends Base {
   }
 
   function monitor_get_workitem($item_id) {
-    $query = "select gw.`order_id`,ga.`name`,ga.`type`,ga.`is_interactive`,gp.`name` as `procname`,gp.`version`,
+    $query = "select gw.`order_id`,ga.`name`,ga.`type`,ga.`is_interactive`,gp.`procname`,gp.`version`,
           gw.`item_id`,gw.`properties`,gw.`user_id`,`started`,`ended`-`started` as `duration`
           from `".GALAXIA_TABLE_PREFIX."workitems` gw,`".GALAXIA_TABLE_PREFIX."activities` ga,
           `".GALAXIA_TABLE_PREFIX."processes` gp where ga.`activity_id`=gw.`activity_id` and ga.`p_id`=gp.`p_id` and `item_id`=?";
@@ -379,7 +379,7 @@ class ProcessMonitor extends Base {
       $mid.=" and (`properties` like $findesc)";
     }
 // TODO: retrieve instance status as well
-    $query = "select `item_id`,`ended`-`started` as `duration`, ga.`is_interactive`, ga.`type`,gp.`name` as `procname`,
+    $query = "select `item_id`,`ended`-`started` as `duration`, ga.`is_interactive`, ga.`type`,gp.`procname`,
         gp.`version`,ga.`name` as `actname`, ga.`activity_id`,`instance_id`,`order_id`,`properties`,`started`,`ended`,`user_id`
         from `".GALAXIA_TABLE_PREFIX."workitems` gw,`".GALAXIA_TABLE_PREFIX."activities` ga,`".GALAXIA_TABLE_PREFIX."processes` gp 
         where gw.`activity_id`=ga.`activity_id` and ga.`p_id`=gp.`p_id` $mid order by gp.`p_id` desc,".$this->convert_sortmode($sort_mode);

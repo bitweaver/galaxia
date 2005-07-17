@@ -57,7 +57,7 @@ $tables = array(
 
 'galaxia_processes' => "
   p_id I4 AUTO PRIMARY,
-  name C(80),
+  procname C(80),
   is_valid C(1),
   is_active C(1),
   version C(12),

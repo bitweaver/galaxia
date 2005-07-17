@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.6 2005/07/14 13:47:25 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1.1.1.2.7 2005/07/17 16:26:34 lsces Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -127,7 +127,7 @@ if ($offset > 0) {
 
 $smarty->assign_by_ref('items', $items["data"]);
 
-$all_procs = $processMonitor->monitor_list_processes(0, -1, 'name_desc', '', '');
+$all_procs = $processMonitor->monitor_list_processes(0, -1, 'procname_desc', '', '');
 $smarty->assign_by_ref('all_procs', $all_procs["data"]);
 
 if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process']) {

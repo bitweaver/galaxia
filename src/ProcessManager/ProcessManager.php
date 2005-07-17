@@ -48,7 +48,7 @@ class ProcessManager extends BaseManager {
     $out = '<process>'."\n";
     $proc_info = $this->get_process($p_id);
     $procname = $proc_info['normalized_name'];
-    $out.= '  <name>'.htmlspecialchars($proc_info['name']).'</name>'."\n";
+    $out.= '  <name>'.htmlspecialchars($proc_info['procname']).'</name>'."\n";
     $out.= '  <is_valid>'.htmlspecialchars($proc_info['is_valid']).'</is_valid>'."\n";
     $out.= '  <version>'.htmlspecialchars($proc_info['version']).'</version>'."\n";
     $out.= '  <is_active>'.htmlspecialchars($proc_info['is_active']).'</is_active>'."\n";
@@ -226,7 +226,7 @@ class ProcessManager extends BaseManager {
     $rm = new RoleManager();
     // First create the process
     $vars = Array(
-      'name' => $data['name'],
+      'procname' => $data['name'],
       'version' => $data['version'],
       'description' => $data['description'],
       'last_modified' => $data['last_modified'],
@@ -294,7 +294,7 @@ class ProcessManager extends BaseManager {
     $am->build_process_graph($pid);
     unset($am);
     unset($rm);
-    $msg = sprintf(tra('Process %s %s imported'),$proc_info['name'],$proc_info['version']);
+    $msg = sprintf(tra('Process %s %s imported'),$proc_info['procname'],$proc_info['version']);
     $this->notify_all(2,$msg);
   }
 
@@ -309,11 +309,11 @@ class ProcessManager extends BaseManager {
   {
     $oldpid = $p_id;
     $proc_info = $this->get_process($p_id);
-    $name = $proc_info['name'];
+    $name = $proc_info['procname'];
     if(!$proc_info) return false;
     // Now update the version
     $version = $this->_new_version($proc_info['version'],$minor);
-    while($this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."processes` where `name`='$name' and `version`='$version'")) {
+    while($this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."processes` where `procname`='$name' and `version`='$version'")) {
       $version = $this->_new_version($version,$minor);
     }
     // Make new versions unactive
@@ -511,7 +511,7 @@ class ProcessManager extends BaseManager {
     $TABLE_NAME = GALAXIA_TABLE_PREFIX."processes";
     $now = date("U");
     $vars['last_modified']=$now;
-    $vars['normalized_name'] = $this->_normalize_name($vars['name'],$vars['version']);
+    $vars['normalized_name'] = $this->_normalize_name($vars['procname'],$vars['version']);
     foreach($vars as $key=>$value)
     {
         $vars[$key]=addslashes($value);
@@ -539,12 +539,12 @@ class ProcessManager extends BaseManager {
         $am = new ActivityManager();
         $am->compile_process_activities($p_id);
       }
-      $msg = sprintf(tra('Process %s has been updated'),$vars['name']);     
+      $msg = sprintf(tra('Process %s has been updated'),$vars['procname']);     
       $this->notify_all(3,$msg);
     } else {
       unset($vars['p_id']);
       // insert mode
-      $name = $this->_normalize_name($vars['name'],$vars['version']);
+      $name = $this->_normalize_name($vars['procname'],$vars['version']);
       $this->_create_directory_structure($name);
       $first = true;
       $query = "insert into `$TABLE_NAME`(";
@@ -590,7 +590,7 @@ class ProcessManager extends BaseManager {
         $aM->replace_activity($p_id,0,$vars1);
         $aM->replace_activity($p_id,0,$vars2);
       }
-    $msg = sprintf(tra('Process %s has been created'),$vars['name']);     
+    $msg = sprintf(tra('Process %s has been created'),$vars['procname']);     
     $this->notify_all(4,$msg);
     }
     // Get the id

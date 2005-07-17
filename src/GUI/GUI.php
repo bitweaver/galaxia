@@ -31,7 +31,7 @@ class GUI extends Base {
     $bindvars = array('y',$user_id);
     if($find) {
       $findesc = '%'.$find.'%';
-      $mid .= " and ((gp.`name` like ?) or (gp.`description` like ?))";
+      $mid .= " and ((gp.`procname` like ?) or (gp.`description` like ?))";
       $bindvars[] = $findesc;
       $bindvars[] = $findesc;
     }
@@ -41,7 +41,7 @@ class GUI extends Base {
 
     $query = "select distinct(gp.`p_id`),
                      gp.`is_active`,
-                     gp.`name` as `procname`,
+                     gp.`procname`,
                      gp.`normalized_name` as `normalized_name`,
                      gp.`version` as `version`
               from `".GALAXIA_TABLE_PREFIX."processes` gp
@@ -111,7 +111,7 @@ class GUI extends Base {
     $query = "select distinct(ga.`activity_id`),
                      ga.`name`,
                      ga.`type`,
-                     gp.`name` as `procname`,
+                     gp.`procname`,
                      ga.`is_interactive`,
                      ga.`is_auto_routed`,
                      ga.`activity_id`,
@@ -162,7 +162,7 @@ class GUI extends Base {
     if (!isset($user_id))
 	galaxia_show_error("No user id");
 
-    $mid = "where (gia.user_id=? or (gia.user_id is ? and ugm.`user_id`=?))";
+    $mid = "where (gia.`user_id`=? or (gia.`user_id` = ? and ugm.`user_id`=?))";
     $bindvars = array($user_id,NULL,$user_id);
     if($find) {
       $findesc = '%'.$find.'%';
@@ -182,7 +182,7 @@ class GUI extends Base {
                      gia.`status` as `actstatus`,
                      ga.`name`,
                      ga.`type`,
-                     gp.`name` as `procname`,
+                     gp.`procname`,
                      ga.`is_interactive`,
                      ga.`is_auto_routed`,
                      ga.`activity_id`,
@@ -198,7 +198,7 @@ class GUI extends Base {
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
               $mid order by $sort_mode";
     $query_cant = "select count(distinct(gi.`instance_id`))
-              from ".GALAXIA_TABLE_PREFIX."instances gi
+              from `".GALAXIA_TABLE_PREFIX."instances` gi
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON gi.`instance_id`=gia.`instance_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gia.`activity_id`=ga.`activity_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gia.`activity_id`=gar.`activity_id`
