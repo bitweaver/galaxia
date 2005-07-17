@@ -28,7 +28,7 @@
 					<div class="row">
 						{formlabel label="Process Name" for="name"}
 						{forminput}
-							<input type="text" maxlength="80" name="name" id="name" value="{$info.name|escape}" />
+							<input type="text" maxlength="80" name="name" id="name" value="{$info.procname|escape}" /> {tr}ver:{/tr}{$info.version}
 							{formhelp note=""}
 						{/forminput}
 					</div>
@@ -155,7 +155,7 @@
 				<caption>{tr}List of processes{/tr}</caption>
 				<tr>
 					<th>&nbsp;</th>
-					<th style="width:40%;">{smartlink ititle="Name" isort=name find=$find where=$where offset=$offset}</th>
+					<th style="width:40%;">{smartlink ititle="Name" isort=procname find=$find where=$where offset=$offset}</th>
 					<th style="width:10%;">{smartlink ititle="Version" isort=version find=$find where=$where offset=$offset}</th>
 					<th style="width:10%;">{smartlink ititle="Active" isort=is_active find=$find where=$where offset=$offset}</th>
 					<th style="width:10%;">{smartlink ititle="Valid" isort=is_valid find=$find where=$where offset=$offset}</th>
@@ -167,7 +167,7 @@
 							<input title="{tr}Select this Process{/tr}" type="checkbox" name="process[{$items[ix].p_id}]" />
 						</td>
 						<td>
-							<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?find={$find}&amp;where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid={$items[ix].p_id}">{$items[ix].name}</a>
+							<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?find={$find}&amp;where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid={$items[ix].p_id}">{$items[ix].procname}</a>
 						</td>
 						<td style="text-align:center;">
 							{$items[ix].version}</td><td style="text-align:center;">

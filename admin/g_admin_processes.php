@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1.1.1.2.3 2005/07/17 08:28:10 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1.1.1.2.4 2005/07/17 16:43:45 lsces Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -84,7 +84,7 @@ if (isset($_REQUEST['newmajor'])) {
 if (isset($_REQUEST['save'])) {
 	
 	$vars = array(
-		'name' => $_REQUEST['name'],
+		'procname' => $_REQUEST['name'],
 		'description' => $_REQUEST['description'],
 		'version' => $_REQUEST['version'],
 		'is_active' => 'n'
@@ -108,7 +108,7 @@ if (isset($_REQUEST['save'])) {
 	}
 
 	$info = array(
-		'name' => '',
+		'procname' => '',
 		'description' => '',
 		'version' => '1.0',
 		'is_active' => 'n',
@@ -218,11 +218,11 @@ $sameurl_elements = array(
 	'filter_valid'
 );
 
-$all_procs = $processManager->list_processes(0, -1, 'name_desc', '', '');
+$all_procs = $processManager->list_processes(0, -1, 'procname_desc', '', '');
 $smarty->assign_by_ref('all_procs', $all_procs['data']);
 
 foreach ($all_procs['data'] as $item) {
-	$all_proc_names[$item['name']] = $item['name'];
+	$all_proc_names[$item['procname']] = $item['procname'];
 }
 $smarty->assign_by_ref('all_proc_names', $all_proc_names);
 
