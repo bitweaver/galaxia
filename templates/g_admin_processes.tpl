@@ -93,7 +93,7 @@
 						{formlabel label="Processes" for="filter_name"}
 						{forminput}
 							<select name="filter_name" id="filter_name">
-								<option value="">{tr}All{/tr}</option>
+								<option {if $smarty.request.filter_active eq ""}selected="selected"{/if} value="">{tr}All{/tr}</option>
 								{foreach from=$all_proc_names item=name}
 									<option {if $name eq $smarty.request.filter_name}selected="selected"{/if} value="{$name|escape}">{$name}</option>
 								{/foreach}
@@ -106,7 +106,7 @@
 						{formlabel label="Version" for="filter_version"}
 						{forminput}
 							<select name="filter_version" id="filter_version">
-								<option value="">{tr}All{/tr}</option>
+								<option {if $smarty.request.filter_active eq ""}selected="selected"{/if} value="">{tr}All{/tr}</option>
 								{foreach from=$all_proc_versions item=version}
 									<option {if $version eq $smarty.request.filter_version}selected="selected"{/if} value="{$version}">{$version}</option>
 								{/foreach}
