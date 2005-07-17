@@ -37,7 +37,7 @@ $tables = array(
   activity_id I4,
   hash C(32),
   title C(250),
-  comment text,
+  comment X,
   activity C(80),
   timestamp I8
 ",
