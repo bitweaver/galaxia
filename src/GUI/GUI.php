@@ -77,7 +77,7 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gia.`activity_id`=gar.`activity_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON gar.`role_id`=ggr.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
-		where gi.`p_id`=? and (gia.user_id=? or (gia.`user_id` is ? and ugm.`user_id`=?))",
+		where gi.`p_id`=? and (gia.`user_id`=? or (gia.`user_id`=? and ugm.`user_id`=?))",
 		array($p_id,$user_id,NULL,$user_id));
       $ret[] = $res;
     }
@@ -143,7 +143,7 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gia.`activity_id`=gar.`activity_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON gar.`role_id`=ggr.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
-		where gia.`activity_id`=? and gia.`status` <> ? and (gia.`user_id`=? or (gia.`user_id` is ? and ugm.`user_id`=?))",
+		where gia.`activity_id`=? and gia.`status` <> ? and (gia.`user_id`=? or (gia.`user_id`=? and ugm.`user_id`=?))",
 		array($res['activity_id'],'completed',$user_id,NULL,$user_id));
       $ret[] = $res;
     }
@@ -162,7 +162,7 @@ class GUI extends Base {
     if (!isset($user_id))
 	galaxia_show_error("No user id");
 
-    $mid = "where (gia.`user_id`=? or (gia.`user_id` = ? and ugm.`user_id`=?))";
+    $mid = "where (gia.`user_id`=? or (gia.`user_id`=? and ugm.`user_id`=?))";
     $bindvars = array($user_id,NULL,$user_id);
     if($find) {
       $findesc = '%'.$find.'%';
