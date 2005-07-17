@@ -185,10 +185,10 @@
 							{/if}
 						</td>
 						<td class="actionicon">
-							{smartlink ititle="Activities" ifile="g_admin_activities.php" ibiticon="galaxia/activity" pid=$items[ix].p_id}
-							{smartlink ititle="Code" ifile="g_admin_shared_source.php" ibiticon="galaxia/book" pid=$items[ix].p_id}
-							{smartlink ititle="Roles" ifile="g_admin_roles.php" ibiticon="galaxia/myinfo" pid=$items[ix].p_id}
-							{smartlink ititle="Export" ifile="g_save_process.php" ibiticon="galaxia/export" pid=$items[ix].p_id}
+							{smartlink ititle="Activities" ifile="admin/g_admin_activities.php" ibiticon="galaxia/activity" pid=$items[ix].p_id}
+							{smartlink ititle="Code" ifile="admin/g_admin_shared_source.php" ibiticon="galaxia/book" pid=$items[ix].p_id}
+							{smartlink ititle="Roles" ifile="admin/g_admin_roles.php" ibiticon="galaxia/myinfo" pid=$items[ix].p_id}
+							{smartlink ititle="Export" ifile="admin/g_save_process.php" ibiticon="galaxia/export" pid=$items[ix].p_id}
 							<br />
 							{smartlink ititle="New minor" sort_mode=$sort_mode find=$find where=$where offset=$offset newminor=$items[ix].p_id}
 							&nbsp;&bull; {smartlink ititle="New major" sort_mode=$sort_mode find=$find where=$where offset=$offset newmajor=$items[ix].p_id}
