@@ -59,7 +59,7 @@
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 <table class="data">
 <tr>
-<th style="text-align:left;"><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Name{/tr}</a></th>
+<th style="text-align:left;"><a href="{if $sort_mode eq 'procname_desc'}{sameurl sort_mode='procname_asc'}{else}{sameurl sort_mode='procname_desc'}{/if}">{tr}Name{/tr}</a></th>
 <th>{tr}Activities{/tr}</th>
 <th><a href="{if $sort_mode eq 'is_active_desc'}{sameurl sort_mode='is_active_asc'}{else}{sameurl sort_mode='is_active_desc'}{/if}">{tr}Active{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'is_valid_desc'}{sameurl sort_mode='is_valid_asc'}{else}{sameurl sort_mode='is_valid_desc'}{/if}">{tr}Valid{/tr}</a></th>
@@ -69,7 +69,7 @@
 {foreach from=$items item=proc}
 <tr class="{cycle}">
 	<td style="text-align:left;">
-	<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?pid={$proc.p_id}">{$proc.name} {$proc.version}</a>
+	<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?pid={$proc.p_id}">{$proc.procname} {$proc.version}</a>
 	</td><td style="text-align:center;">
 		<a href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_activities.php?filter_process={$proc.p_id}">{$proc.activities}</a>
 	</td><td style="text-align:center;">
