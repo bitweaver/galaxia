@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.1 2005/07/02 16:37:00 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.2 2005/08/01 20:56:38 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -22,7 +22,7 @@ if (!isset($_REQUEST['auto'])) {
 // parameter and get the activity information
 // load then the compiled version of the activity
 if (!isset($_REQUEST['activity_id'])) {
-	$gBitSystem->error(tra("No activity indicated"));
+	galaxia_show_error("No activity indicated");
 	die;
 }
 
@@ -40,7 +40,7 @@ $user_roles = $activity->getUserRoles($user_id);
 // activity
 if ($activity->is_interactive() == 'y') {
 	if (!count(array_intersect($act_roles, $user_roles))) {
-		$gBitSystem->error(tra("You cant execute this activity"));
+		galaxia_show_error("You cant execute this activity");
 		die;
 	}
 }
@@ -60,19 +60,18 @@ foreach ($act_role_names as $role) {
 		$$name = 'n';
 	}
 }
-
+if (!isset($_REQUEST['__post'])) {
 $source = GALAXIA_PROCESSES . $process->getNormalizedName(). '/compiled/' . $activity->getNormalizedName(). '.php';
 $shared = GALAXIA_PROCESSES . $process->getNormalizedName(). '/code/shared.php';
 
 // Existing variables here:
 // $process, $activity, $instance (if not standalone)
-
 // Include the shared code
 include_once ($shared);
 
 // Now do whatever you have to do in the activity
 include_once ($source);
-
+}
 // Process comments
 if (isset($_REQUEST['__removecomment'])) {
 	$__comment = $instance->get_instance_comment($_REQUEST['__removecomment']);
@@ -88,27 +87,41 @@ if (!isset($_REQUEST['__cid']))
 	$_REQUEST['__cid'] = 0;
 
 if (isset($_REQUEST['__post'])) {
+	$instance->getInstance($_REQUEST['iid']);
 	$instance->replace_instance_comment($_REQUEST['__cid'], $activity->getActivityId(), $activity->getName(),
 		$user_id, $_REQUEST['__title'], $_REQUEST['__comment']);
 }
 
-$__comments = $instance->get_instance_comments();
+$__comments = $instance->get_instance_comments($activity->getActivityId());
 
 // This goes to the end part of all activities
 // If this activity is interactive then we have to display the template
-if (!isset($_REQUEST['auto']) && $__activity_completed && $activity->is_interactive()) {
+if (!isset($_REQUEST['auto']) && $__activity_completed && $activity->is_interactive() && !isset($_REQUEST['__post'])) {
 	$smarty->assign('procname', $process->getName());
-
 	$smarty->assign('procversion', $process->getVersion());
 	$smarty->assign('actname', $activity->getName());
-	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl');
-	} else {
+	$smarty->assign('actid',$activity->getActivityId());
+	$smarty->assign('post','n');
+	$smarty->assign('iid',$instance->instance_id);
+	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl', tra("Activity Completed") );
+} 
+elseif (!isset($_REQUEST['auto']) && $activity->is_interactive() && isset($_REQUEST['__post'])) {
+	$smarty->assign('procname', $process->getName());
+	$smarty->assign('procversion', $process->getVersion());
+	$smarty->assign('actname', $activity->getName());
+	$smarty->assign('actid',$activity->getActivityId());
+	$smarty->assign('title',$_REQUEST['__title']);
+	$smarty->assign('comment',$_REQUEST['__comment']);
+	$smarty->assign('post','y');
+	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl', tra("Activity Completed") );
+}
+else {
 	if (!isset($_REQUEST['auto']) && $activity->is_interactive()) {
 		$section = 'workflow';
 
-				$template = $activity->getNormalizedName(). '.tpl';
-		$gBitSystem->display( GALAXIA_PROCESSES . $process->getNormalizedName(). '/code/templates/' . $template);
-			}
+		$template = $activity->getNormalizedName(). '.tpl';
+		$gBitSystem->display( GALAXIA_PROCESSES . $process->getNormalizedName(). '/code/templates/' . $template, tra("Run Activity") );
+	}
 }
 
 ?>

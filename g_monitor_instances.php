@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.1 2005/07/02 16:37:00 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_instances.php,v 1.2 2005/08/01 20:56:38 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -74,16 +74,16 @@ if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
 if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 	$wheres[] = "gia.`activity_id`=" . $_REQUEST['filter_activity'] . "";
 
-if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user'])
-	$wheres[] = "`user_id`='" . $_REQUEST['filter_user'] . "'";
+if (isset($_REQUEST['filter_instanceName']) && $_REQUEST['filter_instanceName'])
+	$wheres[] = "gi.name='" . $_REQUEST['filter_instanceName'] . "'";
 
 if (isset($_REQUEST['filter_owner']) && $_REQUEST['filter_owner'])
-	$wheres[] = "`owner_id`='" . $_REQUEST['filter_owner'] . "'";
+	$wheres[] = "gia.`owner_id`='" . $_REQUEST['filter_owner'] . "'";
 
 $where = implode(' and ', $wheres);
 
 if ( empty( $_REQUEST["sort_mode"] ) ) {
-	$sort_mode = 'name_asc';
+	$sort_mode = 'instance_id_asc';
 } else {
 	$sort_mode = $_REQUEST["sort_mode"];
 }
@@ -127,7 +127,7 @@ if ($offset > 0) {
 
 $smarty->assign_by_ref('items', $items["data"]);
 
-$all_procs = $items = $processMonitor->monitor_list_processes(0, -1, 'name_desc', '', '');
+$all_procs = $processMonitor->monitor_list_processes(0, -1, 'procname_desc', '', '');
 $smarty->assign_by_ref('all_procs', $all_procs["data"]);
 
 if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process']) {
@@ -141,6 +141,9 @@ $smarty->assign_by_ref('all_acts', $all_acts["data"]);
 
 $types = $processMonitor->monitor_list_activity_types();
 $smarty->assign_by_ref('types', $types);
+
+$names = $processMonitor->monitor_list_instances_names();
+$smarty->assign_by_ref('names', $names);
 
 $smarty->assign('stats', $processMonitor->monitor_stats());
 
@@ -158,21 +161,19 @@ $sameurl_elements = array(
 	'sort_mode',
 	'where',
 	'find',
-	'filter_user',
 	'filter_status',
 	'filter_act_status',
 	'filter_type',
-	'processId',
+	'process_id',
 	'filter_process',
 	'filter_owner',
 	'filter_activity'
 );
 
 $smarty->assign('statuses', $processMonitor->monitor_list_statuses());
-$smarty->assign('users', $processMonitor->monitor_list_users());
 $smarty->assign('owners', $processMonitor->monitor_list_owners());
 
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_monitor_instances.tpl');
+$gBitSystem->display( 'bitpackage:Galaxia/g_monitor_instances.tpl', tra('Monitor Instances') );
 
 ?>

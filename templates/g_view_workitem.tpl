@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`overlib.js"}
+{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -7,6 +7,8 @@
 </div>
 
 {include file="bitpackage:Galaxia/monitor_nav.tpl}
+<div class="body">
+
 <h3>{tr}Workitem information{/tr}</h3>
 <table class="panel">
 <tr>
@@ -27,7 +29,7 @@
 </tr>
 <tr>
 	<td><b>User</b></td>
-	<td>{$wi.user}</td>
+	<td>{displayname user_id=$wi.user_id}</td>
 </tr>
 <tr>
 	<td><b>Started</b></td>
@@ -35,7 +37,7 @@
 </tr>
 <tr>
 	<td><b>Duration</b></td>
-	<td>{$wi.duration|duration}</td>
+	<td>{if $wi.duration eq 0}-{else}{$wi.duration|duration}{/if}</td>
 </tr>
 
 </table>
@@ -52,3 +54,6 @@
 </tr>
 {/foreach}
 </table>
+</div>
+
+</div> {* end .workflow *}

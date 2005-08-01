@@ -26,17 +26,17 @@ class ProcessMonitor extends Base {
     $res['aborted_instances'] = isset($status['aborted']) ? $status['aborted'] : 0;
     return $res;
   }
-  
+
   function update_instance_status($iid,$status) {
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `status`=? where `instance_id`=?";
     $this->query($query,array($status,$iid));
   }
-  
+
   function update_instance_activity_status($iid,$activity_id,$status) {
     $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities` set `status`=? where `instance_id`=? and `activity_id`=?";
     $this->query($query,array($status,$iid,$activity_id));
   }
-  
+
   function remove_instance($iid) {
     $query = "delete from `".GALAXIA_TABLE_PREFIX."workitems` where `instance_id`=?";
     $this->query($query,array($iid));
@@ -45,7 +45,7 @@ class ProcessMonitor extends Base {
     $query = "delete from `".GALAXIA_TABLE_PREFIX."instances` where `instance_id`=?";
     $this->query($query,array($iid));  
   }
-  
+
   function remove_aborted() {
     $query="select `instance_id` from `".GALAXIA_TABLE_PREFIX."instances` where `status`=?";
     $result = $this->query($query,array('aborted'));
@@ -74,7 +74,7 @@ class ProcessMonitor extends Base {
     $this->query($query,array($p_id));
   }
 
-  
+
   function monitor_list_processes($offset,$maxRecords,$sort_mode,$find,$where='') {
     $sort_mode = $this->convert_sortmode($sort_mode);
     if($find) {
@@ -182,7 +182,7 @@ class ProcessMonitor extends Base {
         $mid.= " where ($where) ";
       }
     }
-    $query = "select gp.`name` as `procname`, gp.`version`, ga.*
+    $query = "select gp.`procname`, gp.`version`, ga.*
               from `".GALAXIA_TABLE_PREFIX."activities` ga
                 left join `".GALAXIA_TABLE_PREFIX."processes` gp on gp.`p_id`=ga.`p_id`
               $mid order by $sort_mode";
@@ -243,11 +243,11 @@ class ProcessMonitor extends Base {
         $mid.= " where ($where) ";
       }
     }
-    $query = "select gp.`p_id`, ga.`is_interactive`, gi.`owner_id`, gp.`name` as `procname`, gp.`version`, ga.`type`,
-        ga.`activity_id`, ga.`name`, gi.`instance_id`, gi.`status`, gia.`activity_id`, gia.`user_id`, gi.`started`, gi.`ended`, gia.`status` as `actstatus`
+    $query = "select gp.`p_id`, ga.`is_interactive`, gi.`owner_id`, gp.`procname`, gp.`version`, ga.`type`,
+        ga.`activity_id`, ga.`name`, gi.`instance_id`, gi.`status`, gia.`activity_id`, gia.`user_id`, gi.`started`, gi.`name` as ins_name, gi.`ended`, gia.`status` as `actstatus`
         from `".GALAXIA_TABLE_PREFIX."instances` gi LEFT JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON gi.`instance_id`=gia.`instance_id`
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gia.`activity_id` = ga.`activity_id`
-        LEFT JOIN `".GALAXIA_TABLE_PREFIX."processes` gp ON gp.`p_id`=gi.`p_id` $mid order by ".$this->convert_sortmode($sort_mode);   
+        LEFT JOIN `".GALAXIA_TABLE_PREFIX."processes` gp ON gp.`p_id`=gi.`p_id` $mid order by gi.".$this->convert_sortmode($sort_mode);   
 
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."instances` gi
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON gi.`instance_id`=gia.`instance_id`
@@ -281,7 +281,7 @@ class ProcessMonitor extends Base {
     }
     return $ret;
   }
-  
+
   function monitor_list_all_activities($sort_mode = 'name_asc', $where = '') {
     if (!empty($where)) {
       $where = " where ($where) ";
@@ -295,7 +295,7 @@ class ProcessMonitor extends Base {
     }
     return $ret;
   }
-  
+
   function monitor_list_statuses() {
     $query = "select distinct(`status`) from `".GALAXIA_TABLE_PREFIX."instances`";
     $result = $this->query($query);
@@ -305,7 +305,7 @@ class ProcessMonitor extends Base {
     }
     return $ret;
   }
-  
+
   function monitor_list_users() {
     $query = "select distinct(`user_id`) from `".GALAXIA_TABLE_PREFIX."instance_activities`";
     $result = $this->query($query);
@@ -326,7 +326,7 @@ class ProcessMonitor extends Base {
     return $ret;
   }
 
-  
+
   function monitor_list_owners() {
     $query = "select distinct(`owner_id`) from `".GALAXIA_TABLE_PREFIX."instances`";
     $result = $this->query($query);
@@ -337,7 +337,16 @@ class ProcessMonitor extends Base {
     return $ret;
   }
   
-  
+  function monitor_list_instances_names() {
+  	$query = "select distinct(`name`) from `".GALAXIA_TABLE_PREFIX."instances`";
+  	$result = $this->query($query);
+  	$ret = array();
+    while($res = $result->fetchRow()) {
+      $ret[] = $res['name'];
+    }
+    return $ret;
+  }
+
   function monitor_list_activity_types() {
     $query = "select distinct(`type`) from `".GALAXIA_TABLE_PREFIX."activities`";
     $result = $this->query($query);
@@ -345,11 +354,11 @@ class ProcessMonitor extends Base {
     while($res = $result->fetchRow()) {
       $ret[] = $res['type'];
     }
-    return $ret;  
+    return $ret;
   }
-  
+
   function monitor_get_workitem($item_id) {
-    $query = "select gw.`order_id`,ga.`name`,ga.`type`,ga.`is_interactive`,gp.`name` as `procname`,gp.`version`,
+    $query = "select gw.`order_id`,ga.`name`,ga.`type`,ga.`is_interactive`,gp.`procname`,gp.`version`,
           gw.`item_id`,gw.`properties`,gw.`user_id`,`started`,`ended`-`started` as `duration`
           from `".GALAXIA_TABLE_PREFIX."workitems` gw,`".GALAXIA_TABLE_PREFIX."activities` ga,
           `".GALAXIA_TABLE_PREFIX."processes` gp where ga.`activity_id`=gw.`activity_id` and ga.`p_id`=gp.`p_id` and `item_id`=?";
@@ -370,7 +379,7 @@ class ProcessMonitor extends Base {
       $mid.=" and (`properties` like $findesc)";
     }
 // TODO: retrieve instance status as well
-    $query = "select `item_id`,`ended`-`started` as `duration`, ga.`is_interactive`, ga.`type`,gp.`name` as `procname`,
+    $query = "select `item_id`,`ended`-`started` as `duration`, ga.`is_interactive`, ga.`type`,gp.`procname`,
         gp.`version`,ga.`name` as `actname`, ga.`activity_id`,`instance_id`,`order_id`,`properties`,`started`,`ended`,`user_id`
         from `".GALAXIA_TABLE_PREFIX."workitems` gw,`".GALAXIA_TABLE_PREFIX."activities` ga,`".GALAXIA_TABLE_PREFIX."processes` gp 
         where gw.`activity_id`=ga.`activity_id` and ga.`p_id`=gp.`p_id` $mid order by gp.`p_id` desc,".$this->convert_sortmode($sort_mode);
@@ -388,7 +397,5 @@ class ProcessMonitor extends Base {
     $retval["cant"] = $cant;
     return $retval;
   }
-  
-
 }
 ?>

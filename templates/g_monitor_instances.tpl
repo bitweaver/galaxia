@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`overlib.js"}
+{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -19,26 +19,37 @@
 <table class="find">
 <tr>
 <th>{tr}find{/tr}</th>
+<th>{tr}name{/tr}</th>
 <th>{tr}proc{/tr}</th>
 <th>{tr}act{/tr}</th>
 <th>{tr}status{/tr}</th>
 <th>{tr}act status{/tr}</th>
-<th>{tr}user{/tr}</th>
+<th>{tr}owner{/tr}</th>
 <th>&nbsp;</th>	
 </tr>
 <tr>
 <td><input size="8" type="text" name="find" value="{$find|escape}" /></td>
+<td >
+	<select name="filter_instanceName">
+	<option {if '' eq $smarty.request.filter_instanceName}selected="selected"{/if} value="">{tr}All{/tr}</option>
+    {*foreach from=$names item=name*}
+    {section loop=$names name=ix}
+    <option {if $names[ix] eq $smarty.request.filter_instanceName}selected="selected"{/if} value="{$names[ix]|escape}">{$names[ix]}</option>
+    {/section}
+    {*/foreach*}
+	</select>
+</td>
 <td><select name="filter_process">
 	<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
     {foreach from=$all_procs item=proc}
-	<option {if $proc.p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$proc.p_id|escape}">{$proc.name}</option>
+	<option {if $proc.p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$proc.p_id|escape}">{$proc.name} {$proc.version}</option>
 	{/foreach}
 	</select>
 </td>
 <td><select name="filter_activity">
 	<option {if '' eq $smarty.request.filter_activity}selected="selected"{/if} value="">{tr}All{/tr}</option>
-    {foreach from=$all_procs item=proc}
-	<option {if $proc.p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$proc.p_id|escape}">{$proc.name}</option>
+	{foreach from=$all_acts item=act}
+	<option {if $act.activity_id eq $smarty.request.filter_activity}selected="selected"{/if} value="{$act.activity_id|escape}">{$act.name} {$act.version}</option>
 	{/foreach}
 	</select>
 </td>
@@ -57,10 +68,10 @@
 	<option value="completed" {if 'n' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}completed{/tr}</option>
 	</select>
 </td><td>
-	<select name="filter_user">
-	<option {if '' eq $smarty.request.filter_user}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	{section loop=$users name=ix}
-	<option {if $types[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{$users[ix]}</option>
+	<select name="filter_owner">
+	<option {if $smarty.request.filter_owner eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
+	{section loop=$owners name=ix}
+	<option {if $owners[ix] eq $smarty.request.filter_owner}selected="selected"{/if} value="{$owners[ix]|escape}">{displayname user_id=$owners[ix]}</option>
 	{/section}
 	</select>
 </td><td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>
@@ -78,9 +89,12 @@
 <table class="data">
 <tr>
 <th><a href="{if $sort_mode eq 'instance_id_desc'}{sameurl sort_mode='instance_id_asc'}{else}{sameurl sort_mode='instance_id_desc'}{/if}">{tr}ID{/tr}</a></th>
-<th><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Activity{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'ins_name_desc'}{sameurl sort_mode='ins_name_asc'}{else}{sameurl sort_mode='ins_name_desc'}{/if}">{tr}Name{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Process{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'started_desc'}{sameurl sort_mode='started_asc'}{else}{sameurl sort_mode='started_desc'}{/if}">{tr}Started{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'ended_desc'}{sameurl sort_mode='ended_asc'}{else}{sameurl sort_mode='ended_desc'}{/if}">{tr}Ended{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'status_desc'}{sameurl sort_mode='status_asc'}{else}{sameurl sort_mode='status_desc'}{/if}">{tr}Status{/tr}</a></th>
-<th><a href="{if $sort_mode eq 'user_desc'}{sameurl sort_mode='user_asc'}{else}{sameurl sort_mode='user_desc'}{/if}">{tr}User{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'owner_desc'}{sameurl sort_mode='owner_asc'}{else}{sameurl sort_mode='owner_desc'}{/if}">{tr}Owner{/tr}</a></th>
 </tr>
 {cycle values="even,odd" print=false}
 {foreach from=$items item=proc}
@@ -89,13 +103,22 @@
 	<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.instance_id}</a>
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
-		{$proc.name}
+	<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.ins_name}</a>
+	</td>
+	<td class="{cycle advance=false}" style="text-align:center;">
+		{$proc.procname}
+	</td>
+	<td class="{cycle advance=false}" style="text-align:center;">
+		{$proc.started|bit_long_datetime}
+	</td>
+	<td class="{cycle advance=false}" style="text-align:center;">
+		{if $proc.ended eq 0} {tr}Not ended{/tr} {else} {$proc.ended|bit_long_datetime} {/if}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
 		{$proc.status}
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
-		{$proc.user_id}
+		{displayname user_id=$proc.owner_id}
 	</td>
 </tr>
 {foreachelse}

@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.1 2005/07/02 16:36:59 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.2 2005/08/01 20:56:39 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -22,13 +22,15 @@ if (isset($_REQUEST['send'])) {
 }
 
 if (isset($_REQUEST['abort'])) {
-	
-	$GUI->gui_abort_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
+	$gBitSystem->verifyPermission('bit_p_abort_instance', tra("You don't have permission to abort an instance"));
+
+        $GUI->gui_abort_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
 }
 
 if (isset($_REQUEST['exception'])) {
-	
-	$GUI->gui_exception_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
+        $gBitSystem->verifyPermission('bit_p_exception_instance', tra("You don't have permission to exception an instance"));
+
+        $GUI->gui_exception_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
 }
 
 if (isset($_REQUEST['grab'])) {
@@ -47,8 +49,12 @@ $wheres = array();
 if (isset($_REQUEST['filter_status']) && $_REQUEST['filter_status'])
 	$wheres[] = "gi.`status`='" . $_REQUEST['filter_status'] . "'";
 
+// This search is fixed to "completed" cause it doesn't make sense to list
+// the instances completed to the users.
 if (isset($_REQUEST['filter_act_status']) && $_REQUEST['filter_act_status'])
-	$wheres[] = "`actstatus`='" . $_REQUEST['filter_act_status'] . "'";
+	$wheres[] = "gia.`status`='" . $_REQUEST['filter_act_status'] . "'";
+
+$wheres[] = "gia.`status` <> 'completed'";
 
 if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
 	$wheres[] = "gi.`p_id`=" . $_REQUEST['filter_process'] . "";
@@ -56,15 +62,19 @@ if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
 if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 	$wheres[] = "gia.`activity_id`=" . $_REQUEST['filter_activity'] . "";
 
-if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user'])
-	$wheres[] = "ugm.`user_id`=" . ($_REQUEST['filter_user']=='*') ? NULL : "'" . $_REQUEST['filter_user'] . "'";
+if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user']) {
+	if ($_REQUEST['filter_user'] == '*')
+		$wheres[] = "gia.`user_id` is NULL";
+	elseif (is_numeric($_REQUEST['filter_user']))
+		$wheres[] = "gia.`user_id`='" . $_REQUEST['filter_user'] . "'";
+}
 
 if (isset($_REQUEST['filter_owner']) && $_REQUEST['filter_owner'])
 	$wheres[] = "gi.`owner_id`='" . $_REQUEST['filter_owner'] . "'";
 
 $where = implode(' and ', $wheres);
 
-if ( empty( $_REQUEST["sort_mode"] ) ) {
+if (!isset($_REQUEST["sort_mode"])) {
 	$sort_mode = 'procname_asc';
 } else {
 	$sort_mode = $_REQUEST["sort_mode"];
@@ -84,7 +94,8 @@ if (isset($_REQUEST["find"])) {
 	$find = '';
 }
 
-$smarty->assign_by_ref('user_info', $gBitUser->mInfo);
+$groups = $gBitUser->getGroups();
+$smarty->assign_by_ref('groups', $groups);
 
 $smarty->assign('find', $find);
 $smarty->assign('where', $where);
@@ -110,6 +121,7 @@ if ($offset > 0) {
 }
 
 $smarty->assign_by_ref('items', $items["data"]);
+$smarty->assign_by_ref('expiration_time',$items["expiration_time"]);
 
 $processes = $GUI->gui_list_user_processes($gBitUser->getUserId(), 0, -1, 'procname_asc', '', '');
 $smarty->assign_by_ref('all_procs', $processes['data']);
@@ -121,8 +133,7 @@ $all_statuses = array(
 );
 
 $smarty->assign('statuses', $all_statuses);
-
-$section = 'workflow';
+$smarty->assign('user_id', $gBitUser->getUserId());
 
 $sameurl_elements = array(
 	'offset',
@@ -133,13 +144,13 @@ $sameurl_elements = array(
 	'filter_status',
 	'filter_act_status',
 	'filter_type',
-	'processId',
+	'pid',
 	'filter_process',
 	'filter_owner',
 	'filter_activity'
 );
 
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_user_instances.tpl');
+$gBitSystem->display( 'bitpackage:Galaxia/g_user_instances.tpl', tra('User Instances') );
 
 ?>

@@ -11,6 +11,7 @@ $tables = array(
   is_auto_routed C(1),
   flow_num I8,
   is_interactive C(1),
+  expiration_time I8 DEFAULT 0,
   last_modified I8,
   description X
 ",
@@ -43,6 +44,7 @@ $tables = array(
 
 'galaxia_instances' => "
   instance_id I4 AUTO PRIMARY,
+  name C(80),
   p_id I4 NOTNULL,
   started I8,
   owner_id I4,
@@ -55,7 +57,7 @@ $tables = array(
 
 'galaxia_processes' => "
   p_id I4 AUTO PRIMARY,
-  name C(80),
+  procname C(80),
   is_valid C(1),
   is_active C(1),
   version C(12),
@@ -102,7 +104,7 @@ global $gBitInstaller;
 $gBitInstaller->makePackageHomeable(GALAXIA_PKG_NAME);
 
 foreach( array_keys( $tables ) AS $tableName ) {
-	$gBitInstaller->registerSchemaTable( GALAXIA_PKG_DIR, $tableName, $tables[$tableName] );
+	$gBitInstaller->registerSchemaTable( GALAXIA_PKG_NAME, $tableName, $tables[$tableName] );
 }
 
 $gBitInstaller->registerPackageInfo( GALAXIA_PKG_NAME, array(

@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.1 2005/07/02 16:37:03 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.2 2005/08/01 20:56:40 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -9,13 +9,21 @@ require_once( '../../bit_setup_inc.php' );
 
 include_once( GALAXIA_PKG_PATH.'/ProcessManager.php');
 
+$maxExpirationTime = array (
+"years" => 5,
+"months" => 11,
+"days" => 30,
+"hours" => 23,
+"minutes" => 59
+);
+
 // The galaxia activities manager PHP script.
 $gBitSystem->verifyPackage( 'galaxia' );
 $gBitSystem->verifyPermission( 'bit_p_admin_workflow', "Permission denied you cannot admin the workflow" );
 
 
 if (!isset($_REQUEST['pid'])) {
-	$gBitSystem->error(tra("No process indicated"));
+	galaxia_show_error("No process indicated");
 	die;
 }
 
@@ -33,6 +41,12 @@ if (!isset($_REQUEST['activity_id']))
 
 if ($_REQUEST["activity_id"]) {
 	$info = $activityManager->get_activity($_REQUEST['pid'], $_REQUEST["activity_id"]);
+/*	$time = $activityManager->get_expiration_members($info['expiration_time']);
+	$info['year'] = $time['year'];
+	$info['month'] = $time['month'];
+	$info['day'] = $time['day'];
+	$info['hour'] = $time['hour'];
+	$info['minute'] = $time['minute'];*/
 } else {
 	$info = array(
 		'name' => '',
@@ -40,7 +54,12 @@ if ($_REQUEST["activity_id"]) {
 		'activity_id' => 0,
 		'is_interactive' => 'y',
 		'is_auto_routed' => 'n',
-		'type' => 'activity'
+		'type' => 'activity',
+/*		'month'=> 0,
+		'day'=> 0,
+		'hour'=> 0,
+		'minute'=> 0,
+		'expiration_time'=> 0*/
 	);
 }
 
@@ -66,6 +85,11 @@ if (!empty($_REQUEST['rolename']) && isset($_REQUEST['addrole'])) {
 		'is_interactive' => $is_interactive,
 		'is_auto_routed' => $is_auto_routed,
 		'type' => $_REQUEST['type'],
+/*		'month'=> 0,
+		'day'=> 0,
+		'hour'=> 0,
+		'minute'=> 0,
+		'expiration_time'=> 0*/
 	);
 
 	$vars = array(
@@ -105,10 +129,11 @@ if (isset($_REQUEST['save_act'])) {
 		'is_interactive' => $is_interactive,
 		'is_auto_routed' => $is_auto_routed,
 		'type' => $_REQUEST['type'],
+//		'expiration_time' => $_REQUEST['year']*535680+$_REQUEST['month']*44640+$_REQUEST['day']*1440+$_REQUEST['hour']*60+$_REQUEST['minute'],
 	);
 
 	if ($activityManager->activity_name_exists($_REQUEST['pid'], $_REQUEST['name']) && $_REQUEST['activity_id'] == 0) {
-		$gBitSystem->error(tra("Activity name already exists"));
+		galaxia_show_error("Activity name already exists");
 		die;
 	}
 
@@ -296,10 +321,33 @@ if (isset($_REQUEST["update_act"])) {
 	}
 }
 
+/*$arYears = array ();
+$arMonths = array();
+$arDays = array();
+$arHours = array();
+$arminutes = array();
+for ($i=0;$i<=$maxExpirationTime['months'];$i++)
+	$arMonths[$i] = $i;
+for ($i=0;$i<=$maxExpirationTime['years'];$i++)
+	$arYears[$i] = $i;
+for ($i=0;$i<=$maxExpirationTime['days'];$i++)
+	$arDays["$i"] = $i;
+for ($i=0;$i<=$maxExpirationTime['hours'];$i++)
+	$arHours["$i"] = $i;
+for ($i=0;$i<=$maxExpirationTime['minutes'];$i++)
+	$arminutes["$i"] = $i;
+$smarty->assign("years",$arYears);
+$smarty->assign("months",$arMonths);
+$smarty->assign("days",$arDays);
+$smarty->assign("hours",$arHours);
+$smarty->assign("minutes",$arminutes);
+*/
+
+
 $smarty->assign_by_ref('items', $activities['data']);
 
 $activityManager->build_process_graph($_REQUEST['pid']);
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_admin_activities.tpl');
+$gBitSystem->display( 'bitpackage:Galaxia/g_admin_activities.tpl', tra('Admin Activites') );
 
 ?>

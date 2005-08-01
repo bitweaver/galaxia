@@ -1,6 +1,8 @@
-<div class="navbar workflow">
-  <a title="{tr}monitor processes{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_processes.php">{biticon ipackage="Galaxia" iname="process" iexplain="{tr}processes{/tr}" iclass="icon"}</a>
-  <a title="{tr}monitor activities{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_activities.php">{biticon ipackage="Galaxia" iname="activity" iexplain="{tr}activities{/tr}" iclass="icon"}</a>
-  <a title="{tr}monitor instances{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php">{biticon ipackage="Galaxia" iname="instance" iexplain="{tr}instances{/tr}" iclass="icon"}</a>
-  <a title="{tr}monitor workitems{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_workitems.php">{biticon ipackage="Galaxia" iname="memo" iexplain="{tr}work items{/tr}" iclass="icon"}</a>
+<div class="navbar">
+	<ul>
+		<li>{smartlink ititle="Monitor Process" ifile="g_monitor_processes.php" ibiticon="galaxia/process"}</li>
+		<li>{smartlink ititle="Monitor Activities" ifile="g_monitor_activities.php" ibiticon="galaxia/activity"}</li>
+		<li>{smartlink ititle="Monitor Instances" ifile="g_monitor_instances.php" ibiticon="galaxia/instance"}</li>
+		<li>{smartlink ititle="Monitor Workitems" ifile="g_monitor_workitems.php" ibiticon="galaxia/memo"}</li>
+	</ul>
 </div>

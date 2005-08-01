@@ -66,7 +66,7 @@ if (!function_exists('galaxia_show_error')) {
     function galaxia_show_error($msg)
     {
         global $gBitSystem;
-        $gBitSystem->error(tra($msg));
+        $gBitSystem->fatalError(tra($msg));
     }
 }
 

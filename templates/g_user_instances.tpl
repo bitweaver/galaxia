@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`overlib.js"}
+{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -19,20 +19,18 @@
 <table class="find">
 <tr>
 <th>{tr}find{/tr}</th>
-<th>{tr}proc{/tr}</th>
+<th>&nbsp;</th>	
 <th>{tr}status{/tr}</th>
-<th>{tr}act status{/tr}</th>
+<th>{tr}proc{/tr}</th>
+<th>&nbsp;</th>	
 <th>{tr}user{/tr}</th>
+<th><!--{tr}act status{/tr}--></th>
 <th>&nbsp;</th>	
 </tr><tr>
-<td><input size="8" type="text" name="find" value="{$find|escape}" /></td>
 <td>
-	<select name="filter_process">
-	<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	{section loop=$all_procs name=ix}
-	<option {if $all_procs[ix].p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$all_procs[ix].p_id|escape}">{$all_procs[ix].procname} {$all_procs[ix].version}</option>
-	{/section}
-	</select>
+	<input size="8" type="text" name="find" value="{$find|escape}" />
+</td><td>
+	&nbsp;
 </td><td>
 	<select name="filter_status">
 	<option {if '' eq $smarty.request.filter_status}selected="selected"{/if} value="">{tr}All{/tr}</option>
@@ -41,20 +39,30 @@
 	{/section}
 	</select>
 </td><td>
-	<select name="filter_act_status">
+	<select name="filter_process">
+	<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
+	{section loop=$all_procs name=ix}
+	<option {if $all_procs[ix].p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$all_procs[ix].p_id|escape}">{$all_procs[ix].procname} {$all_procs[ix].version}</option>
+	{/section}
+	</select>
+</td><td>
+<!--	<select name="filter_act_status">
 	<option {if '' eq $smarty.request.filter_act_status}selected="selected"{/if} value="">{tr}All{/tr}</option>
 	<option value="running" {if 'y' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}running{/tr}</option>
 	<option value="completed" {if 'n' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}completed{/tr}</option>
-	</select>
+	</select>-->
 </td>
 <td>
 <select name="filter_user">
-	<option {if '' eq $smarty.request.filter_user}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	<option {if '*' eq $smarty.request.filter_user}selected="selected"{/if} value="*">*</option>
-	<option {if $user_info.user_id eq $smarty.request.filter_user}selected="selected"{/if} value="{$user_info.user_id|escape}">{$user_info.real_name}</option>
+	<option {if $smarty.request.filter_user eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
+	<option {if $smarty.request.filter_user eq '*'}selected="selected"{/if} value="*">*</option>
+	<option {if $smarty.request.filter_user eq $user_id}selected="selected"{/if} value="{$user_id|escape}">{displayname user_id=$user_id}</option>
 	</select>
+</td><td>
+	&nbsp;
+</td><td>
+	<input type="submit" name="filter" value="{tr}filter{/tr}" />
 </td>
-<td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>
 </tr>
 </table>	
 </form>
@@ -83,18 +91,27 @@
 {section name=ix loop=$items}
 <tr class="{cycle}">
 	<td style="text-align:center;">{$items[ix].instance_id}</td>
-	<td style="text-align:center;">{$items[ix].owner_id}</td>
+	<td style="text-align:center;">{displayname user_id=$items[ix].owner_id}</td>
 	<td style="text-align:center;">{$items[ix].status}</td>
 	<td style="text-align:center;">{$items[ix].procname} {$items[ix].version}</td>
 	<td style="text-align:center;">{$items[ix].type|act_icon:"$items[ix].is_interactive"} {$items[ix].name}</td>
-	<td style="text-align:center;">{$items[ix].user_id}</td>
+	<td style="text-align:center;">{if $items[ix].user_id eq ''}*{else}{displayname user_id=$items[ix].user_id}{/if}</td>
 	<td style="text-align:center;">{$items[ix].actstatus}</td>
+	{*<td class="{cycle advance=false}">
+	{if $items[ix].exptime eq 0}
+	    {tr}Not defined{/tr}
+	{else}
+	  {$items[ix].exptime|bit_long_datetime"}
+	{/if}
+	</td>*}
 	<td>{*actions*}<table>
 	  <tr>
 	  {*exception*}
-	  {if $items[ix].status ne 'aborted' and $items[ix].status ne 'exception' and $items[ix].user eq $user}
-	  <td><a title="{tr}exception instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance" iclass="icon"}</a></td>
+      {if $gBitUser->hasPermission('bit_p_exception_instance')}
+	  {if $items[ix].status ne 'aborted' and $items[ix].status ne 'exception' and $items[ix].user_id eq $user_id}
+	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to exception this instance?{/tr}');" title="{tr}exception instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?exception=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance" iclass="icon"}</a></td>
 	  {/if}
+      {/if}
 	  {if $items[ix].is_auto_routed eq 'n' and $items[ix].actstatus eq 'completed'}
 	  {*send*}
 	  <td><a title="{tr}send instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?send=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="linkto" iexplain="send instance" iclass="icon"}</a></td>
@@ -104,10 +121,12 @@
 	  <td><a title="{tr}run instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?iid={$items[ix].instance_id}&amp;activity_id={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run instance" iclass="icon"}</a></td>
 	  {/if}
 	  {*abort*}
-	  {if $items[ix].status ne 'aborted' and $items[ix].user eq $user}
-	  <td><a title="{tr}abort instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance" iclass="icon"}</a></td>
+      {if $gBitUser->hasPermission('bit_p_abort_instance')}
+	  {if $items[ix].status ne 'aborted' and $items[ix].user_id eq $user_id}
+	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to abort this instance?{/tr}');" title="{tr}abort instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance" iclass="icon"}</a></td>
+      {/if}
 	  {/if}
-	  {if $items[ix].user eq '*' and $items[ix].status eq 'active'}
+	  {if $items[ix].user_id eq NULL and $items[ix].status eq 'active'}
 	  {*grab*}
 	  <td><a title="{tr}grab instance{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?grab=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="fix" iexplain="grab instance" iclass="icon"}</a></td>
 	  {else}
