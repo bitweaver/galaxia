@@ -64,7 +64,6 @@
 						{/if}
 					</div>
 				{/form}
-
 			{/jstab}
 
 			{jstab title="Upload Process"}
