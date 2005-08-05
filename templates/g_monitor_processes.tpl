@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
@@ -83,11 +83,11 @@
 				{foreach from=$items item=proc}
 					<tr class="{cycle values="odd,even"}">
 						<td>
-							<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?pid={$proc.p_id}">{$proc.procname} {$proc.version}</a>
+							<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_processes.php?pid={$proc.p_id}">{$proc.procname} {$proc.version}</a>
 						</td>
 
 						<td>
-							<a href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_activities.php?filter_process={$proc.p_id}">{$proc.activities}</a>
+							<a href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_activities.php?filter_process={$proc.p_id}">{$proc.activities}</a>
 						</td>
 
 						<td style="text-align:center;">
@@ -107,10 +107,10 @@
 						</td>
 
 						<td style="text-align:right;">
-							<a style="color:green;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=active">{$proc.active_instances}</a>
-							&nbsp;| <a style="color:black;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=completed">{$proc.completed_instances}</a>
-							&nbsp;| <a style="color:grey;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=aborted">{$proc.aborted_instances}</a>
-							&nbsp;| <a style="color:red;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=exception">{$proc.exception_instances}</a>
+							<a style="color:green;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=active">{$proc.active_instances}</a>
+							&nbsp;| <a style="color:black;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=completed">{$proc.completed_instances}</a>
+							&nbsp;| <a style="color:grey;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=aborted">{$proc.aborted_instances}</a>
+							&nbsp;| <a style="color:red;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=exception">{$proc.exception_instances}</a>
 						</td>
 					</tr>
 				{foreachelse}

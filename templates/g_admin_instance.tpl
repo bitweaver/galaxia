@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -8,7 +8,7 @@
 
 {include file="bitpackage:Galaxia/monitor_nav.tpl"}
 <h3>{tr}Instance Name{/tr}: {$ins_info.name} {$ins_info.instance_id} (Process: {$proc_info.name} {$proc_info.version})</h3>
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance.php" method="post">
 <input type="hidden" name="iid" value="{$iid|escape}" />
 <input type="hidden" name="aid" value="{$aid|escape}" />
 <table class="panel">
@@ -22,7 +22,7 @@
 </tr>
 <tr>
 	<td>{tr}Workitems{/tr}</td>
-	<td><a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_monitor_workitems.php?filter_instance={$ins_info.instance_id}">{$ins_info.workitems}</a></td>
+	<td><a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_monitor_workitems.php?filter_instance={$ins_info.instance_id}">{$ins_info.workitems}</a></td>
 </tr>
 <tr>
 	<td>{tr}Status{/tr}</td>
@@ -65,7 +65,7 @@
 		</tr>
 		{foreach item=act from=$acts}
 		<tr class="odd"><td>
-			<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php?iid={$iid}&aid={$act.activity_id}">{$act.name}</a></td><td>
+			<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php?iid={$iid}&aid={$act.activity_id}">{$act.name}</a></td><td>
 			{$act.ia_started|bit_long_datetime</td><td>
 			{$act.actstatus}</td><td>
 			<!--{if $act.exptime eq 0 && $act.type eq 'activity' && $act.isInteractive eq 'y'}{tr}Not Defined{/tr}{elseif $act.type != 'activity'}&lt;{$act.type}&gt;{elseif $act.isInteractive eq 'n'}{tr}Not Interactive{/tr}{else}{$act.exptime|bit_long_datetime{/if}</td><td>-->
@@ -90,7 +90,7 @@
 </table>
 </form>
 <h3>{tr}Properties{/tr}</h3>
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance.php" method="post">
 <input type="hidden" name="iid" value="{$iid|escape}" />
 <input type="hidden" name="aid" value="{$aid|escape}" />
 <table>
@@ -100,7 +100,7 @@
 </th></tr>
 {foreach from=$props item=item key=key}
 <tr class="odd"><td>
-	<a title="{tr}delete{/tr}" href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$iid}&amp;unsetprop={$key}">{biticon ipackage="Galaxia" iname="trash" iexplain="{tr}delete{/tr}"}</a>
+	<a title="{tr}delete{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$iid}&amp;unsetprop={$key}">{biticon ipackage="Galaxia" iname="trash" iexplain="{tr}delete{/tr}"}</a>
 	 <b>{$key}</b>
 	 </td><td>
 	{if strlen($item)>80}
@@ -118,7 +118,7 @@
 </form>
 
 <h3>{tr}Add property{/tr}</h3>
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance.php" method="post">
 <input type="hidden" name="iid" value="{$iid|escape}" />
 <input type="hidden" name="aid" value="{$aid|escape}" />
 <table class="panel">

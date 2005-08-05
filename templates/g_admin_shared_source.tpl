@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -9,7 +9,7 @@
 {include file="bitpackage:Galaxia/monitor_nav.tpl"}
 
 <div class="navbar above">
-  <a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid=0">{tr}new{/tr}</a>
+  <a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_processes.php?where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid=0">{tr}new{/tr}</a>
 </div>
 
 <div class="body">
@@ -28,7 +28,7 @@
 </div> {* end .boxcontent *}
 {/if}
 
-<form id="editsource" action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_shared_source.php" method="post">
+<form id="editsource" action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_shared_source.php" method="post">
 <input type="hidden" name="pid" value="{$pid|escape}" />
 <input type="hidden" name="source_name" value="{$source_name|escape}" />
 <table class="panel">

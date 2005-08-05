@@ -166,7 +166,7 @@
 							<input title="{tr}Select this Process{/tr}" type="checkbox" name="process[{$items[ix].p_id}]" />
 						</td>
 						<td>
-							<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?find={$find}&amp;where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid={$items[ix].p_id}">{$items[ix].procname}</a>
+							<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_processes.php?find={$find}&amp;where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid={$items[ix].p_id}">{$items[ix].procname}</a>
 						</td>
 						<td style="text-align:center;">
 							{$items[ix].version}</td><td style="text-align:center;">

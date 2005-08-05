@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -13,7 +13,7 @@
 <h2>{tr}List of workitems{/tr} ({$cant})</h2>
 
 {* FILTERING FORM *}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_workitems.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}g_monitor_workitems.php" method="post">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 <input type="hidden" name="filter_instance" value="{$filter_instance|escape}" />
@@ -59,7 +59,7 @@
 {*END OF FILTERING FORM *}
 
 {*LISTING*}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_workitems.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}g_monitor_workitems.php" method="post">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="find" value="{$find|escape}" />
 <input type="hidden" name="where" value="{$where|escape}" />
@@ -78,10 +78,10 @@
 {cycle values="even,odd" print=false}
 {foreach from=$items item=proc} 
 <tr class="{cycle}"><td style="text-align:center;">
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}g_view_workitem.php?item_id={$proc.item_id}">{$proc.item_id}</a></td><td style="text-align:center;">
+		<a href="{$smarty.const.GALAXIA_PKG_URL}g_view_workitem.php?item_id={$proc.item_id}">{$proc.item_id}</a></td><td style="text-align:center;">
 		{$proc.procname} {$proc.version}</td style="text-align:center;"><td style="text-align:center;">
 		{$proc.type|act_icon:"$proc.is_interactive"} {$proc.actname}</td><td style="text-align:center;">
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.instance_id}</a></td><td style="text-align:center;">
+		<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.instance_id}</a></td><td style="text-align:center;">
 		{$proc.order_id}</td><td style="text-align:center;">
 		{$proc.started|bit_short_datetime}</td><td style="text-align:center;">
 		{if $proc.duration eq 0}-{else}{$proc.duration|duration}{/if}</td><td style="text-align:center;">
