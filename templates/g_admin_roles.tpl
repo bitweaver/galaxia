@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -18,10 +18,10 @@ Errors:<br />
 
 <h3>{tr}Add or edit a role{/tr}</h3>
 <div class="navbar above">
-  <a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php?pid={$pid}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;sort_mode2={$sort_mode2}&amp;find={$find}&amp;role_id=0">{tr}new{/tr}</a>
+  <a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php?pid={$pid}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;sort_mode2={$sort_mode2}&amp;find={$find}&amp;role_id=0">{tr}new{/tr}</a>
 </div>
 
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php" method="post">
 <input type="hidden" name="pid" value="{$pid|escape}" />
 <input type="hidden" name="role_id" value="{$info.role_id|escape}" />
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
@@ -45,7 +45,7 @@ Errors:<br />
 </form>
 
 <h3>{tr}Process roles{/tr}</h3>
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php" method="post">
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 <input type="hidden" name="pid" value="{$pid|escape}" />
 <input type="hidden" name="role_id" value="{$info.role_id|escape}" />
@@ -57,14 +57,14 @@ Errors:<br />
 <table>
 <tr>
 <th style="text-align: center;"><input type="submit" name="delete" value="{tr}Delete{/tr} " /></th>
-<th style="text-align: center;"><a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php?sort_mode={$sort_mode}&amp;pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode2={if $sort_mode2 eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}Role{/tr}</a></th>
-<th style="text-align: center;"><a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php?sort_mode={$sort_mode}&amp;pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode2={if $sort_mode2 eq 'description_desc'}description_asc{else}description_desc{/if}">{tr}Description{/tr}</a></th>
+<th style="text-align: center;"><a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php?sort_mode={$sort_mode}&amp;pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode2={if $sort_mode2 eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}Role{/tr}</a></th>
+<th style="text-align: center;"><a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php?sort_mode={$sort_mode}&amp;pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode2={if $sort_mode2 eq 'description_desc'}description_asc{else}description_desc{/if}">{tr}Description{/tr}</a></th>
 </tr>
 {cycle values="even,odd" print=false}
 {foreach from=$items item=proc}
 <tr class="{cycle}">
 	<td style="text-align: center;"><input type="checkbox" name="role[{$proc.role_id}]" /></td>
-	<td style="text-align: center;"><a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php?sort_mode={$sort_mode}&amp;offset={$offset}&amp;find={$find}&amp;pid={$pid}&amp;sort_mode2={$sort_mode2}&amp;role_id={$proc.role_id}">{$proc.name}</a></td>
+	<td style="text-align: center;"><a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php?sort_mode={$sort_mode}&amp;offset={$offset}&amp;find={$find}&amp;pid={$pid}&amp;sort_mode2={$sort_mode2}&amp;role_id={$proc.role_id}">{$proc.name}</a></td>
 	<td style="text-align: center;">{$proc.description}</td>
 </tr>
 {foreachelse}
@@ -79,7 +79,7 @@ Errors:<br />
 
 {if count($roles) > 0}
 	<h3>{tr}Map groups to roles{/tr}</h3>
-	<form method="post" action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php">
+	<form method="post" action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php">
 	<input type="hidden" name="pid" value="{$pid|escape}" />
 	<input type="hidden" name="offset" value="{$offset|escape}" />
 	<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
@@ -134,7 +134,7 @@ Errors:<br />
 {/if}
 
 <h3>{tr}List of mappings{/tr}</h3>
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php" method="post">
 <input type="hidden" name="pid" value="{$pid|escape}" />
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="sort_mode2" value="{$sort_mode2|escape}" />
@@ -143,7 +143,7 @@ Errors:<br />
 <input type="submit" name="filter" value="{tr}find{/tr}" />
 </form>
 
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php" method="post">
 <input type="hidden" name="pid" value="{$pid|escape}" />
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="find" value="{$find|escape}" />
@@ -153,8 +153,8 @@ Errors:<br />
 <table>
 <tr>
 <th style="text-align: center;"><input type="submit" name="delete_map" value="{tr}Delete{/tr}" /></th>
-<th style="text-align: center;"><a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php?pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}Role{/tr}</a></th>
-<th style="text-align: center;"><a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_roles.php?pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'group_name_desc'}group_name_asc{else}group_name_desc{/if}">{tr}Group{/tr}</a></th>
+<th style="text-align: center;"><a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php?pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}Role{/tr}</a></th>
+<th style="text-align: center;"><a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php?pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'group_name_desc'}group_name_asc{else}group_name_desc{/if}">{tr}Group{/tr}</a></th>
 </tr>
 {cycle values="even,odd" print=false}
 {section name=ix loop=$mapitems}

@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -13,7 +13,7 @@
 <h2>{tr}List of activities{/tr} ({$cant})</h2>
 
 {* FILTERING FORM *}
-<form id="filterf" action="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_activities.php" method="post">
+<form id="filterf" action="{$smarty.const.GALAXIA_PKG_URL}g_monitor_activities.php" method="post">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 <table class="find">
@@ -68,7 +68,7 @@
 {*END OF FILTERING FORM *}
 
 {*LISTING*}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_activities.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}g_monitor_activities.php" method="post">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="find" value="{$find|escape}" />
 <input type="hidden" name="where" value="{$where|escape}" />
@@ -95,12 +95,12 @@
 	</td>
 
 	<td class="{cycle advance=false}">
-	  <a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?pid={$act.p_id}&amp;activity_id={$act.activity_id}">{$act.name}</a>
+	  <a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?pid={$act.p_id}&amp;activity_id={$act.activity_id}">{$act.name}</a>
 	  {if $act.type eq 'standalone'}
-	  <a href="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$act.activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>
+	  <a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$act.activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>
 	  {/if}
 	  {if $act.type eq 'start'}
-	  <a href="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$act.activity_id}&amp;createInstance=1">{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>
+	  <a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$act.activity_id}&amp;createInstance=1">{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>
 	  {/if}
 	</td>
   
@@ -121,10 +121,10 @@
 	<td class="{cycle}" style="text-align:right;">
 		<table >
 		<tr>
- 		 <td style="text-align:right;"><a style="color:green;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$act.p_id}&amp;filter_status=active&amp;filter_activity={$act.activity_id}">{$act.active_instances}</a></td>
-		 <td style="text-align:right;"><a style="color:black;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$act.p_id}&amp;filter_status=completed&amp;filter_activity={$act.activity_id}">{$act.completed_instances}</a></td>
-		 <td style="text-align:right;"><a style="color:grey;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$act.p_id}&amp;filter_status=aborted&amp;filter_activity={$act.activity_id}">{$act.aborted_instances}</a></td>
-		 <td style="text-align:right;"><a style="color:red;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$act.p_id}&amp;filter_status=exception&amp;filter_activity={$act.activity_id}">{$act.exception_instances}</a></td>
+ 		 <td style="text-align:right;"><a style="color:green;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$act.p_id}&amp;filter_status=active&amp;filter_activity={$act.activity_id}">{$act.active_instances}</a></td>
+		 <td style="text-align:right;"><a style="color:black;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$act.p_id}&amp;filter_status=completed&amp;filter_activity={$act.activity_id}">{$act.completed_instances}</a></td>
+		 <td style="text-align:right;"><a style="color:grey;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$act.p_id}&amp;filter_status=aborted&amp;filter_activity={$act.activity_id}">{$act.aborted_instances}</a></td>
+		 <td style="text-align:right;"><a style="color:red;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$act.p_id}&amp;filter_status=exception&amp;filter_activity={$act.activity_id}">{$act.exception_instances}</a></td>
 
 		</tr>
 		</table>

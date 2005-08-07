@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -13,7 +13,7 @@
 <h2>{tr}List of processes{/tr} ({$cant})</h2>
 
 {* FILTERING FORM *}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_user_processes.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}g_user_processes.php" method="post">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 <table class="find">
@@ -28,7 +28,7 @@
 {*END OF FILTERING FORM *}
 
 {*LISTING*}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_user_processes.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}g_user_processes.php" method="post">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="find" value="{$find|escape}" />
 <input type="hidden" name="where" value="{$where|escape}" />
@@ -43,13 +43,13 @@
 {section name=ix loop=$items}
 <tr class="{cycle}">
 	<td style="text-align:left;">
-	  <a href="{$gBitLoc.GALAXIA_PKG_URL}g_user_activities.php?filter_process={$items[ix].p_id}">{$items[ix].procname} {$items[ix].version}</a>
+	  <a href="{$smarty.const.GALAXIA_PKG_URL}g_user_activities.php?filter_process={$items[ix].p_id}">{$items[ix].procname} {$items[ix].version}</a>
 	</td>
 	<td style="text-align:center;">
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}g_user_activities.php?filter_process={$items[ix].p_id}">{$items[ix].activities}</a>
+		<a href="{$smarty.const.GALAXIA_PKG_URL}g_user_activities.php?filter_process={$items[ix].p_id}">{$items[ix].activities}</a>
 	</td>
 	<td style="text-align:center;">
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?filter_process={$items[ix].p_id}">{$items[ix].instances}</a>
+		<a href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?filter_process={$items[ix].p_id}">{$items[ix].instances}</a>
 	</td>
 </tr>
 {sectionelse}

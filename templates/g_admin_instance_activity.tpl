@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -8,13 +8,13 @@
 
 {include file="bitpackage:Galaxia/monitor_nav.tpl"}
 <h3>{tr}Instance Name{/tr}: {$ins_info.name} {$ins_info.instance_id} (Process: {$proc_info.name} {$proc_info.version})</h3>
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php" method="post">
 <input type="hidden" name="iid" value="{$iid|escape}" />
 <input type="hidden" name="aid" value="{$aid|escape}" />
 <table class="panel">
 <tr>
 	<td>{tr}Activity{/tr}</td>
-	<td><a href="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?iid={$iid}&amp;activity_id={$aid}">{$acts.name} {if $acts.actstatus eq 'running'}{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>{/if}</td>
+	<td><a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$iid}&amp;activity_id={$aid}">{$acts.name} {if $acts.actstatus eq 'running'}{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>{/if}</td>
 </tr>
 <tr>
 	<td>{tr}Instance{/tr}</td>
@@ -72,7 +72,7 @@
 	<td colspan="3">{$comments[ix].comment}</td>
 </tr><tr>
 	<td class="panelsubmitrow">
-	<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php" method="post">
+	<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php" method="post">
 		<input type="submit" name="eraser" value="{tr}erase{/tr}" />
 		<input type="hidden" name="__removecomment" value="{$comments[ix].cId}" />
 		<input type="hidden" name="iid" value="{$iid|escape}" />
@@ -83,7 +83,7 @@
 {/section}
 
 <h3>{tr}Answer{/tr}:</h3>
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php" method="post">
 <input type="hidden" name="iid" value="{$iid|escape}" />
 <input type="hidden" name="aid" value="{$aid|escape}" />
 <table class="panel">

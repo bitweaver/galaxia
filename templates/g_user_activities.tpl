@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -13,7 +13,7 @@
 <h2>{tr}List of activities{/tr} ({$cant})</h2>
 
 {* FILTERING FORM *}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_user_activities.php" method="post" id="fform">
+<form action="{$smarty.const.GALAXIA_PKG_URL}g_user_activities.php" method="post" id="fform">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 <table class="find">
@@ -39,7 +39,7 @@
 {*END OF FILTERING FORM *}
 
 {*LISTING*}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_user_activities.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}g_user_activities.php" method="post">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="find" value="{$find|escape}" />
 <input type="hidden" name="where" value="{$where|escape}" />
@@ -56,11 +56,11 @@
 	{$items[ix].procname} {$items[ix].version}</td><td>
 	{$items[ix].type|act_icon:"$items[ix].is_interactive"} 
 		{if $items[ix].instances > 0}
-			<a href="{$gBitLoc.GALAXIA_PKG_URL}g_user_instances.php?filter_process={$items[ix].p_id}&amp;filter_activity={$items[ix].activity_id}">{$items[ix].name}</a>
+			<a href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?filter_process={$items[ix].p_id}&amp;filter_activity={$items[ix].activity_id}">{$items[ix].name}</a>
 		{else}
 			{if $items[ix].is_interactive eq 'y' and ($items[ix].type eq 'start' or $items[ix].type eq 'standalone')}
-			<!--<a href="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}">-->
-			<a href="#" onClick="var answer = prompt('{tr}Enter the name of this instance{/tr}:',''); while(answer == '')answer = prompt('{tr}The name is not valid. Please, enter the name again{/tr}:',''); if (answer != null) window.location = '{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}&ins_name='+answer;">
+			<!--<a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}">-->
+			<a href="#" onClick="var answer = prompt('{tr}Enter the name of this instance{/tr}:',''); while(answer == '')answer = prompt('{tr}The name is not valid. Please, enter the name again{/tr}:',''); if (answer != null) window.location = '{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}&ins_name='+answer;">
 			{/if}
 			{$items[ix].name}
 		{/if}

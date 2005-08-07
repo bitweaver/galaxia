@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <h1>{tr}Activity completed{/tr}</h1>
 {include file="bitpackage:Galaxia/user_nav.tpl"}
 <br /><br />
@@ -15,7 +15,7 @@
 	<td></td>
 </tr>
 
-<form method="POST" action="{$gBitLoc.GALAXIA_PKG_URL}g_run_activity.php">
+<form method="POST" action="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php">
 <tr class="normal">
 	<tr>
 		<td class="odd" colspan="2">{tr}Comment{/tr}</td>

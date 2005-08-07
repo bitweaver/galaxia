@@ -1,10 +1,10 @@
 {*Smarty template*}
 <a class="pagetitle" href="tiki-g-map_roles.php?pid={$pid}">{tr}Map process roles{/tr}</a><br /><br />
 
-<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/admin_processes.php">{tr}admin processes{/tr}</a>
+<a href="{$smarty.const.GALAXIA_PKG_URL}admin/admin_processes.php">{tr}admin processes{/tr}</a>
 <a href="tiki-g-admin_activities.php?pid={$pid}">{tr}admin activities{/tr}</a>
 <a href="tiki-g-admin_roles.php?pid={$pid}">{tr}admin roles{/tr}</a>
-<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/admin_processes.php?pid={$pid}">{tr}edit this process{/tr}</a><br /><br />
+<a href="{$smarty.const.GALAXIA_PKG_URL}admin/admin_processes.php?pid={$pid}">{tr}edit this process{/tr}</a><br /><br />
 
 {tr}Process:{/tr} {$proc_info.name} {$proc_info.version}<br />
 

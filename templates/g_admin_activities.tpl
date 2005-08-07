@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -20,9 +20,9 @@
 {/if}
 
 <h3>{tr}Add or edit an activity{/tr}</h3><br />
-<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id=0">{tr}New{/tr}</a><br /><br />
+<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id=0">{tr}New{/tr}</a><br /><br />
 
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
 <input type="hidden" name="pid" value="{$pid|escape}" />
 <input type="hidden" name="activity_id" value="{$info.activity_id|escape}" />
 <input type="hidden" name="where2" value="{$where2|escape}" />
@@ -107,7 +107,7 @@
 <tr>
   <td>{tr}Roles{/tr}</td><td>
   {section name=ix loop=$roles}
-  {$roles[ix].name}<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;sort_mode={$sort_mode}&amp;find={$find}&amp;where={$where}&amp;activity_id={$info.activity_id}&amp;pid={$pid}&amp;remove_role={$roles[ix].role_id}">{biticon ipackage="liberty" iname="delete_small" iexplain="{tr}delete{/tr}" iclass="icon"}</a><br />
+  {$roles[ix].name}<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;sort_mode={$sort_mode}&amp;find={$find}&amp;where={$where}&amp;activity_id={$info.activity_id}&amp;pid={$pid}&amp;remove_role={$roles[ix].role_id}">{biticon ipackage="liberty" iname="delete_small" iexplain="{tr}delete{/tr}" iclass="icon"}</a><br />
   {sectionelse}
 <div class="norecords">{tr}No roles associated to this activity{/tr}</div>
   {/section}
@@ -133,7 +133,7 @@
 </form>
 
 <h3>{tr}Process activities{/tr}</h3>
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 <input type="hidden" name="pid" value="{$pid|escape}" />
 <input type="hidden" name="activity_id" value="{$info.activity_id|escape}" />
@@ -177,7 +177,7 @@
 </table>	
 </form>
 
-<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
 <input type="hidden" name="find" value="{$find|escape}" />
 <input type="hidden" name="where" value="{$where|escape}" />
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
@@ -188,11 +188,11 @@
 <table>
 	<tr><th>
 		<input type="submit" name="delete_act" value="Delete" /></th><th>
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'flow_num_desc'}flow_num_asc{else}flow_num_desc{/if}">{tr}#{/tr}</a></th><th>
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}Name{/tr}</a></th><th>
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'type_desc'}type_asc{else}type_desc{/if}">{tr}Type{/tr}</a></th><th>
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'is_interactive_desc'}is_interactive_asc{else}is_interactive_desc{/if}">{tr}Interactive{/tr}</a></th><th>
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'is_interactive_desc'}is_auto_routed_asc{else}is_auto_routed_desc{/if}">{tr}Auto-Routing{/tr}</a></th><th>
+		<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'flow_num_desc'}flow_num_asc{else}flow_num_desc{/if}">{tr}#{/tr}</a></th><th>
+		<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}Name{/tr}</a></th><th>
+		<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'type_desc'}type_asc{else}type_desc{/if}">{tr}Type{/tr}</a></th><th>
+		<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'is_interactive_desc'}is_interactive_asc{else}is_interactive_desc{/if}">{tr}Interactive{/tr}</a></th><th>
+		<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'is_interactive_desc'}is_auto_routed_asc{else}is_auto_routed_desc{/if}">{tr}Auto-Routing{/tr}</a></th><th>
 		{tr}Action{/tr}
 	</th></tr>
 	{cycle values="even,odd" print=false}
@@ -200,16 +200,16 @@
 		<tr class="{cycle}"><td style="text-align:center;">
 			<input type="checkbox" name="activity[{$items[ix].activity_id}]" /></td><td style="text-align:right;">
 			{$items[ix].flow_num}</td><td>
-			<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id={$items[ix].activity_id}">{$items[ix].name}</a>
+			<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id={$items[ix].activity_id}">{$items[ix].name}</a>
 			{if $items[ix].roles < 1}
 				<small>{tr}(no roles){/tr}</small>
 			{/if}</td><td style="text-align:center;">
 			{$items[ix].type|act_icon:"$items[ix].is_interactive"}</td><td style="text-align:center;">
 			<input type="checkbox" name="activity_inter[{$items[ix].activity_id}]" {if $items[ix].is_interactive eq 'y'}checked="checked"{/if} /></td><td style="text-align:center;">
 			<input type="checkbox" name="activity_route[{$items[ix].activity_id}]" {if $items[ix].is_auto_routed eq 'y'}checked="checked"{/if} /></td><td>
-			<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_shared_source.php?pid={$pid}&amp;activity_id={$items[ix].activity_id}">{tr}code{/tr}</a>
+			<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_shared_source.php?pid={$pid}&amp;activity_id={$items[ix].activity_id}">{tr}code{/tr}</a>
 			{if $items[ix].is_interactive eq 'y'}<br />
-				<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_shared_source.php?pid={$pid}&amp;activity_id={$items[ix].activity_id}&amp;template=1">{tr}template{/tr}</a>
+				<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_shared_source.php?pid={$pid}&amp;activity_id={$items[ix].activity_id}&amp;template=1">{tr}template{/tr}</a>
 			{/if}
 		</td></tr>
 {sectionelse}
@@ -227,7 +227,7 @@
 <table class="panel">
 <tr><td>
 	<h3>{tr}List of transitions{/tr}</h3>
-		<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post" id="filtran">
+		<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post" id="filtran">
 		<input type="hidden" name="pid" value="{$pid|escape}" />
 		<input type="hidden" name="activity_id" value="{$info.activity_id|escape}" />
 		<input type="hidden" name="find" value="{$find2|escape}" />
@@ -241,7 +241,7 @@
 			</select>
 	</form>
 
-	<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
+	<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
 		<input type="hidden" name="pid" value="{$pid|escape}" />
 		<input type="hidden" name="activity_id" value="{$info.activity_id|escape}" />
 		<input type="hidden" name="find" value="{$find2|escape}" />
@@ -253,16 +253,16 @@
 	<table>
 		<tr><th>
 			<input type="submit" name="delete_tran" value="{tr}Delete{/tr}" /></th><th>
-			<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'actfromname_desc'}actfromname_asc{else}actfromname_desc{/if}">{tr}Origin{/tr}</a></th>
-				{* <th><a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'acttoname_desc'}acttoname_asc{else}acttoname_desc{/if}">{tr}To{/tr}</a></th> *}
+			<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'actfromname_desc'}actfromname_asc{else}actfromname_desc{/if}">{tr}Origin{/tr}</a></th>
+				{* <th><a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'acttoname_desc'}acttoname_asc{else}acttoname_desc{/if}">{tr}To{/tr}</a></th> *}
 			</tr>
 			{cycle values="even,odd" print=false}
 			{section name=ix loop=$transitions}
 			<tr class="{cycle}"><td>
 				<input type="checkbox" name="transition[{$transitions[ix].act_from_id}_{$transitions[ix].act_to_id}]" /></td><td>
-				<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id={$transitions[ix].act_from_id}">{$transitions[ix].actfromname}</a>
+				<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id={$transitions[ix].act_from_id}">{$transitions[ix].actfromname}</a>
 				{biticon ipackage="Galaxia" iname="next" iexplain="next class="icon"}
-				<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id={$transitions[ix].act_to_id}">{$transitions[ix].acttoname}</a></td> {* <td>
+				<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id={$transitions[ix].act_to_id}">{$transitions[ix].acttoname}</a></td> {* <td>
 				{$transitions[ix].acttoname}</td> *}
 			</tr>
 			{sectionelse}
@@ -275,7 +275,7 @@
 	</td><td>
 
 	<h3>{tr}Add a transition{/tr}</h3>
-	<form action="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
+	<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php" method="post">
 		<input type="hidden" name="pid" value="{$pid|escape}" />
 		<input type="hidden" name="activity_id" value="{$info.activity_id|escape}" />
 		<input type="hidden" name="find" value="{$find2|escape}" />

@@ -1,4 +1,4 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
 
 <div class="admin workflow">
@@ -13,7 +13,7 @@
 <h2>{tr}List of instances{/tr} ({$cant})</h2>
 
 {* FILTERING FORM *}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php" method="post">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 <table class="find">
@@ -81,7 +81,7 @@
 {*END OF FILTERING FORM *}
 
 {*LISTING*}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php" method="post">
+<form action="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php" method="post">
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="find" value="{$find|escape}" />
 <input type="hidden" name="where" value="{$where|escape}" />
@@ -100,10 +100,10 @@
 {foreach from=$items item=proc}
 <tr>
 	<td class="{cycle advance=false}" style="text-align:center;">
-	<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.instance_id}</a>
+	<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.instance_id}</a>
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
-	<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.ins_name}</a>
+	<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance.php?iid={$proc.instance_id}">{$proc.ins_name}</a>
 	</td>
 	<td class="{cycle advance=false}" style="text-align:center;">
 		{$proc.procname}
@@ -137,17 +137,17 @@
 {* PAGINATION *}
 <div class="pagination">
 {if $prev_offset >= 0}
-[<a href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?where={$where}&amp;find={$find}&amp;offset={$prev_offset}&amp;sort_mode={$sort_mode}">{tr}prev{/tr}</a>]&nbsp;
+[<a href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?where={$where}&amp;find={$find}&amp;offset={$prev_offset}&amp;sort_mode={$sort_mode}">{tr}prev{/tr}</a>]&nbsp;
 {/if}
 {tr}Page{/tr}: {$actual_page}/{$cant_pages}
 {if $next_offset >= 0}
-&nbsp;[<a href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?where={$where}&amp;find={$find}&amp;offset={$next_offset}&amp;sort_mode={$sort_mode}">{tr}next{/tr}</a>]
+&nbsp;[<a href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?where={$where}&amp;find={$find}&amp;offset={$next_offset}&amp;sort_mode={$sort_mode}">{tr}next{/tr}</a>]
 {/if}
 {if $direct_pagination eq 'y'}
 <br />
 {section loop=$cant_pages name=foo}
 {assign var=selector_offset value=$smarty.section.foo.index|times:$maxRecords}
-<a href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?where={$where}&amp;find={$find}&amp;offset={$selector_offset}&amp;sort_mode={$sort_mode}">
+<a href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?where={$where}&amp;find={$find}&amp;offset={$selector_offset}&amp;sort_mode={$sort_mode}">
 {$smarty.section.foo.index_next}</a>&nbsp;
 {/section}
 {/if}

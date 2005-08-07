@@ -1,110 +1,133 @@
-{popup_init src="`$gBitLoc.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
+{strip}
 <div class="floaticon">{bithelp}</div>
 
-<div class="admin workflow">
-<div class="header">
-<h1>{tr}Monitor processes{/tr}</h1>
-</div>
+<div class="admin galaxia">
+	<div class="header">
+		<h1>{tr}Monitor processes{/tr}</h1>
+	</div>
 
-{include file="bitpackage:Galaxia/monitor_nav.tpl"}
+	<div class="body">
+		{include file="bitpackage:Galaxia/monitor_nav.tpl"}
 
-<div class="body">
+		{form legend="Filter Processes"}
+			<input type="hidden" name="offset" value="{$offset|escape}" />
+			<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 
-<h2>{tr}List of processes{/tr} ({$cant})</h2>
+			<div class="row">
+				{formlabel label="Processes" for="find"}
+				{forminput}
+					<input size="8" type="text" name="find" id="find" value="{$find|escape}" />
+					{formhelp note=""}
+				{/forminput}
+			</div>
 
-{* FILTERING FORM *}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_processes.php" method="post">
-<input type="hidden" name="offset" value="{$offset|escape}" />
-<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
-<table class="find">
-<tr>
-<th>{tr}Find{/tr}</th>
-<th>{tr}Process{/tr}</th>
-<th>{tr}Active{/tr}</th>
-<th>{tr}Valid{/tr}</th>
-<th>&nbsp;</th>	
-</tr>
-<tr>
-<td><input size="8" type="text" name="find" value="{$find|escape}" /></td>
-<td><select name="filter_process">
-	<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	{foreach from=$all_procs item=proc}
-	<option {if $proc.p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$proc.p_id|escape}">{$proc.name} {$proc.version}</option>
-	{/foreach}
-	</select>
-</td>
-<td><select name="filter_active">
-	<option {if '' eq $smarty.request.filter_active}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	<option value="y" {if 'y' eq $smarty.request.filter_active}selected="selected"{/if}>{tr}Active{/tr}</option>
-	<option value="n" {if 'n' eq $smarty.request.filter_active}selected="selected"{/if}>{tr}Inactive{/tr}</option>
-	</select>
-</td>
-<td><select name="filter_valid">
-	<option {if '' eq $smarty.request.filter_valid}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	<option {if 'y' eq $smarty.request.filter_valid}selected="selected"{/if} value="y">{tr}Valid{/tr}</option>
-	<option {if 'n' eq $smarty.request.filter_valid}selected="selected"{/if} value="n">{tr}Invalid{/tr}</option>
-	</select>
-</td>
-<td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>
-</tr>
-</table>
-</form>
-{*END OF FILTERING FORM *}
+			<div class="row">
+				{formlabel label="Version" for="filter_process"}
+				{forminput}
+					<select name="filter_process" id="filter_process">
+						<option {if '' eq $smarty.request.filter_process}selected="selected"{/if} value="">{tr}All{/tr}</option>
+						{foreach from=$all_procs item=proc}
+							<option {if $proc.p_id eq $smarty.request.filter_process}selected="selected"{/if} value="{$proc.p_id|escape}">{$proc.name} {$proc.version}</option>
+						{/foreach}
+					</select>
+					{formhelp note=""}
+				{/forminput}
+			</div>
 
-{*LISTING*}
-<form action="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_processes.php" method="post">
-<input type="hidden" name="offset" value="{$offset|escape}" />
-<input type="hidden" name="find" value="{$find|escape}" />
-<input type="hidden" name="where" value="{$where|escape}" />
-<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
-<table class="data">
-<tr>
-<th style="text-align:left;"><a href="{if $sort_mode eq 'procname_desc'}{sameurl sort_mode='procname_asc'}{else}{sameurl sort_mode='procname_desc'}{/if}">{tr}Name{/tr}</a></th>
-<th>{tr}Activities{/tr}</th>
-<th><a href="{if $sort_mode eq 'is_active_desc'}{sameurl sort_mode='is_active_asc'}{else}{sameurl sort_mode='is_active_desc'}{/if}">{tr}Active{/tr}</a></th>
-<th><a href="{if $sort_mode eq 'is_valid_desc'}{sameurl sort_mode='is_valid_asc'}{else}{sameurl sort_mode='is_valid_desc'}{/if}">{tr}Valid{/tr}</a></th>
-<th>{tr}Instances{/tr}*</th>
-</tr>
-{cycle values="even,odd" print=false}
-{foreach from=$items item=proc}
-<tr class="{cycle}">
-	<td style="text-align:left;">
-	<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?pid={$proc.p_id}">{$proc.procname} {$proc.version}</a>
-	</td><td style="text-align:center;">
-		<a href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_activities.php?filter_process={$proc.p_id}">{$proc.activities}</a>
-	</td><td style="text-align:center;">
-	  {if $proc.is_active eq 'y'}
-	  {biticon ipackage="Galaxia" iname="refresh2" iclass="icon" iexplain="active process"}
-	  {else}
-	  {$proc.is_active}
-	  {/if}
-	</td><td style="text-align:center;">
-	  {if $proc.is_valid eq 'n'}
-	  {biticon ipackage="Galaxia" iname="red_dot" iclass="icon" iexplain="invalid process"}
-	  {else}
-	  {biticon ipackage="Galaxia" iname="green_dot" iclass="icon" iexplain="valid process"}
-	  {/if}
-	</td><td style="text-align:right;">
-		<table>
-		<tr>
-		 <td style="text-align:right;"><a style="color:green;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=active">{$proc.active_instances}</a></td>
-		 <td style="text-align:right;"><a style="color:black;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=completed">{$proc.completed_instances}</a></td>
-		 <td style="text-align:right;"><a style="color:grey;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=aborted">{$proc.aborted_instances}</a></td>
-		 <td style="text-align:right;"><a style="color:red;" href="{$gBitLoc.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=exception">{$proc.exception_instances}</a></td>
-		</tr>
-		</table>
-	</td>
-</tr>
-{foreachelse}
-<tr class="norecords"><td colspan="6">{tr}No processes defined yet{/tr}</td></tr>	
-{/foreach}
-</table>
-</form>
-{* END OF LISTING *}
+			<div class="row">
+				{formlabel label="Status" for="filter_active"}
+				{forminput}
+					<select name="filter_active" id="filter_active">
+						<option {if $smarty.request.filter_active eq ""}selected="selected"{/if} value="">{tr}All{/tr}</option>
+						<option {if $smarty.request.filter_active eq "y"}selected="selected"{/if} value="y">{tr}Active{/tr}</option>
+						<option {if $smarty.request.filter_active eq "n"}selected="selected"{/if} value="n">{tr}Inactive{/tr}</option>
+					</select>
+					{formhelp note=""}
+				{/forminput}
+			</div>
 
-</div> {* end .body *}
+			<div class="row">
+				{formlabel label="Valid" for="filter_valid"}
+				{forminput}
+					<select name="filter_valid" id="filter_valid">
+						<option value="">{tr}All{/tr}</option>
+						<option {if $smarty.request.filter_valid eq "y"}selected="selected"{/if} value="y">{tr}Valid{/tr}</option>
+						<option {if $smarty.request.filter_valid eq "n"}selected="selected"{/if} value="n">{tr}Invalid{/tr}</option>
+					</select>
+					{formhelp note=""}
+				{/forminput}
+			</div>
 
-{* PAGINATION *}
+			<div class="row submit">
+				<input type="submit" name="filter" value="{tr}Filter{/tr}" />
+			</div>
+		{/form}
+
+		{form}
+			<input type="hidden" name="offset" value="{$offset|escape}" />
+			<input type="hidden" name="find" value="{$find|escape}" />
+			<input type="hidden" name="where" value="{$where|escape}" />
+			<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
+
+			<table class="data">
+				<caption>{tr}List of processes{/tr} <span class="total">[ {$cant} ]</span></caption>
+				<tr>
+					<th><a href="{if $sort_mode eq 'procname_desc'}{sameurl sort_mode='procname_asc'}{else}{sameurl sort_mode='procname_desc'}{/if}">{tr}Name{/tr}</a></th>
+					<th>{tr}Activities{/tr}</th>
+					<th><a href="{if $sort_mode eq 'is_active_desc'}{sameurl sort_mode='is_active_asc'}{else}{sameurl sort_mode='is_active_desc'}{/if}">{tr}Active{/tr}</a></th>
+					<th><a href="{if $sort_mode eq 'is_valid_desc'}{sameurl sort_mode='is_valid_asc'}{else}{sameurl sort_mode='is_valid_desc'}{/if}">{tr}Valid{/tr}</a></th>
+					<th>{tr}Instances{/tr}*</th>
+				</tr>
+
+				{foreach from=$items item=proc}
+					<tr class="{cycle values="odd,even"}">
+						<td>
+							<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_processes.php?pid={$proc.p_id}">{$proc.procname} {$proc.version}</a>
+						</td>
+
+						<td>
+							<a href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_activities.php?filter_process={$proc.p_id}">{$proc.activities}</a>
+						</td>
+
+						<td style="text-align:center;">
+							{if $proc.is_active eq 'y'}
+								{biticon ipackage="Galaxia" iname="refresh2" iclass="icon" iexplain="active process"}
+							{else}
+								{$proc.is_active}
+							{/if}
+						</td>
+
+						<td style="text-align:center;">
+							{if $proc.is_valid eq 'n'}
+							{biticon ipackage="Galaxia" iname="red_dot" iclass="icon" iexplain="invalid process"}
+							{else}
+							{biticon ipackage="Galaxia" iname="green_dot" iclass="icon" iexplain="valid process"}
+							{/if}
+						</td>
+
+						<td style="text-align:right;">
+							<a style="color:green;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=active">{$proc.active_instances}</a>
+							&nbsp;| <a style="color:black;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=completed">{$proc.completed_instances}</a>
+							&nbsp;| <a style="color:grey;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=aborted">{$proc.aborted_instances}</a>
+							&nbsp;| <a style="color:red;" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php?filter_process={$proc.p_id}&amp;filter_status=exception">{$proc.exception_instances}</a>
+						</td>
+					</tr>
+				{foreachelse}
+					<tr class="norecords"><td colspan="6">{tr}No processes defined yet{/tr}</td></tr>	
+				{/foreach}
+			</table>
+		{/form}
+
+		{pagination}
+	</div><!-- end .body -->
+
+	{include file="bitpackage:Galaxia/g_monitor_stats.tpl"}
+</div><!-- end .galaxia -->
+{/strip}
+
+
+{* OLD PAGINATION
 <div class="pagination">
 {if $prev_offset >= 0}
 [<a href="{sameurl offset=$prev_offset}">{tr}prev{/tr}</a>]&nbsp;
@@ -121,8 +144,5 @@
 {/section}
 {/if}
 </div> 
-{* END OF PAGINATION *}
+END OF PAGINATION *}
 
-{include file="bitpackage:Galaxia/g_monitor_stats.tpl"}
-
-</div> {* end .workflow *}

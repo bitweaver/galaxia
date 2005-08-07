@@ -11,12 +11,15 @@
 	<div class="body">
 		{if $pid > 0}
 			{include file="bitpackage:Galaxia/process_nav.tpl"}
-			{* not sure what the array looks like, but it should work like this *}
-			{formfeedback hash=$errors}
+			{if count($errors) > 0}
+				<div class="error">
+					{formfeedback hash=$errors}
+				</div>
+			{/if}
 		{/if}
 
 		{jstabs}
-			{jstab title="Edit Process"}
+			{jstab title="Create / Edit Process"}
 				{form legend="Create / Edit Process"}
 					<input type="hidden" name="version" value="{$info.version|escape}" />
 					<input type="hidden" name="pid" value="{$info.p_id|escape}" />
@@ -64,7 +67,6 @@
 						{/if}
 					</div>
 				{/form}
-
 			{/jstab}
 
 			{jstab title="Upload Process"}
@@ -146,6 +148,8 @@
 			{/jstab}
 		{/jstabs}
 
+		{minifind}
+
 		{form}
 			<input type="hidden" name="offset" value="{$offset|escape}" />
 			<input type="hidden" name="find" value="{$find|escape}" />
@@ -167,7 +171,7 @@
 							<input title="{tr}Select this Process{/tr}" type="checkbox" name="process[{$items[ix].p_id}]" />
 						</td>
 						<td>
-							<a href="{$gBitLoc.GALAXIA_PKG_URL}admin/g_admin_processes.php?find={$find}&amp;where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid={$items[ix].p_id}">{$items[ix].procname}</a>
+							<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_processes.php?find={$find}&amp;where={$where}&amp;offset={$offset}&amp;sort_mode={$sort_mode}&amp;pid={$items[ix].p_id}">{$items[ix].procname}</a>
 						</td>
 						<td style="text-align:center;">
 							{$items[ix].version}</td><td style="text-align:center;">
@@ -191,7 +195,7 @@
 							{smartlink ititle="Export" ifile="admin/g_save_process.php" ibiticon="galaxia/export" pid=$items[ix].p_id}
 							<br />
 							{smartlink ititle="New minor" sort_mode=$sort_mode find=$find where=$where offset=$offset newminor=$items[ix].p_id}
-							&nbsp;&bull; {smartlink ititle="New major" sort_mode=$sort_mode find=$find where=$where offset=$offset newmajor=$items[ix].p_id}
+							&nbsp;&bull;&nbsp;{smartlink ititle="New major" sort_mode=$sort_mode find=$find where=$where offset=$offset newmajor=$items[ix].p_id}
 						</td>
 					</tr>
 				{sectionelse}
@@ -213,7 +217,6 @@
 		</p>
 
 		{pagination}
-		{minifind}
 	</div><!-- end .body -->
 </div><!-- end .galaxia -->
 {/strip}
