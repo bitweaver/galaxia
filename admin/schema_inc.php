@@ -1,8 +1,9 @@
 <?php
+include_once( GALAXIA_PKG_PATH.'config.php' );
 
 $tables = array(
 
-'galaxia_activities' => "
+GALAXIA_TABLE_PREFIX.'activities' => "
   activity_id I4 AUTO PRIMARY,
   name C(80),
   normalized_name C(80),
@@ -16,12 +17,12 @@ $tables = array(
   description X
 ",
 
-'galaxia_activity_roles' => "
+GALAXIA_TABLE_PREFIX.'activity_roles' => "
   activity_id I4 PRIMARY,
   role_id I4 PRIMARY
 ",
 
-'galaxia_instance_activities' => "
+GALAXIA_TABLE_PREFIX.'instance_activities' => "
   instance_id I4 PRIMARY,
   activity_id I4 PRIMARY,
   started I8 NOTNULL,
@@ -30,7 +31,7 @@ $tables = array(
   status C(12) NOTNULL
 ",
 
-'galaxia_instance_comments' => "
+GALAXIA_TABLE_PREFIX.'instance_comments' => "
   c_id I4 AUTO PRIMARY,
   instance_id I4 NOTNULL,
   user_id I4,
@@ -42,7 +43,7 @@ $tables = array(
   timestamp I8
 ",
 
-'galaxia_instances' => "
+GALAXIA_TABLE_PREFIX.'instances' => "
   instance_id I4 AUTO PRIMARY,
   name C(80),
   p_id I4 NOTNULL,
@@ -55,7 +56,7 @@ $tables = array(
   properties X
 ",
 
-'galaxia_processes' => "
+GALAXIA_TABLE_PREFIX.'processes' => "
   p_id I4 AUTO PRIMARY,
   procname C(80),
   is_valid C(1),
@@ -66,7 +67,7 @@ $tables = array(
   normalized_name C(80)
 ",
 
-'galaxia_roles' => "
+GALAXIA_TABLE_PREFIX.'roles' => "
   role_id I4 AUTO PRIMARY,
   p_id I4 NOT NULL,
   last_modified I8,
@@ -74,19 +75,19 @@ $tables = array(
   description X
 ",
 
-'galaxia_transitions' => "
+GALAXIA_TABLE_PREFIX.'transitions' => "
   p_id I4 NOTNULL,
   act_from_id I4 PRIMARY,
   act_to_id I4 PRIMARY
 ",
 
-'galaxia_group_roles' => "
+GALAXIA_TABLE_PREFIX.'group_roles' => "
   p_id I4 NOT NULL,
   role_id I4 AUTO PRIMARY,
   group_id I4 PRIMARY
 ",
 
-'galaxia_workitems' => "
+GALAXIA_TABLE_PREFIX.'workitems' => "
   item_id I4 AUTO PRIMARY,
   instance_id I4 NOTNULL,
   order_id I4 NOTNULL,
