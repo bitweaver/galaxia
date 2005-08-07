@@ -29,9 +29,9 @@ class ActivityManager extends BaseManager {
   */
   function add_activity_role($activity_id, $role_id) {
     $query = "delete from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=? and `role_id`=?";
-    $this->query($query,array($activity_id, $role_id));
+    $this->mDb->query($query,array($activity_id, $role_id));
     $query = "insert into `".GALAXIA_TABLE_PREFIX."activity_roles`(`activity_id`,`role_id`) values(?,?)";
-    $this->query($query,array($activity_id, $role_id));
+    $this->mDb->query($query,array($activity_id, $role_id));
   }
   
   /*!
@@ -41,7 +41,7 @@ class ActivityManager extends BaseManager {
     $query = "select `activity_id`, roles.`role_id`, roles.`name`
               from `".GALAXIA_TABLE_PREFIX."activity_roles` gar, `".GALAXIA_TABLE_PREFIX."roles` roles
               where roles.`role_id`=gar.`role_id` and `activity_id`=?";
-    $result = $this->query($query,array($activity_id));
+    $result = $this->mDb->query($query,array($activity_id));
     $ret = Array();
     while($res = $result->fetchRow()) {  
       $ret[] = $res;
@@ -56,7 +56,7 @@ class ActivityManager extends BaseManager {
   {
     $query = "delete from `".GALAXIA_TABLE_PREFIX."activity_roles`
               where `activity_id`=$activity_id and `role_id`=$role_id";
-    $this->query($query);
+    $this->mDb->query($query);
   }
   
   /*!
@@ -64,7 +64,7 @@ class ActivityManager extends BaseManager {
   */
   function transition_exists($pid,$act_from_id,$act_to_id)
   {
-    return($this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `p_id`=$pid and `act_from_id`=$act_from_id and `act_to_id`=$act_to_id"));
+    return($this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `p_id`=$pid and `act_from_id`=$act_from_id and `act_to_id`=$act_to_id"));
   }
   
   /*!
@@ -81,7 +81,7 @@ class ActivityManager extends BaseManager {
     $a2 = $this->get_activity($p_id, $act_to_id);
     if(!$a1 || !$a2) return false;
     if($a1['type'] != 'switch' && $a1['type'] != 'split') {
-      if($this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=$act_from_id")) {
+      if($this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=$act_from_id")) {
         $this->error = tra('Cannot add transition only split activities can have more than one outbound transition');
         return false;
       }
@@ -96,9 +96,9 @@ class ActivityManager extends BaseManager {
      
     
     $query = "delete from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=? and `act_to_id`=?";
-    $this->query($query,array($act_from_id, $act_to_id));
+    $this->mDb->query($query,array($act_from_id, $act_to_id));
     $query = "insert into `".GALAXIA_TABLE_PREFIX."transitions`(`p_id`,`act_from_id`,`act_to_id`) values(?,?,?)";
-    $this->query($query,array($p_id, $act_from_id, $act_to_id));
+    $this->mDb->query($query,array($p_id, $act_from_id, $act_to_id));
 
     return true;
   }
@@ -109,7 +109,7 @@ class ActivityManager extends BaseManager {
   function remove_transition($act_from_id, $act_to_id)
   {
     $query = "delete from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=$act_from_id and `act_to_id`=$act_to_id";
-    $this->query($query);
+    $this->mDb->query($query);
     return true;
   }
   
@@ -119,7 +119,7 @@ class ActivityManager extends BaseManager {
   function remove_activity_transitions($p_id, $aid)
   {
     $query = "delete from `".GALAXIA_TABLE_PREFIX."transitions` where `p_id`=$p_id and (`act_from_id`=$aid or `act_to_id`=$aid)";
-    $this->query($query);
+    $this->mDb->query($query);
   }
   
   
@@ -133,7 +133,7 @@ class ActivityManager extends BaseManager {
     } else {
         $query = "select a1.`name` as `actfromname`, a2.`name` as `acttoname`, `act_from_id`, `act_to_id` from `".GALAXIA_TABLE_PREFIX."transitions` gt, `".GALAXIA_TABLE_PREFIX."activities` a1, `".GALAXIA_TABLE_PREFIX."activities` a2 where gt.`act_from_id`=a1.`activity_id` and gt.`act_to_id`=a2.`activity_id` and gt.`p_id`=$p_id and (`act_from_id`=$actid)";
     }
-    $result = $this->query($query);
+    $result = $this->mDb->query($query);
     $ret = Array();
     while($res = $result->fetchRow()) {  
       $ret[] = $res;
@@ -146,7 +146,7 @@ class ActivityManager extends BaseManager {
   */
   function activity_is_auto_routed($actid)
   {
-    return($this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=$actid and `is_auto_routed`='y'"));
+    return($this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=$actid and `is_auto_routed`='y'"));
   }
   
   /*!
@@ -156,7 +156,7 @@ class ActivityManager extends BaseManager {
   function get_process_activities($p_id)
   {
        $query = "select * from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id";
-    $result = $this->query($query);
+    $result = $this->mDb->query($query);
     $ret = Array();
     while($res = $result->fetchRow()) {  
       $ret[] = $res;
@@ -236,29 +236,29 @@ class ActivityManager extends BaseManager {
   {
     $errors = Array();
     // Pre rule no cricular activities
-    $cant = $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `p_id`=$p_id and `act_from_id`=`act_to_id`");
+    $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `p_id`=$p_id and `act_from_id`=`act_to_id`");
     if($cant) {
       $errors[] = tra('Circular reference found some activity has a transition leading to itself');
     }
 
     // Rule 1 must have exactly one start and end activity
-    $cant = $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='start'");
+    $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='start'");
     if($cant < 1) {
       $errors[] = tra('Process does not have a start activity');
     }
-    $cant = $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='end'");
+    $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='end'");
     if($cant != 1) {
       $errors[] = tra('Process does not have exactly one end activity');
     }
     
     // Rule 2 end must be reachable from start
     $nodes = Array();
-    $endId = $this->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='end'");
+    $endId = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='end'");
     $aux['id']=$endId;
     $aux['visited']=false;
     $nodes[] = $aux;
     
-    $startId = $this->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='start'");
+    $startId = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='start'");
     $start_node['id']=$startId;
     $start_node['visited']=true;    
     
@@ -268,7 +268,7 @@ class ActivityManager extends BaseManager {
         if(!$node['visited']) {
           $node['visited']=true;          
           $query = "select `act_from_id` from `".GALAXIA_TABLE_PREFIX."transitions` where `act_to_id`=".$node['id'];
-          $result = $this->query($query);
+          $result = $this->mDb->query($query);
           $ret = Array();
           while($res = $result->fetchRow()) {  
             $aux['id'] = $res['act_from_id'];
@@ -290,24 +290,24 @@ class ActivityManager extends BaseManager {
     //assigned.
     //Rule 5: standalone activities can't have transitions
     $query = "select * from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id";
-    $result = $this->query($query);
+    $result = $this->mDb->query($query);
     while($res = $result->fetchRow()) {  
       $aid = $res['activity_id'];
       if($res['is_interactive'] == 'y') {
-          $cant = $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=".$res['activity_id']);
+          $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=".$res['activity_id']);
           if(!$cant) {
             $errors[] = tra('Activity').': '.$res['name'].tra(' is interactive but has no role assigned');
           }
       } else {
         if( $res['type'] != 'end' && $res['is_auto_routed'] == 'n') {
-          $cant = $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=".$res['activity_id']);
+          $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=".$res['activity_id']);
             if(!$cant) {
               $errors[] = tra('Activity').': '.$res['name'].tra(' is non-interactive and non-autorouted but has no role assigned');
             }
         }
       }
       if($res['type']=='standalone') {
-        if($this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=$aid or `act_to_id`=$aid")) {
+        if($this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=$aid or `act_to_id`=$aid")) {
            $errors[] = tra('Activity').': '.$res['name'].tra(' is standalone but has transitions');
         }
       }
@@ -317,9 +317,9 @@ class ActivityManager extends BaseManager {
     
     //Rule4: roles should be mapped
     $query = "select * from `".GALAXIA_TABLE_PREFIX."roles` where `p_id`=$p_id";
-    $result = $this->query($query);
+    $result = $this->mDb->query($query);
     while($res = $result->fetchRow()) {      
-        $cant = $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."group_roles` where `role_id`=".$res['role_id']);
+        $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."group_roles` where `role_id`=".$res['role_id']);
         if(!$cant) {
           $errors[] = tra('Role').': '.$res['name'].tra(' is not mapped');
         }        
@@ -339,7 +339,7 @@ class ActivityManager extends BaseManager {
     $is_valid = (count($errors)==0) ? 'y' : 'n';
 
     $query = "update `".GALAXIA_TABLE_PREFIX."processes` set `is_valid`='$is_valid' where `p_id`=$p_id";
-    $this->query($query);
+    $this->mDb->query($query);
     
     $this->_label_nodes($p_id);    
     
@@ -359,10 +359,10 @@ class ActivityManager extends BaseManager {
   function validate_process_sources($pid)
   {
     $errors=Array();
-    $procname= $this->getOne("select `normalized_name` from `".GALAXIA_TABLE_PREFIX."processes` where `p_id`=$pid");
+    $procname= $this->mDb->getOne("select `normalized_name` from `".GALAXIA_TABLE_PREFIX."processes` where `p_id`=$pid");
     
     $query = "select * from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$pid";
-    $result = $this->query($query);
+    $result = $this->mDb->query($query);
     while($res = $result->fetchRow()) {          
       $actname = $res['normalized_name'];
       $source = GALAXIA_PROCESSES."/$procname/code/activities/$actname".'.php';
@@ -405,7 +405,7 @@ class ActivityManager extends BaseManager {
   function activity_name_exists($p_id,$name)
   {
     $name = addslashes($this->_normalize_name($name));
-    return $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `normalized_name`='$name'");
+    return $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `normalized_name`='$name'");
   }
   
   
@@ -417,7 +417,7 @@ class ActivityManager extends BaseManager {
     if (!isset($activity_id)) $activity_id = "NULL";
       $query = "select * from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `activity_id`=$activity_id";
 
-    $result = $this->query($query);
+    $result = $this->mDb->query($query);
     $res = $result->fetchRow();
     return $res;
   }
@@ -427,7 +427,7 @@ class ActivityManager extends BaseManager {
   */
   function list_activities($p_id,$offset,$maxRecords,$sort_mode,$find,$where='')
   {
-    $sort_mode = $this->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
     if($find) {
       $findesc = '%'.$find.'%';
       $mid=" where `p_id`=? and ((`name` like ?) or (`description` like ?))";
@@ -441,11 +441,11 @@ class ActivityManager extends BaseManager {
     }
     $query = "select * from `".GALAXIA_TABLE_PREFIX."activities` $mid order by $sort_mode";
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."activities` $mid";
-    $result = $this->query($query,$bindvars,$maxRecords,$offset);
-    $cant = $this->getOne($query_cant,$bindvars);
+    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+    $cant = $this->mDb->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {
-      $res['roles'] = $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=?",array($res['activity_id']));
+      $res['roles'] = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=?",array($res['activity_id']));
       $ret[] = $res;
     }
     $retval = Array();
@@ -465,14 +465,14 @@ class ActivityManager extends BaseManager {
     $proc_info = $pm->get_process($p_id);
     $actname = $this->_get_normalized_name($activity_id);
     $query = "delete from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `activity_id`=$activity_id";
-    $this->query($query);
+    $this->mDb->query($query);
     $query = "select `act_from_id`, `act_to_id` from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=$activity_id or `act_to_id`=$activity_id";
-    $result = $this->query($query);
+    $result = $this->mDb->query($query);
     while($res = $result->fetchRow()) {  
       $this->remove_transition($res['act_from_id'], $res['act_to_id']);
     }
     $query = "delete from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=$activity_id";
-    $this->query($query);
+    $this->mDb->query($query);
     // And we have to remove the user and compiled files
     // for this activity
     $procname = $proc_info['normalized_name'];
@@ -523,7 +523,7 @@ class ActivityManager extends BaseManager {
         $first = false;
       }
       $query .= " where `p_id`=$p_id and `activity_id`=$activity_id ";
-      $this->query($query);
+      $this->mDb->query($query);
       
       $newname = $vars['normalized_name'];
       // if the activity is changing name then we
@@ -580,8 +580,8 @@ class ActivityManager extends BaseManager {
         }
       } 
       $query .=")";
-      $this->query($query);
-      $activity_id = $this->getOne("select max(`activity_id`) from `$TABLE_NAME` where `p_id`=$p_id and `last_modified`=$now"); 
+      $this->mDb->query($query);
+      $activity_id = $this->mDb->getOne("select max(`activity_id`) from `$TABLE_NAME` where `p_id`=$p_id and `last_modified`=$now"); 
       $ret = $activity_id;
       if(!$activity_id) {
          print("select max(`activity_id`) from `$TABLE_NAME` where `p_id`=$p_id and `last_modified`=$now");
@@ -616,7 +616,7 @@ class ActivityManager extends BaseManager {
   function set_interactivity($p_id, $actid, $value)
   {
     $query = "update `".GALAXIA_TABLE_PREFIX."activities` set `is_interactive`='$value' where `p_id`=$p_id and `activity_id`=$actid";
-    $this->query($query);
+    $this->mDb->query($query);
     // If template does not exist then create template
     $this->compile_activity($p_id,$actid);
   }
@@ -627,7 +627,7 @@ class ActivityManager extends BaseManager {
   function set_autorouting($p_id, $actid, $value)
   {
     $query = "update `".GALAXIA_TABLE_PREFIX."activities` set `is_auto_routed`='$value' where `p_id`=$p_id and `activity_id`=$actid";
-    $this->query($query);
+    $this->mDb->query($query);
   }
 
   
@@ -741,8 +741,8 @@ class ActivityManager extends BaseManager {
   function _get_activity_id_by_name($pid,$name)
   {
     $name = addslashes($name);
-    if($this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$pid and `name`='$name'")) {
-      return($this->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$pid and `name`='$name'"));    
+    if($this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$pid and `name`='$name'")) {
+      return($this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$pid and `name`='$name'"));    
     } else {
       return '';
     }
@@ -817,7 +817,7 @@ class ActivityManager extends BaseManager {
   */
   function _get_normalized_name($activity_id)
   {
-    return $this->getOne("select `normalized_name` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=$activity_id");
+    return $this->mDb->getOne("select `normalized_name` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=$activity_id");
   }
   
   /*!
@@ -831,15 +831,15 @@ class ActivityManager extends BaseManager {
     ///an empty list of nodes starts the process
     $nodes = Array();
     // the end activity id
-    $endId = $this->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=? and `type`='end'", array($p_id));
+    $endId = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=? and `type`='end'", array($p_id));
     // and the number of total nodes (=activities)
-    $cant = $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=?", array($p_id));
+    $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=?", array($p_id));
     $nodes[] = $endId;
     $label = $cant;
     $num = $cant;
     
     $query = "update `".GALAXIA_TABLE_PREFIX."activities` set `flow_num`=? where `p_id`=?";
-    $this->query($query, array($cant + 1, $p_id));
+    $this->mDb->query($query, array($cant + 1, $p_id));
     
     $seen = array();
     while(count($nodes)) {
@@ -849,9 +849,9 @@ class ActivityManager extends BaseManager {
         if (isset($seen[$node])) continue;
         $seen[$node] = 1;
         $query = "update `".GALAXIA_TABLE_PREFIX."activities` set `flow_num`=? where `activity_id`=?";
-        $this->query($query, array($num, $node));
+        $this->mDb->query($query, array($num, $node));
         $query = "select `act_from_id` from `".GALAXIA_TABLE_PREFIX."transitions` where `act_to_id`=?";
-        $result = $this->query($query, array($node));
+        $result = $this->mDb->query($query, array($node));
         $ret = Array();
         while($res = $result->fetchRow()) {  
           $newnodes[] = $res['act_from_id'];
@@ -863,12 +863,12 @@ class ActivityManager extends BaseManager {
       
     }
 
-    $min = $this->getOne("select min(`flow_num`) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=?", array($p_id));
+    $min = $this->mDb->getOne("select min(`flow_num`) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=?", array($p_id));
     $query = "update `".GALAXIA_TABLE_PREFIX."activities` set `flow_num`=`flow_num`-? where `p_id`=?";
-    $this->query($query, array($min, $p_id));
+    $this->mDb->query($query, array($min, $p_id));
     
     //$query = "update ".GALAXIA_TABLE_PREFIX."activities set flow_num=0 where flow_num=$cant+1";
-    //$this->query($query);
+    //$this->mDb->query($query);
   }
    
 }
