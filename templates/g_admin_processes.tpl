@@ -11,12 +11,15 @@
 	<div class="body">
 		{if $pid > 0}
 			{include file="bitpackage:Galaxia/process_nav.tpl"}
-			{* not sure what the array looks like, but it should work like this *}
-			{formfeedback hash=$errors}
+			{if count($errors) > 0}
+				<div class="error">
+					{formfeedback hash=$errors}
+				</div>
+			{/if}
 		{/if}
 
 		{jstabs}
-			{jstab title="Edit Process"}
+			{jstab title="Create / Edit Process"}
 				{form legend="Create / Edit Process"}
 					<input type="hidden" name="version" value="{$info.version|escape}" />
 					<input type="hidden" name="pid" value="{$info.p_id|escape}" />
@@ -192,7 +195,7 @@
 							{smartlink ititle="Export" ifile="admin/g_save_process.php" ibiticon="galaxia/export" pid=$items[ix].p_id}
 							<br />
 							{smartlink ititle="New minor" sort_mode=$sort_mode find=$find where=$where offset=$offset newminor=$items[ix].p_id}
-							&nbsp;&bull; {smartlink ititle="New major" sort_mode=$sort_mode find=$find where=$where offset=$offset newmajor=$items[ix].p_id}
+							&nbsp;&bull;&nbsp;{smartlink ititle="New major" sort_mode=$sort_mode find=$find where=$where offset=$offset newmajor=$items[ix].p_id}
 						</td>
 					</tr>
 				{sectionelse}
