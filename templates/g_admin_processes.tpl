@@ -145,6 +145,8 @@
 			{/jstab}
 		{/jstabs}
 
+		{minifind}
+
 		{form}
 			<input type="hidden" name="offset" value="{$offset|escape}" />
 			<input type="hidden" name="find" value="{$find|escape}" />
@@ -212,7 +214,6 @@
 		</p>
 
 		{pagination}
-		{minifind}
 	</div><!-- end .body -->
 </div><!-- end .galaxia -->
 {/strip}
