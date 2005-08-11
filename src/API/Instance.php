@@ -30,7 +30,7 @@ class Instance extends Base {
   function getInstance($instance_id) {
     // Get the instance data
     $query = "select * from `".GALAXIA_TABLE_PREFIX."instances` where `instance_id`=?";
-    $result = $this->mDb->query($query,array((int)$instance_id));
+    $result = $this->query($query,array((int)$instance_id));
     if(!$result->numRows()) return false;
     $res = $result->fetchRow();
 
@@ -47,7 +47,7 @@ class Instance extends Base {
     $this->next_group_id = $res['next_group_id'];
     // Get the activities where the instance is (ids only is ok)
     $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_activities` where  `instance_id`=?";
-    $result = $this->mDb->query($query,array((int)$instance_id));    
+    $result = $this->query($query,array((int)$instance_id));    
     while($res = $result->fetchRow()) {
       $this->activities[]=$res;
     }    
@@ -62,13 +62,13 @@ class Instance extends Base {
   function setNextActivity($actname) {
     $p_id = $this->p_id;
     $actname=trim($actname);
-    $aid = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=? and `name`=?",array($p_id,$actname));
-    if(!$this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=? and `p_id`=?",array($aid,$p_id))) {
+    $aid = $this->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=? and `name`=?",array($p_id,$actname));
+    if(!$this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=? and `p_id`=?",array($aid,$p_id))) {
       trigger_error(tra('Fatal error: setting next activity to an unexisting activity'),E_USER_WARNING);
     }
     $this->next_activity=$aid;
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `next_activity`=? where `instance_id`=?";
-    $this->mDb->query($query,array((int)$aid,(int)$this->instance_id));
+    $this->query($query,array((int)$aid,(int)$this->instance_id));
   }
 
   /*!
@@ -80,7 +80,7 @@ class Instance extends Base {
     $p_id = $this->p_id;
     $this->next_group_id = $group_id;
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `next_group_id`=? where `instance_id`=?";
-    $this->mDb->query($query,array($group_id,(int)$this->instance_id));
+    $this->query($query,array($group_id,(int)$this->instance_id));
   }
  
   /*!
@@ -92,7 +92,7 @@ class Instance extends Base {
   function _createNewInstance($activity_id,$user_id) {
     // Creates a new instance setting up started,ended,user
     // and status
-    $pid = $this->mDb->getOne("select `p_id` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));
+    $pid = $this->getOne("select `p_id` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));
     $this->status = 'active';
     $this->next_activity = 0;
     $this->setNextGroup(NULL);
@@ -102,19 +102,19 @@ class Instance extends Base {
     $this->owner_id = $user_id;
     $props=serialize($this->properties);
     $query = "insert into `".GALAXIA_TABLE_PREFIX."instances`(`started`,`ended`,`status`, `name`, `p_id`,`owner_id`,`properties`) values(?,?,?,?,?,?,?)";
-    $this->mDb->query($query,array($now,0,'active',$this->name,$pid,$user_id,$props));
-    $this->instance_id = $this->mDb->getOne("select max(`instance_id`) from `".GALAXIA_TABLE_PREFIX."instances` where `started`=? and `owner_id`=?",array((int)$now,$user_id));
+    $this->query($query,array($now,0,'active',$this->name,$pid,$user_id,$props));
+    $this->instance_id = $this->getOne("select max(`instance_id`) from `".GALAXIA_TABLE_PREFIX."instances` where `started`=? and `owner_id`=?",array((int)$now,$user_id));
     $iid=$this->instance_id;
     
     // Now update the properties!
     $props = serialize($this->properties);
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `properties`=? where `instance_id`=?";
-    $this->mDb->query($query,array($props,(int)$iid));
+    $this->query($query,array($props,(int)$iid));
 
     // Then add in ".GALAXIA_TABLE_PREFIX."instance_activities an entry for the
     // activity the user and status running and started now
     $query = "insert into `".GALAXIA_TABLE_PREFIX."instance_activities`(`instance_id`,`activity_id`,`user_id`,`started`,`ended`,`status`) values(?,?,?,?,?,?)";
-    $this->mDb->query($query,array((int)$iid,(int)$activity_id,$user_id,(int)$now,0,'running'));
+    $this->query($query,array((int)$iid,(int)$activity_id,$user_id,(int)$now,0,'running'));
   }
   
   /*! 
@@ -125,7 +125,7 @@ class Instance extends Base {
     $this->properties[$name] = $value;
     $props = serialize($this->properties);
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `properties`=? where `instance_id`=?";
-    $this->mDb->query($query,array($props,$this->instance_id));
+    $this->query($query,array($props,$this->instance_id));
   }
   
   /*! 
@@ -163,7 +163,7 @@ class Instance extends Base {
     $this->status = $status; 
     // and update the database
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `status`=? where `instance_id`=?";
-    $this->mDb->query($query,array($status,(int)$this->instance_id));  
+    $this->query($query,array($status,(int)$this->instance_id));  
   }
   
   /*!
@@ -194,7 +194,7 @@ class Instance extends Base {
     $this->name = $name;
     // save database
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `name`=? where `instance_id`=?";
-    $this->mDb->query($query,array($name,(int)$this->instance_id));  
+    $this->query($query,array($name,(int)$this->instance_id));  
   }
   
   /*! 
@@ -211,7 +211,7 @@ class Instance extends Base {
     $this->owner_id = $user_id;
     // save database
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `owner_id`=? where `instance_id`=?";
-    $this->mDb->query($query,array($owner_id,(int)$this->instance_id));  
+    $this->query($query,array($owner_id,(int)$this->instance_id));  
   }
   
   /*!
@@ -226,7 +226,7 @@ class Instance extends Base {
         $this->activities[$i]['user_id']=$theuser;
         $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities` set `user_id`=? where `activity_id`=? and `instance_id`=?";
 
-        $this->mDb->query($query,array($theuser,(int)$activity_id,(int)$this->instance_id));
+        $this->query($query,array($theuser,(int)$activity_id,(int)$this->instance_id));
       }
     }  
   }
@@ -253,7 +253,7 @@ class Instance extends Base {
 //      if($this->activities[$i]['activity_id']==$activity_id) {
 //        $this->activities[$i]['status']=$status;
         $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities` set `status`=? where `activity_id`=? and `instance_id`=?";
-        $this->mDb->query($query,array($status,(int)$activity_id,(int)$this->instance_id));
+        $this->query($query,array($status,(int)$activity_id,(int)$this->instance_id));
 //      }
 //    }  
   }
@@ -281,7 +281,7 @@ class Instance extends Base {
       if($this->activities[$i]['activity_id']==$activity_id) {
         $this->activities[$i]['started']=$now;
         $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities` set `started`=? where `activity_id`=? and `instance_id`=?";
-        $this->mDb->query($query,array($now,(int)$activity_id,(int)$this->instance_id));
+        $this->query($query,array($now,(int)$activity_id,(int)$this->instance_id));
       }
     }  
   }
@@ -317,7 +317,7 @@ class Instance extends Base {
   function setStarted($time) {
     $this->started=$time;
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `started`=? where `instance_id`=?";
-    $this->mDb->query($query,array((int)$time,(int)$this->instance_id));    
+    $this->query($query,array((int)$time,(int)$this->instance_id));    
   }
   
   /*!
@@ -333,7 +333,7 @@ class Instance extends Base {
   function setEnded($time) {
     $this->ended=$time;
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `ended`=? where `instance_id`=?";
-    $this->mDb->query($query,array((int)$time,(int)$this->instance_id));    
+    $this->query($query,array((int)$time,(int)$this->instance_id));    
   }
   
   /*!
@@ -373,7 +373,7 @@ class Instance extends Base {
     
     // If we are completing a start activity then the instance must 
     // be created first!
-    $type = $this->mDb->getOne("select `type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));    
+    $type = $this->getOne("select `type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));    
     if($type=='start') {
       $this->_createNewInstance((int)$activity_id,$theuser);
     }
@@ -381,12 +381,12 @@ class Instance extends Base {
     // Now set ended
     $now = date("U");
     $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities` set `ended`=? where `activity_id`=? and `instance_id`=?";
-    $this->mDb->query($query,array((int)$now,(int)$activity_id,(int)$this->instance_id));
+    $this->query($query,array((int)$now,(int)$activity_id,(int)$this->instance_id));
     
     //Add a workitem to the instance 
     $iid = $this->instance_id;
     if($addworkitem) {
-      $max = $this->mDb->getOne("select max(`order_id`) from `".GALAXIA_TABLE_PREFIX."workitems` where `instance_id`=?",array((int)$iid));
+      $max = $this->getOne("select max(`order_id`) from `".GALAXIA_TABLE_PREFIX."workitems` where `instance_id`=?",array((int)$iid));
       if(!$max) {
         $max=1;
       } else {
@@ -404,7 +404,7 @@ class Instance extends Base {
       $ended = date("U");
       $properties = serialize($this->properties);
       $query="insert into `".GALAXIA_TABLE_PREFIX."workitems`(`instance_id`,`order_id`,`activity_id`,`started`,`ended`,`properties`,`user_id`) values(?,?,?,?,?,?,?)";    
-      $this->mDb->query($query,array((int)$iid,(int)$max,(int)$activity_id,(int)$started,(int)$ended,$properties,$putuser));
+      $this->query($query,array((int)$iid,(int)$max,(int)$activity_id,(int)$started,(int)$ended,$properties,$putuser));
     }
     
     //Set the status for the instance-activity to completed
@@ -419,10 +419,10 @@ class Instance extends Base {
     //If the activity ending is autorouted then send to the
     //activity
     if ($type != 'end') {
-      if (($force) || ($this->mDb->getOne("select `is_auto_routed` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array($activity_id)) == 'y'))   {
+      if (($force) || ($this->getOne("select `is_auto_routed` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array($activity_id)) == 'y'))   {
         // Now determine where to send the instance
         $query = "select `act_to_id` from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=?";
-        $result = $this->mDb->query($query,array((int)$activity_id));
+        $result = $this->query($query,array((int)$activity_id));
         $candidates = Array();
         while ($res = $result->fetchRow()) {
           $candidates[] = $res['act_to_id'];
@@ -470,7 +470,7 @@ class Instance extends Base {
     
     // If we are completing a start activity then the instance must 
     // be created first!
-    $type = $this->mDb->getOne("select `type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));    
+    $type = $this->getOne("select `type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));    
     if($type=='start') {
       $this->_createNewInstance((int)$activity_id,$theuser);
     }
@@ -478,12 +478,12 @@ class Instance extends Base {
     // Now set ended
     $now = date("U");
     $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities` set `ended`=? where `activity_id`=? and `instance_id`=?";
-    $this->mDb->query($query,array((int)$now,(int)$activity_id,(int)$this->instance_id));
+    $this->query($query,array((int)$now,(int)$activity_id,(int)$this->instance_id));
     
     //Add a workitem to the instance 
     $iid = $this->instance_id;
     if($addworkitem) {
-      $max = $this->mDb->getOne("select max(`order_id`) from `".GALAXIA_TABLE_PREFIX."workitems` where `instance_id`=?",array((int)$iid));
+      $max = $this->getOne("select max(`order_id`) from `".GALAXIA_TABLE_PREFIX."workitems` where `instance_id`=?",array((int)$iid));
       if(!$max) {
         $max=1;
       } else {
@@ -501,7 +501,7 @@ class Instance extends Base {
       $ended = date("U");
       $properties = serialize($this->properties);
       $query="insert into `".GALAXIA_TABLE_PREFIX."workitems`(`instance_id`,`order_id`,`activity_id`,`started`,`ended`,`properties`,`user_id`) values(?,?,?,?,?,?,?)";    
-      $this->mDb->query($query,array((int)$iid,(int)$max,(int)$activity_id,(int)$started,(int)$ended,$properties,$putuser));
+      $this->query($query,array((int)$iid,(int)$max,(int)$activity_id,(int)$started,(int)$ended,$properties,$putuser));
     }
     
     //Set the status for the instance-activity to aborted
@@ -522,9 +522,9 @@ class Instance extends Base {
     //Set the status of the instance to completed
     $now = date("U");
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `status`=?, `ended`=? where `instance_id`=?";
-    $this->mDb->query($query,array($status,(int)$now,(int)$this->instance_id));
+    $this->query($query,array($status,(int)$now,(int)$this->instance_id));
     //$query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=?";
-    //$this->mDb->query($query,array((int)$this->instance_id));
+    //$this->query($query,array((int)$this->instance_id));
     $this->status = $status;
     $this->activities = Array();
   }
@@ -540,10 +540,10 @@ class Instance extends Base {
     //if this instance is also in
     //other activity if so do
     //nothing
-    $type = $this->mDb->getOne("select `type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));
+    $type = $this->getOne("select `type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));
     
     // Verify the existance of a transition
-    if(!$this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=? and `act_to_id`=?",array($from,(int)$activity_id))) {
+    if(!$this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=? and `act_to_id`=?",array($from,(int)$activity_id))) {
       trigger_error(tra('Fatal error: trying to send an instance to an activity but no transition found'),E_USER_WARNING);
     }
     
@@ -554,13 +554,13 @@ class Instance extends Base {
     } else {
       $candidates = Array();
       $query = "select `role_id` from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=?";
-      $result = $this->mDb->query($query,array((int)$activity_id)); 
+      $result = $this->query($query,array((int)$activity_id)); 
       while ($res = $result->fetchRow()) {
         $role_id = $res['role_id'];
         $query2 = "select ugm.`user_id` from `".GALAXIA_TABLE_PREFIX."group_roles` ggr
 				INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
 				where `role_id`=?";
-        $result2 = $this->mDb->query($query2,array((int)$role_id)); 
+        $result2 = $this->query($query2,array((int)$role_id)); 
         while ($res2 = $result2->fetchRow()) {
           $candidates[] = $res2['user_id'];
         }
@@ -577,19 +577,19 @@ class Instance extends Base {
     //please update started,status,user
     if(!$split) {
 //      $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=? and `activity_id`=?";
-//      $this->mDb->query($query,array((int)$this->instance_id,$from));
+//      $this->query($query,array((int)$this->instance_id,$from));
     }
     $now = date("U");
     $iid = $this->instance_id;
     $query="delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=? and `activity_id`=?";
-    $this->mDb->query($query,array((int)$iid,(int)$activity_id));
+    $this->query($query,array((int)$iid,(int)$activity_id));
     $query="insert into `".GALAXIA_TABLE_PREFIX."instance_activities`(`instance_id`,`activity_id`,`user_id`,`status`,`started`,`ended`) values(?,?,?,?,?,?)";
-    $this->mDb->query($query,array((int)$iid,(int)$activity_id,$putuser,'running',(int)$now,0));
+    $this->query($query,array((int)$iid,(int)$activity_id,$putuser,'running',(int)$now,0));
     
     //we are now in a new activity
     $this->activities=Array();
     $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=?";
-    $result = $this->mDb->query($query,array((int)$iid));
+    $result = $this->query($query,array((int)$iid));
     while ($res = $result->fetchRow()) {
       $this->activities[]=$res;
     }    
@@ -605,7 +605,7 @@ class Instance extends Base {
     //if the activity is not interactive then
     //execute the code for the activity and
     //complete the activity
-    $is_interactive = $this->mDb->getOne("select `is_interactive` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));
+    $is_interactive = $this->getOne("select `is_interactive` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));
     if ($is_interactive=='n') {
 
       // Now execute the code for the activity (function defined in lib/Galaxia/config.php)
@@ -623,7 +623,7 @@ class Instance extends Base {
   function get_instance_comment($c_id) {
     $iid = $this->instance_id;
     $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `c_id`=?";
-    $result = $this->mDb->query($query,array((int)$iid,(int)$c_id));
+    $result = $this->query($query,array((int)$iid,(int)$c_id));
     $res = $result->fetchRow();
     return $res;
   }
@@ -638,15 +638,15 @@ class Instance extends Base {
     $iid = $this->instance_id;
     if ($c_id) {
       $query = "update `".GALAXIA_TABLE_PREFIX."instance_comments` set `title`=?,`comment`=? where `instance_id`=? and `c_id`=?";
-      $this->mDb->query($query,array($title,$comment,(int)$iid,(int)$c_id));
+      $this->query($query,array($title,$comment,(int)$iid,(int)$c_id));
     } else {
       $hash = md5($title.$comment);
-      if ($this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `hash`=?",array($iid,$hash))) {
+      if ($this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `hash`=?",array($iid,$hash))) {
         return false;
       }
       $now = date("U");
       $query ="insert into `".GALAXIA_TABLE_PREFIX."instance_comments`(`instance_id`,`user_id`,`activity_id`,`activity`,`title`,`comment`,`timestamp`,`hash`) values(?,?,?,?,?,?,?,?)";
-      $this->mDb->query($query,array((int)$iid,$user_id,(int)$activity_id,$activity,$title,$comment,(int)$now,$hash));
+      $this->query($query,array((int)$iid,$user_id,(int)$activity_id,$activity,$title,$comment,(int)$now,$hash));
     }  
   }
   
@@ -656,7 +656,7 @@ class Instance extends Base {
   function remove_instance_comment($c_id) {
     $iid = $this->instance_id;
     $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_comments` where `c_id`=? and `instance_id`=?";
-    $this->mDb->query($query,array((int)$c_id,(int)$iid));
+    $this->query($query,array((int)$c_id,(int)$iid));
   }
  
   /*!
@@ -664,8 +664,8 @@ class Instance extends Base {
   */
   function get_instance_comments($aid) {
     $iid = $this->instance_id;
-    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `activity_id`=? order by ".$this->mDb->convert_sortmode("timestamp_asc");
-    $result = $this->mDb->query($query,array((int)$iid,(int)$aid));    
+    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `activity_id`=? order by ".$this->convert_sortmode("timestamp_asc");
+    $result = $this->query($query,array((int)$iid,(int)$aid));    
     $ret = Array();
     while($res = $result->fetchRow()) {    
       $ret[] = $res;

@@ -23,7 +23,7 @@ class ProcessManager extends BaseManager {
   function activate_process($p_id)
   {
     $query = "update `".GALAXIA_TABLE_PREFIX."processes` set `is_active`='y' where `p_id`=$p_id";
-    $this->mDb->query($query);  
+    $this->query($query);  
     $msg = sprintf(tra('Process %d has been activated'),$p_id);
     $this->notify_all(3,$msg);
   }
@@ -34,7 +34,7 @@ class ProcessManager extends BaseManager {
   function deactivate_process($p_id)
   {
     $query = "update `".GALAXIA_TABLE_PREFIX."processes` set `is_active`='n' where `p_id`=$p_id";
-    $this->mDb->query($query);  
+    $this->query($query);  
     $msg = sprintf(tra('Process %d has been deactivated'),$p_id);
     $this->notify_all(3,$msg);
   }
@@ -65,7 +65,7 @@ class ProcessManager extends BaseManager {
     $out.= '  ]]></sharedCode>'."\n";
     // Now loop over activities
     $query = "select * from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id";
-    $result = $this->mDb->query($query);
+    $result = $this->query($query);
     $out.='  <activities>'."\n";
     $am = new ActivityManager();
     while($res = $result->fetchRow()) {      
@@ -313,7 +313,7 @@ class ProcessManager extends BaseManager {
     if(!$proc_info) return false;
     // Now update the version
     $version = $this->_new_version($proc_info['version'],$minor);
-    while($this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."processes` where `procname`='$name' and `version`='$version'")) {
+    while($this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."processes` where `procname`='$name' and `version`='$version'")) {
       $version = $this->_new_version($version,$minor);
     }
     // Make new versions unactive
@@ -324,7 +324,7 @@ class ProcessManager extends BaseManager {
     // And here copy all the activities & so
     $am = new ActivityManager();
     $query = "select * from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$oldpid";
-    $result = $this->mDb->query($query);
+    $result = $this->query($query);
     $newaid = array();
     while($res = $result->fetchRow()) {    
       $oldaid = $res['activity_id'];
@@ -332,7 +332,7 @@ class ProcessManager extends BaseManager {
     }
     // create transitions
     $query = "select * from `".GALAXIA_TABLE_PREFIX."transitions` where `p_id`=$oldpid";
-    $result = $this->mDb->query($query);
+    $result = $this->query($query);
     while($res = $result->fetchRow()) {    
       if (empty($newaid[$res['act_from_id']]) || empty($newaid[$res['act_to_id']])) {
         continue;
@@ -342,7 +342,7 @@ class ProcessManager extends BaseManager {
     // create roles
     $rm = new RoleManager();
     $query = "select * from `".GALAXIA_TABLE_PREFIX."roles` where `p_id`=$oldpid";
-    $result = $this->mDb->query($query);
+    $result = $this->query($query);
     $newrid = array();
     while($res = $result->fetchRow()) {
       if(!$rm->role_name_exists($pid,$res['name'])) {
@@ -355,7 +355,7 @@ class ProcessManager extends BaseManager {
     // map users to roles
     if (count($newrid) > 0) {
       $query = "select * from `".GALAXIA_TABLE_PREFIX."group_roles` where `p_id`=$oldpid";
-      $result = $this->mDb->query($query);
+      $result = $this->query($query);
       while($res = $result->fetchRow()) {
         if (empty($newrid[$res['role_id']])) {
           continue;
@@ -366,7 +366,7 @@ class ProcessManager extends BaseManager {
     // add roles to activities
     if (count($newaid) > 0 && count($newrid ) > 0) {
       $query = "select * from ".GALAXIA_TABLE_PREFIX."activity_roles where activity_id in (" . join(', ',array_keys($newaid)) . ")";
-      $result = $this->mDb->query($query);
+      $result = $this->query($query);
       while($res = $result->fetchRow()) {
         if (empty($newaid[$res['activity_id']]) || empty($newrid[$res['role_id']])) {
           continue;
@@ -395,7 +395,7 @@ class ProcessManager extends BaseManager {
   function process_name_exists($name,$version)
   {
     $name = addslashes($this->_normalize_name($name,$version));
-    return $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."processes` where `normalized_name`='$name'");
+    return $this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."processes` where `normalized_name`='$name'");
   }
   
   
@@ -405,7 +405,7 @@ class ProcessManager extends BaseManager {
   function get_process($p_id)
   {
     $query = "select * from `".GALAXIA_TABLE_PREFIX."processes` where `p_id`=$p_id";
-    $result = $this->mDb->query($query);
+    $result = $this->query($query);
     if(!$result->numRows()) return false;
     $res = $result->fetchRow();
     return $res;
@@ -416,7 +416,7 @@ class ProcessManager extends BaseManager {
   */
   function list_processes($offset,$maxRecords,$sort_mode,$find,$where='')
   {
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->convert_sortmode($sort_mode);
     if($find) {
       $findesc = '%'.$find.'%';
       $mid=" where ((`name` like ?) or (`description` like ?))";
@@ -434,8 +434,8 @@ class ProcessManager extends BaseManager {
     }
     $query = "select * from `".GALAXIA_TABLE_PREFIX."processes` $mid order by $sort_mode";
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."processes` $mid";
-    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
-    $cant = $this->mDb->getOne($query_cant,$bindvars);
+    $result = $this->query($query,$bindvars,$maxRecords,$offset);
+    $cant = $this->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {
       $ret[] = $res;
@@ -452,7 +452,7 @@ class ProcessManager extends BaseManager {
   function invalidate_process($pid)
   {
     $query = "update `".GALAXIA_TABLE_PREFIX."processes` set `is_valid`='n' where `p_id`=$pid";
-    $this->mDb->query($query);
+    $this->query($query);
   }
   
   /*! 
@@ -465,25 +465,25 @@ class ProcessManager extends BaseManager {
     // Remove process activities
     $aM = new ActivityManager();
     $query = "select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=?";
-    $result = $this->mDb->query($query,array($p_id));
+    $result = $this->query($query,array($p_id));
     while($res = $result->fetchRow()) {
       $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `activity_id`=?";
-      $this->mDb->query($query, array($res['activity_id']));
+      $this->query($query, array($res['activity_id']));
       $query = "delete from `".GALAXIA_TABLE_PREFIX."workitems` where `activity_id`=?";
-      $this->mDb->query($query, array($res['activity_id']));
+      $this->query($query, array($res['activity_id']));
       $aM->remove_activity($p_id,$res['activity_id']);
     }
 
     // Remove process roles
     $rM = new RoleManager();
     $query = "select `role_id` from `".GALAXIA_TABLE_PREFIX."roles` where `p_id`=?";
-    $result = $this->mDb->query($query,array($p_id));
+    $result = $this->query($query,array($p_id));
     while($res = $result->fetchRow()) {
       $rM->remove_role($p_id,$res['role_id']);
     }
 
     $query = "delete from `".GALAXIA_TABLE_PREFIX."instances` where `p_id`=?";
-    $this->mDb->query($query, array($p_id));
+    $this->query($query, array($p_id));
     
     // Remove the directory structure
     if (!empty($name) && is_dir(GALAXIA_PROCESSES."/$name")) {
@@ -494,7 +494,7 @@ class ProcessManager extends BaseManager {
     }
     // And finally remove the proc
     $query = "delete from `".GALAXIA_TABLE_PREFIX."processes` where `p_id`=$p_id";
-    $this->mDb->query($query);
+    $this->query($query);
     $msg = sprintf(tra('Process %s removed'),$name);
     $this->notify_all(5,$msg);
     
@@ -529,7 +529,7 @@ class ProcessManager extends BaseManager {
         $first = false;
       }
       $query .= " where `p_id`=$p_id ";
-      $this->mDb->query($query);
+      $this->query($query);
       // Note that if the name is being changed then
       // the directory has to be renamed!
       $oldname = $old_proc['normalized_name'];
@@ -566,8 +566,8 @@ class ProcessManager extends BaseManager {
         }
       } 
       $query .=")";
-      $this->mDb->query($query);
-      $p_id = $this->mDb->getOne("select max(`p_id`) from `$TABLE_NAME` where `last_modified`=$now"); 
+      $this->query($query);
+      $p_id = $this->getOne("select max(`p_id`) from `$TABLE_NAME` where `last_modified`=$now"); 
       // Now automatically add a start and end activity 
       // unless importing ($create = false)
       if($create) {
