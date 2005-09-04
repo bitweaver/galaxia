@@ -56,7 +56,7 @@
   </td>
 </tr>
 
-<!--<tr>
+<tr>
   <td class="formcolor">{tr}Expiration Time{/tr} </td>
   <td class="formcolor">
   {tr}Years{/tr}:
@@ -80,7 +80,7 @@
   	{html_options options=$minutes selected=$info.minute}
   </SELECT>
   </td>
-</tr>-->
+</tr>
 <tr>
   <td>{tr}Add transitions{/tr}</td>
   <td>

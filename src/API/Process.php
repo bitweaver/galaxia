@@ -22,7 +22,7 @@ class Process extends Base {
     $result = $this->mDb->query($query,array($p_id));
     if(!$result->numRows()) return false;
     $res = $result->fetchRow();
-    $this->name = $res['name'];
+    $this->name = $res['procname'];
     $this->description = $res['description'];
     $this->normalizedName = $res['normalized_name'];
     $this->version = $res['version'];

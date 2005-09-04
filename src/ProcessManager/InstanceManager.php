@@ -26,7 +26,7 @@ class InstanceManager extends BaseManager {
   		$and = "and ga.`activity_id` = $aid";
   	}
     $query = "select ga.`activity_id`, ga.`type`, ga.`is_interactive`, ga.`is_auto_routed`, gi.`p_id`, ga.`name`,
-		gi.`instance_id`, gi.`status`, gia.`user_id`, gi.`started`, gia.`started` as ia_started, gia.`status` as `actstatus`, gia.`ended`
+		gi.`instance_id`, gi.`status`, ga.`expiration_time` as exptime, gia.`user_id`, gi.`started`, gia.`started` as ia_started, gia.`status` as `actstatus`, gia.`ended`
 		FROM `".GALAXIA_TABLE_PREFIX."activities` ga
 		INNER JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON ga.`activity_id`=gia.`activity_id`
 		INNER JOIN `".GALAXIA_TABLE_PREFIX."instances` gi ON gi.`instance_id`=gia.`instance_id`
@@ -36,14 +36,14 @@ class InstanceManager extends BaseManager {
     if ($and == "") {
     	while($res = $result->fetchRow()) {
     		// Number of active instances
-    		//$res['exptime'] = $this->make_ending_date($res['ia_started'],$res['exptime']);
+    		$res['exptime'] = $this->make_ending_date($res['ia_started'],$res['exptime']);
     		$ret[] = $res;
     	}
     	return $ret;
     }
     else {
     	$res = $result->fetchRow();
-    	//$res['exptime'] = $this->make_ending_date($res['ia_started'],$res['exptime']);
+    	$res['exptime'] = $this->make_ending_date($res['ia_started'],$res['exptime']);
     	return $res;
     }
   }

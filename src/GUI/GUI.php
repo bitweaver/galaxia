@@ -178,10 +178,12 @@ class GUI extends Base {
                      gi.`started`,
                      gi.`owner_id`,
                      gia.`user_id`,
+                     gia.`started` as `ia_started`,
                      gi.`status`,
                      gia.`status` as `actstatus`,
                      ga.`name`,
                      ga.`type`,
+		     ga.`expiration_time` as exptime,
                      gp.`procname`,
                      ga.`is_interactive`,
                      ga.`is_auto_routed`,
@@ -211,6 +213,7 @@ class GUI extends Base {
     $ret = Array();
     while($res = $result->fetchRow()) {
       // Get instances per activity
+      $res['exptime'] = $this->make_ending_date ($res['ia_started'],$res['exptime']);
       $ret[] = $res;
     }
     $retval = Array();

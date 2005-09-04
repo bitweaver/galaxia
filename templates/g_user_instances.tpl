@@ -85,6 +85,7 @@
 <th><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Activity{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'user_desc'}{sameurl sort_mode='user_asc'}{else}{sameurl sort_mode='user_desc'}{/if}">{tr}User{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'actstatus_desc'}{sameurl sort_mode='actstatus_asc'}{else}{sameurl sort_mode='actstatus_desc'}{/if}">{tr}Activity status{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'exptime_desc'}{sameurl sort_mode='exptime_asc'}{else}{sameurl sort_mode='exptime_desc'}{/if}">{tr}Expiration Date{/tr}</a></th>
 <th>{tr}Action{/tr}</th>
 </tr>
 {cycle values="even,odd" print=false}
@@ -97,13 +98,13 @@
 	<td style="text-align:center;">{$items[ix].type|act_icon:"$items[ix].is_interactive"} {$items[ix].name}</td>
 	<td style="text-align:center;">{if $items[ix].user_id eq ''}*{else}{displayname user_id=$items[ix].user_id}{/if}</td>
 	<td style="text-align:center;">{$items[ix].actstatus}</td>
-	{*<td class="{cycle advance=false}">
+	<td style="text-align:center;">
 	{if $items[ix].exptime eq 0}
 	    {tr}Not defined{/tr}
 	{else}
-	  {$items[ix].exptime|bit_long_datetime"}
+	  {$items[ix].exptime|bit_long_datetime}
 	{/if}
-	</td>*}
+	</td>
 	<td>{*actions*}<table>
 	  <tr>
 	  {*exception*}

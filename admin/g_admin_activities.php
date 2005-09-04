@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.1.1.1.2.3 2005/07/11 12:30:54 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.1.1.1.2.4 2005/09/04 14:02:40 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -41,12 +41,12 @@ if (!isset($_REQUEST['activity_id']))
 
 if ($_REQUEST["activity_id"]) {
 	$info = $activityManager->get_activity($_REQUEST['pid'], $_REQUEST["activity_id"]);
-/*	$time = $activityManager->get_expiration_members($info['expiration_time']);
+	$time = $activityManager->get_expiration_members($info['expiration_time']);
 	$info['year'] = $time['year'];
 	$info['month'] = $time['month'];
 	$info['day'] = $time['day'];
 	$info['hour'] = $time['hour'];
-	$info['minute'] = $time['minute'];*/
+	$info['minute'] = $time['minute'];
 } else {
 	$info = array(
 		'name' => '',
@@ -55,11 +55,11 @@ if ($_REQUEST["activity_id"]) {
 		'is_interactive' => 'y',
 		'is_auto_routed' => 'n',
 		'type' => 'activity',
-/*		'month'=> 0,
+		'month'=> 0,
 		'day'=> 0,
 		'hour'=> 0,
 		'minute'=> 0,
-		'expiration_time'=> 0*/
+		'expiration_time'=> 0
 	);
 }
 
@@ -85,11 +85,11 @@ if (!empty($_REQUEST['rolename']) && isset($_REQUEST['addrole'])) {
 		'is_interactive' => $is_interactive,
 		'is_auto_routed' => $is_auto_routed,
 		'type' => $_REQUEST['type'],
-/*		'month'=> 0,
+		'month'=> 0,
 		'day'=> 0,
 		'hour'=> 0,
 		'minute'=> 0,
-		'expiration_time'=> 0*/
+		'expiration_time'=> 0
 	);
 
 	$vars = array(
@@ -129,7 +129,7 @@ if (isset($_REQUEST['save_act'])) {
 		'is_interactive' => $is_interactive,
 		'is_auto_routed' => $is_auto_routed,
 		'type' => $_REQUEST['type'],
-//		'expiration_time' => $_REQUEST['year']*535680+$_REQUEST['month']*44640+$_REQUEST['day']*1440+$_REQUEST['hour']*60+$_REQUEST['minute'],
+		'expiration_time' => $_REQUEST['year']*535680+$_REQUEST['month']*44640+$_REQUEST['day']*1440+$_REQUEST['hour']*60+$_REQUEST['minute'],
 	);
 
 	if ($activityManager->activity_name_exists($_REQUEST['pid'], $_REQUEST['name']) && $_REQUEST['activity_id'] == 0) {
@@ -321,7 +321,7 @@ if (isset($_REQUEST["update_act"])) {
 	}
 }
 
-/*$arYears = array ();
+$arYears = array ();
 $arMonths = array();
 $arDays = array();
 $arHours = array();
@@ -341,7 +341,7 @@ $smarty->assign("months",$arMonths);
 $smarty->assign("days",$arDays);
 $smarty->assign("hours",$arHours);
 $smarty->assign("minutes",$arminutes);
-*/
+
 
 
 $smarty->assign_by_ref('items', $activities['data']);
