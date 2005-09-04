@@ -19,10 +19,10 @@ class Process extends Base {
   */
   function getProcess($p_id) {
     $query = "select * from `".GALAXIA_TABLE_PREFIX."processes` where `p_id`=?";
-    $result = $this->query($query,array($p_id));
+    $result = $this->mDb->query($query,array($p_id));
     if(!$result->numRows()) return false;
     $res = $result->fetchRow();
-    $this->name = $res['name'];
+    $this->name = $res['procname'];
     $this->description = $res['description'];
     $this->normalizedName = $res['normalized_name'];
     $this->version = $res['version'];
@@ -61,7 +61,7 @@ class Process extends Base {
     // Get the activity data
     $query = "select * from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=? and `name`=?";
     $p_id = $this->p_id;
-    $result = $this->query($query,array($p_id,$actname));
+    $result = $this->mDb->query($query,array($p_id,$actname));
     if(!$result->numRows()) return false;
     $res = $result->fetchRow();
     return $res;

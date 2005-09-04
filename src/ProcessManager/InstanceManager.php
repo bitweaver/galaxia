@@ -31,7 +31,7 @@ class InstanceManager extends BaseManager {
 		INNER JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON ga.`activity_id`=gia.`activity_id`
 		INNER JOIN `".GALAXIA_TABLE_PREFIX."instances` gi ON gi.`instance_id`=gia.`instance_id`
 		WHERE gi.`instance_id`=? $and ORDER BY gia.`started`";
-    $result = $this->query($query,array($iid));
+    $result = $this->mDb->query($query,array($iid));
     $ret = Array();
     if ($and == "") {
     	while($res = $result->fetchRow()) {
@@ -51,15 +51,15 @@ class InstanceManager extends BaseManager {
   function get_instance($iid)
   {
     $query = "select * from `".GALAXIA_TABLE_PREFIX."instances` gi where `instance_id`=$iid";
-    $result = $this->query($query);
+    $result = $this->mDb->query($query);
     $res = $result->fetchRow();
-    $res['workitems']=$this->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."workitems` where `instance_id`=$iid");
+    $res['workitems']=$this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."workitems` where `instance_id`=$iid");
     return $res;
   }
 
   function get_instance_properties($iid)
   {
-    $prop = unserialize($this->getOne("select `properties` from `".GALAXIA_TABLE_PREFIX."instances` gi where `instance_id`=$iid"));
+    $prop = unserialize($this->mDb->getOne("select `properties` from `".GALAXIA_TABLE_PREFIX."instances` gi where `instance_id`=$iid"));
     return $prop;
   }
   
@@ -67,41 +67,41 @@ class InstanceManager extends BaseManager {
   {
     $props = addslashes(serialize($prop));
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `properties`='$props' where `instance_id`=$iid";
-    $this->query($query);
+    $this->mDb->query($query);
   }
   
   function set_instance_name($iid,$name)
   {
     $query = "update ".GALAXIA_TABLE_PREFIX."instances set name=? where instance_id=?";
-    $this->query($query, array($name,$iid) );
+    $this->mDb->query($query, array($name,$iid) );
   }
   
   function set_instance_owner($iid,$owner)
   {
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `owner`='$owner' where `instance_id`=$iid";
-    $this->query($query);
+    $this->mDb->query($query);
   }
   
   function set_instance_status($iid,$status)
   {
     $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `status`='$status' where `instance_id`=$iid";
-    $this->query($query); 
+    $this->mDb->query($query); 
   }
   
   function set_instance_destination($iid,$activity_id)
   {
     $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=$iid";
-    $this->query($query);
+    $this->mDb->query($query);
     $now = date("U");
     $query = "insert into `".GALAXIA_TABLE_PREFIX."instance_activities` (`instance_id`, `activity_id`, `started`, `ended`, `user_id`, `status`)
     values(?,?,?,?,?,?)";
-    $this->query($query, array($iid,$activity_id,(int)$now,0,NULL,'running'));
+    $this->mDb->query($query, array($iid,$activity_id,(int)$now,0,NULL,'running'));
   }
   
   function set_instance_user($iid,$activity_id,$user_id)
   {
     $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities` set `user_id`=?, `status`=? where `instance_id`=? and `activity_id`=?";
-    $this->query($query, array($user_id,'running',(int)$iid,(int)$activity_id));
+    $this->mDb->query($query, array($user_id,'running',(int)$iid,(int)$activity_id));
   }
 
 }    
