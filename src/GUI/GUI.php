@@ -314,7 +314,7 @@ class GUI extends Base {
                        array($activity_id,$instance_id,$user_id))) return false;
     $query = "update `".GALAXIA_TABLE_PREFIX."instance_activities`
               set `user_id`=?
-              where `instance_id` is ? and `activity_id`=?";
+              where `instance_id`=? and `activity_id`=?";
     $this->mDb->query($query, array(NULL,$instance_id,$activity_id));
   }
 
