@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance.php,v 1.1.1.1.2.3 2005/07/16 13:08:09 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance.php,v 1.1.1.1.2.4 2005/09/15 12:43:33 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -36,13 +36,13 @@ if (isset($_REQUEST['save'])) {
 	$instanceManager->set_instance_status($_REQUEST['iid'], $_REQUEST['status']);
 	$instanceManager->set_instance_name($_REQUEST['iid'],$_REQUEST['name']);
 	$instanceManager->set_instance_owner($_REQUEST['iid'], $_REQUEST['owner']);
-/*	//y luego acts[activity_id][user] para reasignar users
+	//y luego acts[activity_id][user] para reasignar users
 	if (isset($_REQUEST['acts'])) {
 		foreach (array_keys($_REQUEST['acts'])as $act) {
 		$instanceManager->set_instance_user($_REQUEST['iid'], $act, $_REQUEST['acts'][$act]);
 		}
 	}
-*/
+
 	if ($_REQUEST['sendto']) {
 		$instanceManager->set_instance_destination($_REQUEST['iid'], $_REQUEST['sendto']);
 	}
