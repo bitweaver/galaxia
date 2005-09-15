@@ -77,6 +77,7 @@ class ProcessManager extends BaseManager {
       $out.='      <last_modified>'.date("d/m/Y [h:i:s]",$res['last_modified']).'</last_modified>'."\n";
       $out.='      <is_interactive>'.$res['is_interactive'].'</is_interactive>'."\n";
       $out.='      <is_auto_routed>'.$res['is_auto_routed'].'</is_auto_routed>'."\n";
+      $out.='	   <expiration_time>'.$res['expiration_time'].'</expiration_time>'."\n";
       $out.='      <roles>'."\n";
 
       $roles = $am->get_activity_roles($res['activity_id']);
@@ -249,7 +250,8 @@ class ProcessManager extends BaseManager {
         'type' => $activity['type'],
         'last_modified' => $activity['last_modified'],
         'is_interactive' => $activity['is_interactive'],
-        'is_auto_routed' => $activity['is_auto_routed']
+        'is_auto_routed' => $activity['is_auto_routed'],
+        'expiration_time'=> $activity['expiration_time']
       );    
       $actname=$am->_normalize_name($activity['name']);
       
@@ -467,10 +469,6 @@ class ProcessManager extends BaseManager {
     $query = "select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=?";
     $result = $this->mDb->query($query,array($p_id));
     while($res = $result->fetchRow()) {
-      $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `activity_id`=?";
-      $this->mDb->query($query, array($res['activity_id']));
-      $query = "delete from `".GALAXIA_TABLE_PREFIX."workitems` where `activity_id`=?";
-      $this->mDb->query($query, array($res['activity_id']));
       $aM->remove_activity($p_id,$res['activity_id']);
     }
 
