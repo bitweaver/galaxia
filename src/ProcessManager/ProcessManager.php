@@ -244,6 +244,7 @@ class ProcessManager extends BaseManager {
     $actids = Array();
     // Foreach activity create activities
     foreach($data['activities'] as $activity) {
+        $expiration_time = (isset($activity['expiration_time'])) ? $activity['expiration_time'] : 0;
       $vars = Array(
         'name' => $activity['name'],
         'description' => $activity['description'],
@@ -251,7 +252,7 @@ class ProcessManager extends BaseManager {
         'last_modified' => $activity['last_modified'],
         'is_interactive' => $activity['is_interactive'],
         'is_auto_routed' => $activity['is_auto_routed'],
-        'expiration_time'=> $activity['expiration_time']
+        'expiration_time' => $expiration_time
       );    
       $actname=$am->_normalize_name($activity['name']);
       
