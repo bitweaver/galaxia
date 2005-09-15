@@ -22,9 +22,9 @@
 <th>&nbsp;</th>	
 <th>{tr}status{/tr}</th>
 <th>{tr}proc{/tr}</th>
-<th>&nbsp;</th>	
+<th>{tr}activity status{/tr}</th>
 <th>{tr}user{/tr}</th>
-<th><!--{tr}act status{/tr}--></th>
+<th>&nbsp;</th>	
 <th>&nbsp;</th>	
 </tr><tr>
 <td>
@@ -46,11 +46,11 @@
 	{/section}
 	</select>
 </td><td>
-<!--	<select name="filter_act_status">
+	<select name="filter_act_status">
 	<option {if '' eq $smarty.request.filter_act_status}selected="selected"{/if} value="">{tr}All{/tr}</option>
 	<option value="running" {if 'y' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}running{/tr}</option>
 	<option value="completed" {if 'n' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}completed{/tr}</option>
-	</select>-->
+	</select>
 </td>
 <td>
 <select name="filter_user">
