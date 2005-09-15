@@ -78,7 +78,7 @@ class InstanceManager extends BaseManager {
   
   function set_instance_owner($iid,$owner)
   {
-    $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `owner`='$owner' where `instance_id`=$iid";
+    $query = "update `".GALAXIA_TABLE_PREFIX."instances` set `owner_id`='$owner' where `instance_id`=$iid";
     $this->mDb->query($query);
   }
   
