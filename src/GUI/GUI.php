@@ -188,7 +188,6 @@ class GUI extends Base {
                      ga.`is_interactive`,
                      ga.`is_auto_routed`,
                      ga.`activity_id`,
-                     ga.`p_id`,
                      gp.`version` as `version`,
                      gp.`p_id`
               from `".GALAXIA_TABLE_PREFIX."instances` gi
