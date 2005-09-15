@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_workitems.php,v 1.1.1.1.2.3 2005/07/17 16:26:34 lsces Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_workitems.php,v 1.1.1.1.2.4 2005/09/15 12:42:41 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -28,8 +28,12 @@ if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
 if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 	$wheres[] = "ga.activity_id=" . $_REQUEST['filter_activity'] . "";
 
-if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user'])
-	$wheres[] = "`user_id`='" . $_REQUEST['filter_user'] . "'";
+if (isset($_REQUEST['filter_user']) && $_REQUEST['filter_user']) {
+	if ($_REQUEST['filter_user'] == '*')
+		$wheres[] = "`user_id` is NULL";
+	elseif (is_numeric($_REQUEST['filter_user']))
+		$wheres[] = "`user_id`='" . $_REQUEST['filter_user'] . "'";
+}
 
 $where = implode(' and ', $wheres);
 
