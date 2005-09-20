@@ -14,7 +14,7 @@
 <table class="panel">
 <tr>
 	<td>{tr}Activity{/tr}</td>
-	<td><a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$iid}&amp;activity_id={$aid}">{$acts.name} {if $acts.actstatus eq 'running'}{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>{/if}</td>
+	<td><a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$iid}&amp;activity_id={$aid}">{$acts.name} {if $acts.actstatus eq 'running'}{biticon ipackage="Galaxia" iname="next" iexplain="run activity"}</a>{/if}</td>
 </tr>
 <tr>
 	<td>{tr}Instance{/tr}</td>

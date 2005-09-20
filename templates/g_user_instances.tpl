@@ -110,30 +110,30 @@
 	  {*exception*}
       {if $gBitUser->hasPermission('bit_p_exception_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].status ne 'exception' and $items[ix].user_id eq $user_id}
-	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to exception this instance?{/tr}');" title="{tr}exception instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?exception=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance" iclass="icon"}</a></td>
+	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to exception this instance?{/tr}');" title="{tr}exception instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?exception=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance"}</a></td>
 	  {/if}
       {/if}
 	  {if $items[ix].is_auto_routed eq 'n' and $items[ix].actstatus eq 'completed'}
 	  {*send*}
-	  <td><a title="{tr}send instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?send=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="linkto" iexplain="send instance" iclass="icon"}</a></td>
+	  <td><a title="{tr}send instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?send=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="linkto" iexplain="send instance"}</a></td>
 	  {/if}
 	  {if $items[ix].is_interactive eq 'y' and $items[ix].status eq 'active'}
 	  {*run*}
-	  <td><a title="{tr}run instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$items[ix].instance_id}&amp;activity_id={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run instance" iclass="icon"}</a></td>
+	  <td><a title="{tr}run instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$items[ix].instance_id}&amp;activity_id={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run instance"}</a></td>
 	  {/if}
 	  {*abort*}
       {if $gBitUser->hasPermission('bit_p_abort_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].user_id eq $user_id}
-	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to abort this instance?{/tr}');" title="{tr}abort instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance" iclass="icon"}</a></td>
+	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to abort this instance?{/tr}');" title="{tr}abort instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance"}</a></td>
       {/if}
 	  {/if}
 	  {if $items[ix].user_id eq NULL and $items[ix].status eq 'active'}
 	  {*grab*}
-	  <td><a title="{tr}grab instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?grab=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="fix" iexplain="grab instance" iclass="icon"}</a></td>
+	  <td><a title="{tr}grab instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?grab=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="fix" iexplain="grab instance"}</a></td>
 	  {else}
 	  {*release*}
 	  {if $items[ix].status eq 'active'}
-	  <td><a title="{tr}release instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?release=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="float" iexplain="release instance" iclass="icon"}</a></td>
+	  <td><a title="{tr}release instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?release=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="float" iexplain="release instance"}</a></td>
 	  {/if}
 	  {/if}
 	  </tr>
