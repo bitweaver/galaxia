@@ -1,7 +1,7 @@
 <?php
 
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance_activity.php,v 1.1.2.1 2005/07/16 22:52:35 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance_activity.php,v 1.1.2.2 2005/09/25 11:36:31 wolff_borg Exp $
 
 // Copyright (c) 2002-2005, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -26,8 +26,8 @@ if (!isset($_REQUEST['aid'])) {
 	galaxia_show_error(tra("No activity indicated"));
 }
 
-$smarty->assign('iid', $_REQUEST['iid']);
-$smarty->assign('aid', $_REQUEST['aid']);
+$gBitSmarty->assign('iid', $_REQUEST['iid']);
+$gBitSmarty->assign('aid', $_REQUEST['aid']);
 
 // Get workitems and list the workitems with an option to edit workitems for
 // this instance
@@ -53,19 +53,19 @@ if (isset($_REQUEST['save'])) {
 
 // Get the instance and set instance information
 $ins_info = $instanceManager->get_instance($_REQUEST['iid']);
-$smarty->assign_by_ref('ins_info', $ins_info);
+$gBitSmarty->assign_by_ref('ins_info', $ins_info);
 
 // Get the process from the instance and set information
 $proc_info = $processManager->get_process($ins_info['p_id']);
-$smarty->assign_by_ref('proc_info', $proc_info);
+$gBitSmarty->assign_by_ref('proc_info', $proc_info);
 
 // Process activities
 $activities = $activityManager->list_activities($ins_info['p_id'], 0, -1, 'flow_num_asc', '', '');
-$smarty->assign('activities', $activities['data']);
+$gBitSmarty->assign('activities', $activities['data']);
 
 // Users
 $users = $gBitUser->get_users(0, -1, 'login_asc', '');
-$smarty->assign_by_ref('users', $users['data']);
+$gBitSmarty->assign_by_ref('users', $users['data']);
 
 $props = $instanceManager->get_instance_properties($_REQUEST['iid']);
 
@@ -79,7 +79,7 @@ if (isset($_REQUEST['unsetprop'])) {
 if (!is_array($props))
 	$props = array();
 
-$smarty->assign_by_ref('props', $props);
+$gBitSmarty->assign_by_ref('props', $props);
 
 if (isset($_REQUEST['addprop'])) {
 	
@@ -98,7 +98,7 @@ if (isset($_REQUEST['saveprops'])) {
 }
 
 $acts = $instanceManager->get_instance_activities($_REQUEST['iid'],$_REQUEST['aid']);
-$smarty->assign_by_ref('acts', $acts);
+$gBitSmarty->assign_by_ref('acts', $acts);
 
 $instance->getInstance($_REQUEST['iid']);
 
@@ -113,7 +113,7 @@ if (isset($_REQUEST['__removecomment'])) {
 	}
 }
 
-$smarty->assign_by_ref('__comments', $__comments);
+$gBitSmarty->assign_by_ref('__comments', $__comments);
 
 if (!isset($_REQUEST['__cid']))
 	$_REQUEST['__cid'] = 0;
@@ -124,7 +124,7 @@ if (isset($_REQUEST['__post'])) {
 }
 
 $__comments = $instance->get_instance_comments($_REQUEST['aid']);
-$smarty->assign('comments',$__comments);
+$gBitSmarty->assign('comments',$__comments);
 
 
 $gBitSystem->display( 'bitpackage:Galaxia/g_admin_instance_activity.tpl', tra("Admin Instance Activity") );

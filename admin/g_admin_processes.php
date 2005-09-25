@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1.1.1.2.4 2005/07/17 16:43:45 lsces Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.1.1.1.2.5 2005/09/25 11:36:31 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -34,8 +34,8 @@ if ($_REQUEST["pid"]) {
 	);
 }
 
-$smarty->assign('pid', $_REQUEST['pid']);
-$smarty->assign('info', $info);
+$gBitSmarty->assign('pid', $_REQUEST['pid']);
+$gBitSmarty->assign('info', $info);
 
 //Check here for an uploaded process
 if (isset($_FILES['userfile1']) && is_uploaded_file($_FILES['userfile1']['tmp_name'])) {
@@ -116,9 +116,9 @@ if (isset($_REQUEST['save'])) {
 		'graph' => '#'
 	);
 
-	$smarty->assign('info', $info);
+	$gBitSmarty->assign('info', $info);
 }
-$smarty->assign_by_ref('proc_info', $info);
+$gBitSmarty->assign_by_ref('proc_info', $info);
 
 $where = '';
 $wheres = array();
@@ -159,7 +159,7 @@ if (!isset($_REQUEST["offset"])) {
 	$offset = $_REQUEST["offset"];
 }
 
-$smarty->assign_by_ref('offset', $offset);
+$gBitSmarty->assign_by_ref('offset', $offset);
 
 if (isset($_REQUEST["find"])) {
 	$find = $_REQUEST["find"];
@@ -167,30 +167,30 @@ if (isset($_REQUEST["find"])) {
 	$find = '';
 }
 
-$smarty->assign('find', $find);
-$smarty->assign('where', $where);
-$smarty->assign_by_ref('sort_mode', $sort_mode);
+$gBitSmarty->assign('find', $find);
+$gBitSmarty->assign('where', $where);
+$gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
 
 $items = $processManager->list_processes($offset, $maxRecords, $sort_mode, $find, $where);
-$smarty->assign('cant', $items['cant']);
+$gBitSmarty->assign('cant', $items['cant']);
 
 $cant_pages = ceil($items["cant"] / $maxRecords);
-$smarty->assign_by_ref('cant_pages', $cant_pages);
-$smarty->assign('actual_page', 1 + ($offset / $maxRecords));
+$gBitSmarty->assign_by_ref('cant_pages', $cant_pages);
+$gBitSmarty->assign('actual_page', 1 + ($offset / $maxRecords));
 
 if ($items["cant"] > ($offset + $maxRecords)) {
-	$smarty->assign('next_offset', $offset + $maxRecords);
+	$gBitSmarty->assign('next_offset', $offset + $maxRecords);
 } else {
-	$smarty->assign('next_offset', -1);
+	$gBitSmarty->assign('next_offset', -1);
 }
 
 if ($offset > 0) {
-	$smarty->assign('prev_offset', $offset - $maxRecords);
+	$gBitSmarty->assign('prev_offset', $offset - $maxRecords);
 } else {
-	$smarty->assign('prev_offset', -1);
+	$gBitSmarty->assign('prev_offset', -1);
 }
 
-$smarty->assign_by_ref('items', $items["data"]);
+$gBitSmarty->assign_by_ref('items', $items["data"]);
 
 if ($_REQUEST['pid']) {
 	
@@ -204,7 +204,7 @@ if ($_REQUEST['pid']) {
 		$errors = $activityManager->get_error();
 	}
 
-	$smarty->assign('errors', $errors);
+	$gBitSmarty->assign('errors', $errors);
 }
 
 $sameurl_elements = array(
@@ -219,17 +219,17 @@ $sameurl_elements = array(
 );
 
 $all_procs = $processManager->list_processes(0, -1, 'procname_desc', '', '');
-$smarty->assign_by_ref('all_procs', $all_procs['data']);
+$gBitSmarty->assign_by_ref('all_procs', $all_procs['data']);
 
 foreach ($all_procs['data'] as $item) {
 	$all_proc_names[$item['procname']] = $item['procname'];
 }
-$smarty->assign_by_ref('all_proc_names', $all_proc_names);
+$gBitSmarty->assign_by_ref('all_proc_names', $all_proc_names);
 
 foreach ($all_procs['data'] as $item) {
 	$all_proc_versions[$item['version']] = $item['version'];
 }
-$smarty->assign_by_ref('all_proc_versions', $all_proc_versions);
+$gBitSmarty->assign_by_ref('all_proc_versions', $all_proc_versions);
 
 $gBitSystem->display( 'bitpackage:Galaxia/g_admin_processes.tpl', tra('Admin Processes') );
 

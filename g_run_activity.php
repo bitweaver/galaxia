@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.1.1.1.2.3 2005/07/11 12:30:53 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.1.1.1.2.4 2005/09/25 11:36:31 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -51,11 +51,11 @@ foreach ($act_role_names as $role) {
 	$name = 'bw-role-' . $role['name'];
 
 	if (in_array($role['role_id'], $user_roles)) {
-		$smarty->assign("$name", 'y');
+		$gBitSmarty->assign("$name", 'y');
 
 		$$name = 'y';
 	} else {
-		$smarty->assign("$name", 'n');
+		$gBitSmarty->assign("$name", 'n');
 
 		$$name = 'n';
 	}
@@ -81,7 +81,7 @@ if (isset($_REQUEST['__removecomment'])) {
 	}
 }
 
-$smarty->assign_by_ref('__comments', $__comments);
+$gBitSmarty->assign_by_ref('__comments', $__comments);
 
 if (!isset($_REQUEST['__cid']))
 	$_REQUEST['__cid'] = 0;
@@ -97,22 +97,22 @@ $__comments = $instance->get_instance_comments($activity->getActivityId());
 // This goes to the end part of all activities
 // If this activity is interactive then we have to display the template
 if (!isset($_REQUEST['auto']) && $__activity_completed && $activity->is_interactive() && !isset($_REQUEST['__post'])) {
-	$smarty->assign('procname', $process->getName());
-	$smarty->assign('procversion', $process->getVersion());
-	$smarty->assign('actname', $activity->getName());
-	$smarty->assign('actid',$activity->getActivityId());
-	$smarty->assign('post','n');
-	$smarty->assign('iid',$instance->instance_id);
+	$gBitSmarty->assign('procname', $process->getName());
+	$gBitSmarty->assign('procversion', $process->getVersion());
+	$gBitSmarty->assign('actname', $activity->getName());
+	$gBitSmarty->assign('actid',$activity->getActivityId());
+	$gBitSmarty->assign('post','n');
+	$gBitSmarty->assign('iid',$instance->instance_id);
 	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl', tra("Activity Completed") );
 } 
 elseif (!isset($_REQUEST['auto']) && $activity->is_interactive() && isset($_REQUEST['__post'])) {
-	$smarty->assign('procname', $process->getName());
-	$smarty->assign('procversion', $process->getVersion());
-	$smarty->assign('actname', $activity->getName());
-	$smarty->assign('actid',$activity->getActivityId());
-	$smarty->assign('title',$_REQUEST['__title']);
-	$smarty->assign('comment',$_REQUEST['__comment']);
-	$smarty->assign('post','y');
+	$gBitSmarty->assign('procname', $process->getName());
+	$gBitSmarty->assign('procversion', $process->getVersion());
+	$gBitSmarty->assign('actname', $activity->getName());
+	$gBitSmarty->assign('actid',$activity->getActivityId());
+	$gBitSmarty->assign('title',$_REQUEST['__title']);
+	$gBitSmarty->assign('comment',$_REQUEST['__comment']);
+	$gBitSmarty->assign('post','y');
 	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl', tra("Activity Completed") );
 }
 else {

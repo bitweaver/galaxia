@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.1.1.1.2.4 2005/09/04 14:02:40 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.1.1.1.2.5 2005/09/25 11:36:31 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -27,7 +27,7 @@ if (!isset($_REQUEST['pid'])) {
 	die;
 }
 
-$smarty->assign('pid', $_REQUEST['pid']);
+$gBitSmarty->assign('pid', $_REQUEST['pid']);
 
 $proc_info = $processManager->get_process($_REQUEST['pid']);
 $proc_info['graph']=GALAXIA_PROCESSES_URL.$proc_info['normalized_name']."/graph/".$proc_info['normalized_name'].".png";
@@ -63,8 +63,8 @@ if ($_REQUEST["activity_id"]) {
 	);
 }
 
-$smarty->assign('activity_id', $_REQUEST['activity_id']);
-$smarty->assign('info', $info);
+$gBitSmarty->assign('activity_id', $_REQUEST['activity_id']);
+$gBitSmarty->assign('info', $info);
 
 // Remove a role from the activity
 if (isset($_REQUEST['remove_role']) && $_REQUEST['activity_id']) {
@@ -166,7 +166,7 @@ if (isset($_REQUEST['save_act'])) {
 	);
 
 	$_REQUEST['activity_id'] = 0;
-	$smarty->assign('info', $info);
+	$gBitSmarty->assign('info', $info);
 	// remove transitions
 	$activityManager->remove_activity_transitions($_REQUEST['pid'], $newaid);
 
@@ -185,7 +185,7 @@ if (isset($_REQUEST['save_act'])) {
 
 // Get all the process roles
 $all_roles = $roleManager->list_roles($_REQUEST['pid'], 0, -1, 'name_asc', '');
-$smarty->assign_by_ref('all_roles', $all_roles['data']);
+$gBitSmarty->assign_by_ref('all_roles', $all_roles['data']);
 
 // Get activity roles
 if ($_REQUEST['activity_id']) {
@@ -194,7 +194,7 @@ if ($_REQUEST['activity_id']) {
 	$roles = array();
 }
 
-$smarty->assign('roles', $roles);
+$gBitSmarty->assign('roles', $roles);
 
 $where = '';
 
@@ -225,9 +225,9 @@ if (!isset($_REQUEST['find']))
 if (!isset($_REQUEST['were']))
 	$_REQUEST['where'] = $where;
 
-$smarty->assign('sort_mode', $_REQUEST['sort_mode']);
-$smarty->assign('find', $_REQUEST['find']);
-$smarty->assign('where', $_REQUEST['where']);
+$gBitSmarty->assign('sort_mode', $_REQUEST['sort_mode']);
+$gBitSmarty->assign('find', $_REQUEST['find']);
+$gBitSmarty->assign('where', $_REQUEST['where']);
 
 // Transitions
 if (isset($_REQUEST["delete_tran"])) {
@@ -251,8 +251,8 @@ if (isset($_REQUEST['filter_tran_name']) && $_REQUEST['filter_tran_name']) {
 if (!isset($_REQUEST['filter_tran_name']))
 	$_REQUEST['filter_tran_name'] = '';
 
-$smarty->assign('filter_tran_name', $_REQUEST['filter_tran_name']);
-$smarty->assign_by_ref('transitions', $transitions);
+$gBitSmarty->assign('filter_tran_name', $_REQUEST['filter_tran_name']);
+$gBitSmarty->assign_by_ref('transitions', $transitions);
 
 $valid = $activityManager->validate_process_activities($_REQUEST['pid']);
 $proc_info['is_valid'] = $valid ? 'y' : 'n';
@@ -269,7 +269,7 @@ if (isset($_REQUEST['deactivate_proc'])) {
 	$proc_info['is_active'] = 'n';
 }
 
-$smarty->assign_by_ref('proc_info', $proc_info);
+$gBitSmarty->assign_by_ref('proc_info', $proc_info);
 
 $errors = array();
 
@@ -277,7 +277,7 @@ if (!$valid) {
 	$errors = $activityManager->get_error();
 }
 
-$smarty->assign('errors', $errors);
+$gBitSmarty->assign('errors', $errors);
 
 //Now information for activities in this process
 $activities = $activityManager->list_activities($_REQUEST['pid'], 0, -1, $_REQUEST['sort_mode'], $_REQUEST['find'], $where);
@@ -336,15 +336,15 @@ for ($i=0;$i<=$maxExpirationTime['hours'];$i++)
 	$arHours["$i"] = $i;
 for ($i=0;$i<=$maxExpirationTime['minutes'];$i++)
 	$arminutes["$i"] = $i;
-$smarty->assign("years",$arYears);
-$smarty->assign("months",$arMonths);
-$smarty->assign("days",$arDays);
-$smarty->assign("hours",$arHours);
-$smarty->assign("minutes",$arminutes);
+$gBitSmarty->assign("years",$arYears);
+$gBitSmarty->assign("months",$arMonths);
+$gBitSmarty->assign("days",$arDays);
+$gBitSmarty->assign("hours",$arHours);
+$gBitSmarty->assign("minutes",$arminutes);
 
 
 
-$smarty->assign_by_ref('items', $activities['data']);
+$gBitSmarty->assign_by_ref('items', $activities['data']);
 
 $activityManager->build_process_graph($_REQUEST['pid']);
 

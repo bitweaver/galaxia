@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_processes.php,v 1.1.1.1.2.3 2005/07/17 16:26:34 lsces Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_processes.php,v 1.1.1.1.2.4 2005/09/25 11:36:31 wolff_borg Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -42,7 +42,7 @@ if (!isset($_REQUEST["offset"])) {
 	$offset = $_REQUEST["offset"];
 }
 
-$smarty->assign_by_ref('offset', $offset);
+$gBitSmarty->assign_by_ref('offset', $offset);
 
 if (isset($_REQUEST["find"])) {
 	$find = $_REQUEST["find"];
@@ -50,33 +50,33 @@ if (isset($_REQUEST["find"])) {
 	$find = '';
 }
 
-$smarty->assign('find', $find);
-$smarty->assign('where', $where);
-$smarty->assign_by_ref('sort_mode', $sort_mode);
+$gBitSmarty->assign('find', $find);
+$gBitSmarty->assign('where', $where);
+$gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
 
 $items = $processMonitor->monitor_list_processes($offset, $maxRecords, $sort_mode, $find, $where);
-$smarty->assign('cant', $items['cant']);
+$gBitSmarty->assign('cant', $items['cant']);
 
 $cant_pages = ceil($items["cant"] / $maxRecords);
-$smarty->assign_by_ref('cant_pages', $cant_pages);
-$smarty->assign('actual_page', 1 + ($offset / $maxRecords));
+$gBitSmarty->assign_by_ref('cant_pages', $cant_pages);
+$gBitSmarty->assign('actual_page', 1 + ($offset / $maxRecords));
 
 if ($items["cant"] > ($offset + $maxRecords)) {
-	$smarty->assign('next_offset', $offset + $maxRecords);
+	$gBitSmarty->assign('next_offset', $offset + $maxRecords);
 } else {
-	$smarty->assign('next_offset', -1);
+	$gBitSmarty->assign('next_offset', -1);
 }
 
 if ($offset > 0) {
-	$smarty->assign('prev_offset', $offset - $maxRecords);
+	$gBitSmarty->assign('prev_offset', $offset - $maxRecords);
 } else {
-	$smarty->assign('prev_offset', -1);
+	$gBitSmarty->assign('prev_offset', -1);
 }
 
-$smarty->assign_by_ref('items', $items["data"]);
+$gBitSmarty->assign_by_ref('items', $items["data"]);
 
 $all_procs = $processMonitor->monitor_list_processes(0, -1, 'procname_desc', '', '');
-$smarty->assign_by_ref('all_procs', $all_procs["data"]);
+$gBitSmarty->assign_by_ref('all_procs', $all_procs["data"]);
 
 $sameurl_elements = array(
 	'offset',
@@ -89,7 +89,7 @@ $sameurl_elements = array(
 	'processId'
 );
 
-$smarty->assign('stats', $processMonitor->monitor_stats());
+$gBitSmarty->assign('stats', $processMonitor->monitor_stats());
 
 
 $gBitSystem->display( 'bitpackage:Galaxia/g_monitor_processes.tpl', tra('Monitor Processes') );
