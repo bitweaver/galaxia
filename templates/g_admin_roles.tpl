@@ -1,7 +1,7 @@
 {* $Header: *}
+{strip}
 {popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
 <div class="floaticon">{bithelp}</div>
-{strip}
 <div class="admin galaxia">
 	<div class="header">
 		<h1>{tr}Admin process roles{/tr}</h1>
@@ -12,6 +12,7 @@
 			{include file="bitpackage:Galaxia/process_nav.tpl"}
 			{if count($errors) > 0}
 				<div class="error">
+					{tr}This process is invalid{/tr}:<br />
 					{formfeedback hash=$errors}
 				</div>
 			{/if}
