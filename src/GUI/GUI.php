@@ -77,7 +77,7 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."activity_roles` gar ON gia.`activity_id`=gar.`activity_id`
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON gar.`role_id`=ggr.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
-		where gi.`p_id`=? and (gia.`user_id`=? or (gia.`user_id`=? and ugm.`user_id`=?))",
+		where gi.`p_id`=? and (gia.`user_id`=? or (gia.`user_id` is ? and ugm.`user_id`=?))",
 		array($p_id,$user_id,NULL,$user_id));
       $ret[] = $res;
     }
@@ -178,16 +178,16 @@ class GUI extends Base {
                      gi.`started`,
                      gi.`owner_id`,
                      gia.`user_id`,
+                     gia.`started` as `ia_started`,
                      gi.`status`,
                      gia.`status` as `actstatus`,
                      ga.`name`,
                      ga.`type`,
-	             ga.`expiration_time` as exptime,
+		     ga.`expiration_time` as exptime,
                      gp.`procname`,
                      ga.`is_interactive`,
                      ga.`is_auto_routed`,
                      ga.`activity_id`,
-                     ga.`p_id`,
                      gp.`version` as `version`,
                      gp.`p_id`
               from `".GALAXIA_TABLE_PREFIX."instances` gi
@@ -212,6 +212,7 @@ class GUI extends Base {
     $ret = Array();
     while($res = $result->fetchRow()) {
       // Get instances per activity
+      $res['exptime'] = $this->make_ending_date ($res['ia_started'],$res['exptime']);
       $ret[] = $res;
     }
     $retval = Array();

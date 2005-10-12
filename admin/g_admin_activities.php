@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.2 2005/08/01 20:56:40 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -27,7 +27,7 @@ if (!isset($_REQUEST['pid'])) {
 	die;
 }
 
-$smarty->assign('pid', $_REQUEST['pid']);
+$gBitSmarty->assign('pid', $_REQUEST['pid']);
 
 $proc_info = $processManager->get_process($_REQUEST['pid']);
 $proc_info['graph']=GALAXIA_PROCESSES_URL.$proc_info['normalized_name']."/graph/".$proc_info['normalized_name'].".png";
@@ -41,12 +41,12 @@ if (!isset($_REQUEST['activity_id']))
 
 if ($_REQUEST["activity_id"]) {
 	$info = $activityManager->get_activity($_REQUEST['pid'], $_REQUEST["activity_id"]);
-/*	$time = $activityManager->get_expiration_members($info['expiration_time']);
+	$time = $activityManager->get_expiration_members($info['expiration_time']);
 	$info['year'] = $time['year'];
 	$info['month'] = $time['month'];
 	$info['day'] = $time['day'];
 	$info['hour'] = $time['hour'];
-	$info['minute'] = $time['minute'];*/
+	$info['minute'] = $time['minute'];
 } else {
 	$info = array(
 		'name' => '',
@@ -55,16 +55,16 @@ if ($_REQUEST["activity_id"]) {
 		'is_interactive' => 'y',
 		'is_auto_routed' => 'n',
 		'type' => 'activity',
-/*		'month'=> 0,
+		'month'=> 0,
 		'day'=> 0,
 		'hour'=> 0,
 		'minute'=> 0,
-		'expiration_time'=> 0*/
+		'expiration_time'=> 0
 	);
 }
 
-$smarty->assign('activity_id', $_REQUEST['activity_id']);
-$smarty->assign('info', $info);
+$gBitSmarty->assign('activity_id', $_REQUEST['activity_id']);
+$gBitSmarty->assign('info', $info);
 
 // Remove a role from the activity
 if (isset($_REQUEST['remove_role']) && $_REQUEST['activity_id']) {
@@ -85,11 +85,11 @@ if (!empty($_REQUEST['rolename']) && isset($_REQUEST['addrole'])) {
 		'is_interactive' => $is_interactive,
 		'is_auto_routed' => $is_auto_routed,
 		'type' => $_REQUEST['type'],
-/*		'month'=> 0,
+		'month'=> 0,
 		'day'=> 0,
 		'hour'=> 0,
 		'minute'=> 0,
-		'expiration_time'=> 0*/
+		'expiration_time'=> 0
 	);
 
 	$vars = array(
@@ -129,7 +129,7 @@ if (isset($_REQUEST['save_act'])) {
 		'is_interactive' => $is_interactive,
 		'is_auto_routed' => $is_auto_routed,
 		'type' => $_REQUEST['type'],
-//		'expiration_time' => $_REQUEST['year']*535680+$_REQUEST['month']*44640+$_REQUEST['day']*1440+$_REQUEST['hour']*60+$_REQUEST['minute'],
+		'expiration_time' => $_REQUEST['year']*535680+$_REQUEST['month']*44640+$_REQUEST['day']*1440+$_REQUEST['hour']*60+$_REQUEST['minute'],
 	);
 
 	if ($activityManager->activity_name_exists($_REQUEST['pid'], $_REQUEST['name']) && $_REQUEST['activity_id'] == 0) {
@@ -166,7 +166,7 @@ if (isset($_REQUEST['save_act'])) {
 	);
 
 	$_REQUEST['activity_id'] = 0;
-	$smarty->assign('info', $info);
+	$gBitSmarty->assign('info', $info);
 	// remove transitions
 	$activityManager->remove_activity_transitions($_REQUEST['pid'], $newaid);
 
@@ -185,7 +185,7 @@ if (isset($_REQUEST['save_act'])) {
 
 // Get all the process roles
 $all_roles = $roleManager->list_roles($_REQUEST['pid'], 0, -1, 'name_asc', '');
-$smarty->assign_by_ref('all_roles', $all_roles['data']);
+$gBitSmarty->assign_by_ref('all_roles', $all_roles['data']);
 
 // Get activity roles
 if ($_REQUEST['activity_id']) {
@@ -194,7 +194,7 @@ if ($_REQUEST['activity_id']) {
 	$roles = array();
 }
 
-$smarty->assign('roles', $roles);
+$gBitSmarty->assign('roles', $roles);
 
 $where = '';
 
@@ -225,9 +225,9 @@ if (!isset($_REQUEST['find']))
 if (!isset($_REQUEST['were']))
 	$_REQUEST['where'] = $where;
 
-$smarty->assign('sort_mode', $_REQUEST['sort_mode']);
-$smarty->assign('find', $_REQUEST['find']);
-$smarty->assign('where', $_REQUEST['where']);
+$gBitSmarty->assign('sort_mode', $_REQUEST['sort_mode']);
+$gBitSmarty->assign('find', $_REQUEST['find']);
+$gBitSmarty->assign('where', $_REQUEST['where']);
 
 // Transitions
 if (isset($_REQUEST["delete_tran"])) {
@@ -251,8 +251,8 @@ if (isset($_REQUEST['filter_tran_name']) && $_REQUEST['filter_tran_name']) {
 if (!isset($_REQUEST['filter_tran_name']))
 	$_REQUEST['filter_tran_name'] = '';
 
-$smarty->assign('filter_tran_name', $_REQUEST['filter_tran_name']);
-$smarty->assign_by_ref('transitions', $transitions);
+$gBitSmarty->assign('filter_tran_name', $_REQUEST['filter_tran_name']);
+$gBitSmarty->assign_by_ref('transitions', $transitions);
 
 $valid = $activityManager->validate_process_activities($_REQUEST['pid']);
 $proc_info['is_valid'] = $valid ? 'y' : 'n';
@@ -269,7 +269,7 @@ if (isset($_REQUEST['deactivate_proc'])) {
 	$proc_info['is_active'] = 'n';
 }
 
-$smarty->assign_by_ref('proc_info', $proc_info);
+$gBitSmarty->assign_by_ref('proc_info', $proc_info);
 
 $errors = array();
 
@@ -277,7 +277,7 @@ if (!$valid) {
 	$errors = $activityManager->get_error();
 }
 
-$smarty->assign('errors', $errors);
+$gBitSmarty->assign('errors', $errors);
 
 //Now information for activities in this process
 $activities = $activityManager->list_activities($_REQUEST['pid'], 0, -1, $_REQUEST['sort_mode'], $_REQUEST['find'], $where);
@@ -321,7 +321,7 @@ if (isset($_REQUEST["update_act"])) {
 	}
 }
 
-/*$arYears = array ();
+$arYears = array ();
 $arMonths = array();
 $arDays = array();
 $arHours = array();
@@ -336,15 +336,15 @@ for ($i=0;$i<=$maxExpirationTime['hours'];$i++)
 	$arHours["$i"] = $i;
 for ($i=0;$i<=$maxExpirationTime['minutes'];$i++)
 	$arminutes["$i"] = $i;
-$smarty->assign("years",$arYears);
-$smarty->assign("months",$arMonths);
-$smarty->assign("days",$arDays);
-$smarty->assign("hours",$arHours);
-$smarty->assign("minutes",$arminutes);
-*/
+$gBitSmarty->assign("years",$arYears);
+$gBitSmarty->assign("months",$arMonths);
+$gBitSmarty->assign("days",$arDays);
+$gBitSmarty->assign("hours",$arHours);
+$gBitSmarty->assign("minutes",$arminutes);
 
 
-$smarty->assign_by_ref('items', $activities['data']);
+
+$gBitSmarty->assign_by_ref('items', $activities['data']);
 
 $activityManager->build_process_graph($_REQUEST['pid']);
 

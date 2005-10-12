@@ -473,6 +473,11 @@ class ActivityManager extends BaseManager {
     }
     $query = "delete from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=$activity_id";
     $this->mDb->query($query);
+    $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `activity_id`=?";
+    $this->mDb->query($query, array($activity_id));
+    $query = "delete from `".GALAXIA_TABLE_PREFIX."workitems` where `activity_id`=?";
+    $this->mDb->query($query, array($activity_id));
+
     // And we have to remove the user and compiled files
     // for this activity
     $procname = $proc_info['normalized_name'];

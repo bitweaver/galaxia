@@ -22,9 +22,9 @@
 <th>&nbsp;</th>	
 <th>{tr}status{/tr}</th>
 <th>{tr}proc{/tr}</th>
-<th>&nbsp;</th>	
+<th>{tr}activity status{/tr}</th>
 <th>{tr}user{/tr}</th>
-<th><!--{tr}act status{/tr}--></th>
+<th>&nbsp;</th>	
 <th>&nbsp;</th>	
 </tr><tr>
 <td>
@@ -46,11 +46,11 @@
 	{/section}
 	</select>
 </td><td>
-<!--	<select name="filter_act_status">
+	<select name="filter_act_status">
 	<option {if '' eq $smarty.request.filter_act_status}selected="selected"{/if} value="">{tr}All{/tr}</option>
-	<option value="running" {if 'y' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}running{/tr}</option>
-	<option value="completed" {if 'n' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}completed{/tr}</option>
-	</select>-->
+	<option value="running" {if 'running' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}running{/tr}</option>
+	<option value="completed" {if 'completed' eq $smarty.request.filter_act_status}selected="selected"{/if}>{tr}completed{/tr}</option>
+	</select>
 </td>
 <td>
 <select name="filter_user">
@@ -85,6 +85,7 @@
 <th><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Activity{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'user_desc'}{sameurl sort_mode='user_asc'}{else}{sameurl sort_mode='user_desc'}{/if}">{tr}User{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'actstatus_desc'}{sameurl sort_mode='actstatus_asc'}{else}{sameurl sort_mode='actstatus_desc'}{/if}">{tr}Activity status{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'exptime_desc'}{sameurl sort_mode='exptime_asc'}{else}{sameurl sort_mode='exptime_desc'}{/if}">{tr}Expiration Date{/tr}</a></th>
 <th>{tr}Action{/tr}</th>
 </tr>
 {cycle values="even,odd" print=false}
@@ -97,42 +98,42 @@
 	<td style="text-align:center;">{$items[ix].type|act_icon:"$items[ix].is_interactive"} {$items[ix].name}</td>
 	<td style="text-align:center;">{if $items[ix].user_id eq ''}*{else}{displayname user_id=$items[ix].user_id}{/if}</td>
 	<td style="text-align:center;">{$items[ix].actstatus}</td>
-	{*<td class="{cycle advance=false}">
+	<td style="text-align:center;">
 	{if $items[ix].exptime eq 0}
 	    {tr}Not defined{/tr}
 	{else}
-	  {$items[ix].exptime|bit_long_datetime"}
+	  {$items[ix].exptime|bit_long_datetime}
 	{/if}
-	</td>*}
+	</td>
 	<td>{*actions*}<table>
 	  <tr>
 	  {*exception*}
       {if $gBitUser->hasPermission('bit_p_exception_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].status ne 'exception' and $items[ix].user_id eq $user_id}
-	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to exception this instance?{/tr}');" title="{tr}exception instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?exception=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance" iclass="icon"}</a></td>
+	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to exception this instance?{/tr}');" title="{tr}exception instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?exception=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance"}</a></td>
 	  {/if}
       {/if}
 	  {if $items[ix].is_auto_routed eq 'n' and $items[ix].actstatus eq 'completed'}
 	  {*send*}
-	  <td><a title="{tr}send instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?send=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="linkto" iexplain="send instance" iclass="icon"}</a></td>
+	  <td><a title="{tr}send instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?send=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="linkto" iexplain="send instance"}</a></td>
 	  {/if}
 	  {if $items[ix].is_interactive eq 'y' and $items[ix].status eq 'active'}
 	  {*run*}
-	  <td><a title="{tr}run instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$items[ix].instance_id}&amp;activity_id={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run instance" iclass="icon"}</a></td>
+	  <td><a title="{tr}run instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$items[ix].instance_id}&amp;activity_id={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run instance"}</a></td>
 	  {/if}
 	  {*abort*}
       {if $gBitUser->hasPermission('bit_p_abort_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].user_id eq $user_id}
-	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to abort this instance?{/tr}');" title="{tr}abort instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance" iclass="icon"}</a></td>
+	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to abort this instance?{/tr}');" title="{tr}abort instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance"}</a></td>
       {/if}
 	  {/if}
 	  {if $items[ix].user_id eq NULL and $items[ix].status eq 'active'}
 	  {*grab*}
-	  <td><a title="{tr}grab instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?grab=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="fix" iexplain="grab instance" iclass="icon"}</a></td>
+	  <td><a title="{tr}grab instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?grab=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="fix" iexplain="grab instance"}</a></td>
 	  {else}
 	  {*release*}
 	  {if $items[ix].status eq 'active'}
-	  <td><a title="{tr}release instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?release=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="float" iexplain="release instance" iclass="icon"}</a></td>
+	  <td><a title="{tr}release instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?release=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="float" iexplain="release instance"}</a></td>
 	  {/if}
 	  {/if}
 	  </tr>

@@ -60,12 +60,12 @@
 		{else}
 			{if $items[ix].is_interactive eq 'y' and ($items[ix].type eq 'start' or $items[ix].type eq 'standalone')}
 			<!--<a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}">-->
-			<a href="#" onClick="var answer = prompt('{tr}Enter the name of this instance{/tr}:',''); while(answer == '')answer = prompt('{tr}The name is not valid. Please, enter the name again{/tr}:',''); if (answer != null) window.location = '{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}&ins_name='+answer;">
+			<a href="#" onclick="var answer = prompt('{tr}Enter the name of this instance{/tr}:',''); while(answer == '')answer = prompt('{tr}The name is not valid. Please, enter the name again{/tr}:',''); if (answer != null) window.location = '{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}&ins_name='+answer;">
 			{/if}
 			{$items[ix].name}
 		{/if}
 		{if $items[ix].is_interactive eq 'y' and ($items[ix].type eq 'start' or $items[ix].type eq 'standalone')}
-			{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>		  
+			{biticon ipackage="Galaxia" iname="next" iexplain="run activity"}</a>		  
 		{/if}
 	</td><td style="text-align:center;">
 		{$items[ix].instances}

@@ -20,12 +20,12 @@
     <a title="{tr}edit{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_processes.php?pid={$pid}">{biticon ipackage="Galaxia" iname="change" iexplain="edit" class="icon"}</a>
     <a title="{tr}code{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_shared_source.php?pid={$pid}">{biticon ipackage="Galaxia" iname="book" iexplain="code" class="icon"}</a>
     <a title="{tr}roles{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_roles.php?pid={$pid}">{biticon ipackage="Galaxia" iname="myinfo" iexplain="roles" class="icon"}</a>
-    <a title="{tr}graph{/tr}" {jspopup href="`$proc_info.graph`"}>{biticon ipackage="Galaxia" iname="graph" iexplain="graph" class="icon"}</a>
-    <a title="{tr}export{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_save_process.php?pid={$pid}">{biticon ipackage="Galaxia" iname="export" iexplain="export" class="icon"}</a>
-  <a title="{tr}monitor processes{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_processes.php">{biticon ipackage="Galaxia" iname="process" iexplain="processes" iclass="icon"}</a>
-  <a title="{tr}monitor activities{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_activities.php">{biticon ipackage="Galaxia" iname="activity" iexplain="activities" iclass="icon"}</a>
-  <a title="{tr}monitor instances{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php">{biticon ipackage="Galaxia" iname="instance" iexplain="instances" iclass="icon"}</a>
-  <a title="{tr}monitor workitems{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_workitems.php">{biticon ipackage="Galaxia" iname="memo" iexplain="work items" iclass="icon"}</a>
+    <a {jspopup href="`$proc_info.graph`" title="Graph" gutsonly=true}>{biticon ipackage="Galaxia" iname="graph" iexplain="graph" class="icon"}</a>
+    <a title="{tr}export{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}admin/g_save_process.php?pid={$pid}">{biticon ipackage="Galaxia" iname="export" iexplain="export" class="icon"}</a>
+  <a title="{tr}monitor processes{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_processes.php">{biticon ipackage="Galaxia" iname="process" iexplain="processes"}</a>
+  <a title="{tr}monitor activities{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_activities.php">{biticon ipackage="Galaxia" iname="activity" iexplain="activities"}</a>
+  <a title="{tr}monitor instances{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_instances.php">{biticon ipackage="Galaxia" iname="instance" iexplain="instances"}</a>
+  <a title="{tr}monitor workitems{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_workitems.php">{biticon ipackage="Galaxia" iname="memo" iexplain="work items"}</a>
   </div>
 </div>
 </div>

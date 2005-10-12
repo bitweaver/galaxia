@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_view_workitem.php,v 1.2 2005/08/01 20:56:39 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_view_workitem.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -18,9 +18,9 @@ if (!isset($_REQUEST['item_id'])) {
 }
 
 $wi = $processMonitor->monitor_get_workitem($_REQUEST['item_id']);
-$smarty->assign_by_ref('wi', $wi);
+$gBitSmarty->assign_by_ref('wi', $wi);
 
-$smarty->assign('stats', $processMonitor->monitor_stats());
+$gBitSmarty->assign('stats', $processMonitor->monitor_stats());
 
 $sameurl_elements = array(
 	'offset',

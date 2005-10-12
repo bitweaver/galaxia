@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_roles.php,v 1.2 2005/08/01 20:56:41 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_roles.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -19,7 +19,7 @@ if (!isset($_REQUEST['pid'])) {
 	die;
 }
 
-$smarty->assign('pid', $_REQUEST['pid']);
+$gBitSmarty->assign('pid', $_REQUEST['pid']);
 
 $proc_info = $processManager->get_process($_REQUEST['pid']);
 $proc_info['graph']=GALAXIA_PROCESSES_URL.$proc_info['normalized_name']."/graph/".$proc_info['normalized_name'].".png";
@@ -40,8 +40,8 @@ if ($_REQUEST["role_id"]) {
 	);
 }
 
-$smarty->assign('role_id', $_REQUEST['role_id']);
-$smarty->assign('info', $info);
+$gBitSmarty->assign('role_id', $_REQUEST['role_id']);
+$gBitSmarty->assign('info', $info);
 
 // Delete roles
 if (isset($_REQUEST["delete"])) {
@@ -67,7 +67,7 @@ if (isset($_REQUEST['save'])) {
 		'role_id' => 0
 	);
 
-	$smarty->assign('info', $info);
+	$gBitSmarty->assign('info', $info);
 }
 
 // list mappings
@@ -80,12 +80,12 @@ $sort_mode = $_REQUEST["sort_mode"];
 if (!isset($_REQUEST['find_groups']))
 	$_REQUEST['find_groups'] = '';
 
-$smarty->assign('find_groups', $_REQUEST['find_groups']);
+$gBitSmarty->assign('find_groups', $_REQUEST['find_groups']);
 $groups = $gBitUser->getAllGroups($_REQUEST);
-$smarty->assign_by_ref('groups', $groups['data']);
+$gBitSmarty->assign_by_ref('groups', $groups['data']);
 
 $roles = $roleManager->list_roles($_REQUEST['pid'], 0, -1, 'name_asc', '');
-$smarty->assign_by_ref('roles', $roles['data']);
+$gBitSmarty->assign_by_ref('roles', $roles['data']);
 
 if (isset($_REQUEST["delete_map"])) {
 	
@@ -112,7 +112,7 @@ if (!isset($_REQUEST["offset"])) {
 	$offset = $_REQUEST["offset"];
 }
 
-$smarty->assign_by_ref('offset', $offset);
+$gBitSmarty->assign_by_ref('offset', $offset);
 
 if (isset($_REQUEST["find"])) {
 	$find = $_REQUEST["find"];
@@ -120,38 +120,38 @@ if (isset($_REQUEST["find"])) {
 	$find = '';
 }
 
-$smarty->assign('find', $find);
-$smarty->assign_by_ref('sort_mode', $sort_mode);
+$gBitSmarty->assign('find', $find);
+$gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
 $mapitems = $roleManager->list_mappings($_REQUEST['pid'], $offset, $maxRecords, $sort_mode, $find);
 
-$smarty->assign('cant', $mapitems['cant']);
+$gBitSmarty->assign('cant', $mapitems['cant']);
 $cant_pages = ceil($mapitems["cant"] / $maxRecords);
 if ($cant_pages == 0) $cant_pages = 1;
-$smarty->assign_by_ref('cant_pages', $cant_pages);
-$smarty->assign('actual_page', 1 + ($offset / $maxRecords));
+$gBitSmarty->assign_by_ref('cant_pages', $cant_pages);
+$gBitSmarty->assign('actual_page', 1 + ($offset / $maxRecords));
 
 if ($mapitems["cant"] > ($offset + $maxRecords)) {
-	$smarty->assign('next_offset', $offset + $maxRecords);
+	$gBitSmarty->assign('next_offset', $offset + $maxRecords);
 } else {
-	$smarty->assign('next_offset', -1);
+	$gBitSmarty->assign('next_offset', -1);
 }
 
 if ($offset > 0) {
-	$smarty->assign('prev_offset', $offset - $maxRecords);
+	$gBitSmarty->assign('prev_offset', $offset - $maxRecords);
 } else {
-	$smarty->assign('prev_offset', -1);
+	$gBitSmarty->assign('prev_offset', -1);
 }
 
-$smarty->assign_by_ref('mapitems', $mapitems["data"]);
+$gBitSmarty->assign_by_ref('mapitems', $mapitems["data"]);
 
 //MAPPING
 if (!isset($_REQUEST['sort_mode2']))
 	$_REQUEST['sort_mode2'] = 'name_asc';
 
-$smarty->assign('sort_mode2', $_REQUEST['sort_mode2']);
+$gBitSmarty->assign('sort_mode2', $_REQUEST['sort_mode2']);
 // Get all the process roles
 $all_roles = $roleManager->list_roles($_REQUEST['pid'], 0, -1, $_REQUEST['sort_mode2'], '');
-$smarty->assign_by_ref('items', $all_roles['data']);
+$gBitSmarty->assign_by_ref('items', $all_roles['data']);
 
 $valid = $activityManager->validate_process_activities($_REQUEST['pid']);
 $proc_info['is_valid'] = $valid ? 'y' : 'n';
@@ -161,8 +161,8 @@ if (!$valid) {
 	$errors = $activityManager->get_error();
 }
 
-$smarty->assign('errors', $errors);
-$smarty->assign('proc_info', $proc_info);
+$gBitSmarty->assign('errors', $errors);
+$gBitSmarty->assign('proc_info', $proc_info);
 $sameurl_elements = array(
 	'offset',
 	'sort_mode',

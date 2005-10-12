@@ -77,6 +77,7 @@ class ProcessManager extends BaseManager {
       $out.='      <last_modified>'.date("d/m/Y [h:i:s]",$res['last_modified']).'</last_modified>'."\n";
       $out.='      <is_interactive>'.$res['is_interactive'].'</is_interactive>'."\n";
       $out.='      <is_auto_routed>'.$res['is_auto_routed'].'</is_auto_routed>'."\n";
+      $out.='	   <expiration_time>'.$res['expiration_time'].'</expiration_time>'."\n";
       $out.='      <roles>'."\n";
 
       $roles = $am->get_activity_roles($res['activity_id']);
@@ -225,13 +226,34 @@ class ProcessManager extends BaseManager {
     $am = new ActivityManager();
     $rm = new RoleManager();
     // First create the process
+    if (isset($data['last_modified'])) {
+	$last_modified = $data['last_modified'];
+    } elseif (isset($data['lastModif'])) {
+	// if Bonnie or TW
+	$last_modified = $data['lastModif'];
+    }
+
+    if (isset($data['is_active'])) {
+	$is_active = $data['is_active'];
+    } elseif (isset($data['isActive'])) {
+	// if Bonnie or TW
+	$is_active = $data['isActive'];
+    }
+
+    if (isset($data['is_valid'])) {
+	$is_valid = $data['is_valid'];
+    } elseif (isset($data['isValid'])) {
+	// if Bonnie or TW
+	$is_valid = $data['isValid'];
+    }
+
     $vars = Array(
       'procname' => $data['name'],
       'version' => $data['version'],
       'description' => $data['description'],
-      'last_modified' => $data['last_modified'],
-      'is_active' => $data['is_active'],
-      'is_valid' => $data['is_valid']
+      'last_modified' => $last_modified,
+      'is_active' => $is_active,
+      'is_valid' => $is_valid
     );
     $pid = $this->replace_process(0,$vars,false);
     //Put the shared code 
@@ -243,13 +265,36 @@ class ProcessManager extends BaseManager {
     $actids = Array();
     // Foreach activity create activities
     foreach($data['activities'] as $activity) {
+	    if (isset($data['last_modified'])) {
+		$last_modified = $data['last_modified'];
+	    } elseif (isset($data['lastModif'])) {
+		// if Bonnie or TW
+		$last_modified = $data['lastModif'];
+	    }
+
+	    if (isset($data['is_interactive'])) {
+		$is_interactive = $data['is_interactive'];
+	    } elseif (isset($data['isInteractive'])) {
+		// if Bonnie or TW
+		$is_interactive = $data['isInteractive'];
+	    }
+
+	    if (isset($data['is_auto_routed'])) {
+		$is_auto_routed = $data['is_auto_routed'];
+	    } elseif (isset($data['isAutoRouted'])) {
+		// if Bonnie or TW
+		$is_auto_routed = $data['isAutoRouted'];
+	    }
+
+      $expiration_time = (isset($activity['expiration_time'])) ? $activity['expiration_time'] : 0;
       $vars = Array(
         'name' => $activity['name'],
         'description' => $activity['description'],
         'type' => $activity['type'],
-        'last_modified' => $activity['last_modified'],
-        'is_interactive' => $activity['is_interactive'],
-        'is_auto_routed' => $activity['is_auto_routed']
+        'last_modified' => $last_modified,
+        'is_interactive' => $is_interactive,
+        'is_auto_routed' => $is_auto_routed,
+        'expiration_time' => $expiration_time
       );    
       $actname=$am->_normalize_name($activity['name']);
       
@@ -467,10 +512,6 @@ class ProcessManager extends BaseManager {
     $query = "select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=?";
     $result = $this->mDb->query($query,array($p_id));
     while($res = $result->fetchRow()) {
-      $query = "delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `activity_id`=?";
-      $this->mDb->query($query, array($res['activity_id']));
-      $query = "delete from `".GALAXIA_TABLE_PREFIX."workitems` where `activity_id`=?";
-      $this->mDb->query($query, array($res['activity_id']));
       $aM->remove_activity($p_id,$res['activity_id']);
     }
 

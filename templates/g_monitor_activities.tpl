@@ -97,10 +97,10 @@
 	<td class="{cycle advance=false}">
 	  <a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?pid={$act.p_id}&amp;activity_id={$act.activity_id}">{$act.name}</a>
 	  {if $act.type eq 'standalone'}
-	  <a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$act.activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>
+	  <a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$act.activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run activity"}</a>
 	  {/if}
 	  {if $act.type eq 'start'}
-	  <a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$act.activity_id}&amp;createInstance=1">{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>
+	  <a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$act.activity_id}&amp;createInstance=1">{biticon ipackage="Galaxia" iname="next" iexplain="run activity"}</a>
 	  {/if}
 	</td>
   

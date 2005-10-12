@@ -46,10 +46,11 @@
 	<input type="text" name="filter_instance" value="{$smarty.request.filter_instance|escape}" size="4" />
 </td><td>
 	<select name="filter_user">
-		<option {if $smarty.request.filter_user eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
 		{section loop=$users name=ix}
-			<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{displayname user_id=$users[ix]}</option>
+			{if $users[ix] eq ''}<option {if $smarty.request.filter_user eq ''}selected="selected"{/if} value="">{tr}All{/tr}</option>
+			{else}<option {if $users[ix] eq $smarty.request.filter_user}selected="selected"{/if} value="{$users[ix]|escape}">{displayname user_id=$users[ix]}</option>{/if}
 		{/section}
+		<option {if $smarty.request.filter_user eq '*'}selected="selected"{/if} value="*">*</option>
 	</select>
 </td><td>	
 	<input type="submit" name="filter" value="{tr}filter{/tr}" />
@@ -85,7 +86,7 @@
 		{$proc.order_id}</td><td style="text-align:center;">
 		{$proc.started|bit_short_datetime}</td><td style="text-align:center;">
 		{if $proc.duration eq 0}-{else}{$proc.duration|duration}{/if}</td><td style="text-align:center;">
-		{displayname user_id=$proc.user_id}
+		{if $proc.user_id eq ''}*{else}{displayname user_id=$proc.user_id}{/if}
 </td></tr>
 {foreachelse}
 	<tr class="norecords"><td colspan="8">

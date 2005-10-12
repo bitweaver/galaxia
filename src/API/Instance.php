@@ -550,7 +550,7 @@ class Instance extends Base {
     //try to determine the group or *
     //Use the next_group_id
     if($this->next_group_id) {
-      $putuser = $this->next_group_id;
+      $putgroup = $this->next_group_id;
     } else {
       $candidates = Array();
       $query = "select `role_id` from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=?";
@@ -567,9 +567,9 @@ class Instance extends Base {
 
       }
       if(count($candidates) == 1) {
-        $putuser = $candidates[0];
+        $putgroup = $candidates[0];
       } else {
-        $putuser = NULL;
+        $putgroup = NULL;
       }
     }        
     //update the instance_activities table
@@ -584,7 +584,7 @@ class Instance extends Base {
     $query="delete from `".GALAXIA_TABLE_PREFIX."instance_activities` where `instance_id`=? and `activity_id`=?";
     $this->mDb->query($query,array((int)$iid,(int)$activity_id));
     $query="insert into `".GALAXIA_TABLE_PREFIX."instance_activities`(`instance_id`,`activity_id`,`user_id`,`status`,`started`,`ended`) values(?,?,?,?,?,?)";
-    $this->mDb->query($query,array((int)$iid,(int)$activity_id,$putuser,'running',(int)$now,0));
+    $this->mDb->query($query,array((int)$iid,(int)$activity_id,$putgroup,'running',(int)$now,0));
     
     //we are now in a new activity
     $this->activities=Array();

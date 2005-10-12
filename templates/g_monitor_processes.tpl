@@ -92,7 +92,7 @@
 
 						<td style="text-align:center;">
 							{if $proc.is_active eq 'y'}
-								{biticon ipackage="Galaxia" iname="refresh2" iclass="icon" iexplain="active process"}
+								{biticon ipackage="Galaxia" iname="refresh2" iexplain="active process"}
 							{else}
 								{$proc.is_active}
 							{/if}
@@ -100,9 +100,9 @@
 
 						<td style="text-align:center;">
 							{if $proc.is_valid eq 'n'}
-							{biticon ipackage="Galaxia" iname="red_dot" iclass="icon" iexplain="invalid process"}
+							{biticon ipackage="Galaxia" iname="red_dot" iexplain="invalid process"}
 							{else}
-							{biticon ipackage="Galaxia" iname="green_dot" iclass="icon" iexplain="valid process"}
+							{biticon ipackage="Galaxia" iname="green_dot" iexplain="valid process"}
 							{/if}
 						</td>
 

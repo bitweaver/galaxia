@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_shared_source.php,v 1.2 2005/08/01 20:56:41 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_shared_source.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -19,7 +19,7 @@ if (!isset($_REQUEST['pid'])) {
 	die;
 }
 
-$smarty->assign('pid', $_REQUEST['pid']);
+$gBitSmarty->assign('pid', $_REQUEST['pid']);
 
 if (isset($_REQUEST['code'])) {
 	unset($_REQUEST['template']);
@@ -30,16 +30,16 @@ if (isset($_REQUEST['code'])) {
 
 $proc_info = $processManager->get_process($_REQUEST['pid']);
 $proc_info['graph']=GALAXIA_PROCESSES_URL.$proc_info['normalized_name']."/graph/".$proc_info['normalized_name'].".png";
-$smarty->assign_by_ref('proc_info',$proc_info);
+$gBitSmarty->assign_by_ref('proc_info',$proc_info);
 
 $procname = $proc_info['normalized_name'];
 
-$smarty->assign('warn', '');
+$gBitSmarty->assign('warn', '');
 
 if (!isset($_REQUEST['activity_id']))
 	$_REQUEST['activity_id'] = 0;
 
-$smarty->assign('activity_id', $_REQUEST['activity_id']);
+$gBitSmarty->assign('activity_id', $_REQUEST['activity_id']);
 
 if ($_REQUEST['activity_id']) {
 	$act_info = $activityManager->get_activity($_REQUEST['pid'], $_REQUEST['activity_id']);
@@ -47,17 +47,17 @@ if ($_REQUEST['activity_id']) {
 	$actname = $act_info['normalized_name'];
 
 	if ($act_info['is_interactive'] == 'y' && isset($_REQUEST['template'])) {
-		$smarty->assign('template', 'y');
+		$gBitSmarty->assign('template', 'y');
 
 		$source = GALAXIA_PROCESSES.$procname."/code/templates/$actname" . '.tpl';
 	} else {
-		$smarty->assign('template', 'n');
+		$gBitSmarty->assign('template', 'n');
 
 		$source = GALAXIA_PROCESSES.$procname."/code/activities/$actname" . '.php';
 	}
 
 	// Then editing an activity
-	$smarty->assign('act_info', $act_info);
+	$gBitSmarty->assign('act_info', $act_info);
 } else {
 	// Then editing shared code
 	$source = GALAXIA_PROCESSES.$procname."/code/shared.php";
@@ -77,7 +77,7 @@ if (isset($_REQUEST['save']) && isset($_REQUEST['source'])) {
 	}
 }
 
-$smarty->assign('source_name', $source);
+$gBitSmarty->assign('source_name', $source);
 
 $data = "";
 if (file_exists($source)) {
@@ -85,7 +85,7 @@ if (file_exists($source)) {
 	$data = fread($fp, filesize($source));
 	fclose ($fp);
 } 
-$smarty->assign('data', $data);
+$gBitSmarty->assign('data', $data);
 
 $valid = $activityManager->validate_process_activities($_REQUEST['pid']);
 $errors = array();
@@ -98,10 +98,10 @@ if (!$valid) {
 	$proc_info['is_valid'] = 'y';
 }
 
-$smarty->assign('errors', $errors);
+$gBitSmarty->assign('errors', $errors);
 
 $activities = $activityManager->list_activities($_REQUEST['pid'], 0, -1, 'name_asc', '');
-$smarty->assign_by_ref('items', $activities['data']);
+$gBitSmarty->assign_by_ref('items', $activities['data']);
 
 
 $gBitSystem->display( 'bitpackage:Galaxia/g_admin_shared_source.tpl', tra('Admin Process Sources') );

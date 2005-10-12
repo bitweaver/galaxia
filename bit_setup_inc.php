@@ -13,7 +13,7 @@
 			foreach ($perms["data"] as $perm)
 			{
 				$perm = $perm["perm_name"];
-				$smarty->assign("$perm", 'y');
+				$gBitSmarty->assign("$perm", 'y');
 				$$perm = 'y';
 			}
 		}

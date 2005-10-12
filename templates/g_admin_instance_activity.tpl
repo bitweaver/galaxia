@@ -14,7 +14,7 @@
 <table class="panel">
 <tr>
 	<td>{tr}Activity{/tr}</td>
-	<td><a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$iid}&amp;activity_id={$aid}">{$acts.name} {if $acts.actstatus eq 'running'}{biticon ipackage="Galaxia" iname="next" iexplain="run activity" iclass="icon"}</a>{/if}</td>
+	<td><a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$iid}&amp;activity_id={$aid}">{$acts.name} {if $acts.actstatus eq 'running'}{biticon ipackage="Galaxia" iname="next" iexplain="run activity"}</a>{/if}</td>
 </tr>
 <tr>
 	<td>{tr}Instance{/tr}</td>
@@ -22,15 +22,15 @@
 </tr>
 <tr>
 	<td>{tr}Created{/tr}</td>
-	<td>{$acts.ia_started|bit_long_datetime</td>
+	<td>{$acts.ia_started|bit_long_datetime}</td>
 </tr>
-<!--<tr>
+<tr>
 	<td>{tr}Expiration Date{/tr}</td>
 	<td>{if $acts.exptime eq 0 && $acts.type eq 'activity' && $acts.isInteractive eq 'y'}{tr}Not Defined{/tr}{elseif $acts.type != 'activity'}&lt;{$acts.type}&gt;{elseif $acts.isInteractive eq 'n'}{tr}Not Interactive{/tr}{else}{$acts.exptime|bit_long_datetime}{/if}</td>
-</tr>-->
+</tr>
 <tr>
 	<td>{tr}Ended{/tr}</td>
-	<td>{if $acts.ended eq 0}-{else}{$acts.ended|bit_long_datetime{/if}</td>
+	<td>{if $acts.ended eq 0}-{else}{$acts.ended|bit_long_datetime}{/if}</td>
 <tr>
 	<td>{tr}Status{/tr}</td>
 	<td>{tr}{$acts.actstatus}{/tr}</td>
@@ -63,7 +63,7 @@
 	<td>{displayname user_id=$comments[ix].user_id}</td>
 </tr><tr>
     	<td>{tr}Date{/tr}:</td>
-	<td colspan="3">{$comments[ix].timestamp|bit_long_datetime</td>
+	<td colspan="3">{$comments[ix].timestamp|bit_long_datetime}</td>
 </tr><tr>
 	<td>{tr}Subject{/tr}:</td>
 	<td colspan="3">{$comments[ix].title}</td>
