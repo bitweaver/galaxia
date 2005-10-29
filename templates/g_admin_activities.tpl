@@ -37,7 +37,7 @@
 </tr>
 <tr>
   <td>{tr}Description{/tr}</td>
-  <td><textarea name="description" rows="4" cols="60">{$info.description|escape}</textarea></td>
+  <td><textarea name="description" rows="4" cols="50">{$info.description|escape}</textarea></td>
 </tr>
 <tr>  
   <td>{tr}Type{/tr}</td>

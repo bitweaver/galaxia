@@ -93,7 +93,7 @@
 </tr>
 <tr>
 	<td>{tr}Body{/tr}:</td>
-	<td><textarea rows="5" cols="60" name="__comment"></textarea></td>
+	<td><textarea rows="5" cols="50" name="__comment"></textarea></td>
 </tr>
 <tr class="panelsubmitrow"><td colspan="2">
 	<input type="submit" name="answer" value="{tr}Save{/tr}"/></td>
