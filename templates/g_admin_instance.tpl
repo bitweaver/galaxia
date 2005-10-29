@@ -104,7 +104,7 @@
 	 <b>{$key}</b>
 	 </td><td>
 	{if strlen($item)>80}
-	<textarea name="props[$key]" cols="80" rows="{$item|div:80:20}">{$item|escape}</textarea>
+	<textarea name="props[$key]" cols="50" rows="{$item|div:80:20}">{$item|escape}</textarea>
 	{else}
 	<input type="text" name="props[{$key}]" value="{$item|escape}" size="80" />
 	{/if}
@@ -128,7 +128,7 @@
 </tr>
 <tr>
 	<td>{tr}value{/tr}</td>
-	<td><textarea name="value" rows="4" cols="80"></textarea></td>
+	<td><textarea name="value" rows="4" cols="50"></textarea></td>
 </tr>
 <tr class="panelsubmitrow"><td colspan="2">
 	<input type="submit" name="addprop" value="{tr}add{/tr}" />

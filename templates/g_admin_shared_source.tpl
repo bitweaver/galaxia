@@ -65,7 +65,7 @@
     <table>
     <tr>
     <td>
-  	<textarea id="src" name="source" rows="20" cols="80">{$data|escape}</textarea>
+  	<textarea id="src" name="source" rows="20" cols="50">{$data|escape}</textarea>
   	</td>
   	<td>
   	{if $template eq 'y'}

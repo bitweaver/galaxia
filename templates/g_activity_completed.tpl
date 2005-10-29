@@ -23,7 +23,7 @@
 
 		<td class="odd" colspan="2">{tr}Title{/tr}:<input type="text" name="__title" value="{if $post eq 'y'}{$title}{/if}" {if $post eq 'y'}readonly{/if}/></td>
 	<tr>
-		<td class="odd" colspan="2"><textarea rows="5" cols="60" name="__comment" {if $post eq 'y'}readonly{/if}>{if $post eq 'y'}{$comment}{/if}</textarea></td>
+		<td class="odd" colspan="2"><textarea rows="5" cols="50" name="__comment" {if $post eq 'y'}readonly{/if}>{if $post eq 'y'}{$comment}{/if}</textarea></td>
 	</tr>
 	{if $post eq 'n'}
 	<tr>

@@ -47,7 +47,7 @@
 					<div class="row">
 						{formlabel label="Description" for="description"}
 						{forminput}
-							<textarea rows="5" cols="60" name="description" id="description">{$info.description|escape}</textarea>
+							<textarea rows="5" cols="50" name="description" id="description">{$info.description|escape}</textarea>
 							{formhelp note="A brief description about the purpose of the process"}
 						{/forminput}
 					</div>
