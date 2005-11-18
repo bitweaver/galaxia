@@ -21,8 +21,8 @@
 		{jstabs}
 			{jstab title="Create / Edit Role"}
 				{form legend="Create / Edit Role"}
-					<input type="hidden" name="role_id" value="{$info.role_id|escape}" />
-					<input type="hidden" name="pid" value="{$info.p_id|escape}" />
+					<input type="hidden" name="role_id" value="{$role_id|escape}" />
+					<input type="hidden" name="pid" value="{$pid|escape}" />
 					<input type="hidden" name="offset" value="{$offset|escape}" />
 					<input type="hidden" name="where" value="{$where|escape}" />
 					<input type="hidden" name="find" value="{$find|escape}" />
@@ -56,7 +56,7 @@
 
 				{form}
 					<input type="hidden" name="pid" value="{$pid|escape}" />
-					<input type="hidden" name="role_id" value="{$info.role_id|escape}" />
+					<input type="hidden" name="role_id" value="{$role_id|escape}" />
 					<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 					<input type="hidden" name="sort_mode2" value="{$sort_mode2|escape}" />
 					<input type="hidden" name="find" value="{$find|escape}" />
