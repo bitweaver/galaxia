@@ -80,6 +80,7 @@
 <tr>
 <th><a href="{if $sort_mode eq 'instance_id_desc'}{sameurl sort_mode='instance_id_asc'}{else}{sameurl sort_mode='instance_id_desc'}{/if}">{tr}Id{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'owner_desc'}{sameurl sort_mode='owner_asc'}{else}{sameurl sort_mode='owner_desc'}{/if}">{tr}Owner{/tr}</a></th>
+<th><a href="{if $sort_mode eq 'iname_desc'}{sameurl sort_mode='iname_asc'}{else}{sameurl sort_mode='iname_desc'}{/if}">{tr}Instance Name{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'status_desc'}{sameurl sort_mode='status_asc'}{else}{sameurl sort_mode='status_desc'}{/if}">{tr}Instance Status{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'procname_desc'}{sameurl sort_mode='procname_asc'}{else}{sameurl sort_mode='procname_desc'}{/if}">{tr}Process{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'name_desc'}{sameurl sort_mode='name_asc'}{else}{sameurl sort_mode='name_desc'}{/if}">{tr}Activity{/tr}</a></th>
@@ -93,6 +94,7 @@
 <tr class="{cycle}">
 	<td style="text-align:center;">{$items[ix].instance_id}</td>
 	<td style="text-align:center;">{displayname user_id=$items[ix].owner_id}</td>
+	<td style="text-align:center;">{$items[ix].iname}</td>
 	<td style="text-align:center;">{$items[ix].status}</td>
 	<td style="text-align:center;">{$items[ix].procname} {$items[ix].version}</td>
 	<td style="text-align:center;">{$items[ix].type|act_icon:"$items[ix].is_interactive"} {$items[ix].name}</td>
@@ -107,6 +109,19 @@
 	</td>
 	<td>{*actions*}<table>
 	  <tr>
+	  {if $items[ix].is_interactive eq 'y' and $items[ix].status eq 'active'}
+	  {*run*}
+	  <td><a title="{tr}run instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$items[ix].instance_id}&amp;activity_id={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run instance"}</a></td>
+	  {/if}
+	  {if $items[ix].user_id eq NULL and $items[ix].status eq 'active'}
+	  {*grab*}
+	  <td><a title="{tr}grab instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?grab=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="fix" iexplain="grab instance"}</a></td>
+	  {else}
+	  {*release*}
+	  {if $items[ix].status eq 'active'}
+	  <td><a title="{tr}release instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?release=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="float" iexplain="release instance"}</a></td>
+	  {/if}
+	  {/if}
 	  {*exception*}
       {if $gBitUser->hasPermission('bit_p_exception_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].status ne 'exception' and $items[ix].user_id eq $user_id}
@@ -117,24 +132,11 @@
 	  {*send*}
 	  <td><a title="{tr}send instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?send=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="linkto" iexplain="send instance"}</a></td>
 	  {/if}
-	  {if $items[ix].is_interactive eq 'y' and $items[ix].status eq 'active'}
-	  {*run*}
-	  <td><a title="{tr}run instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?iid={$items[ix].instance_id}&amp;activity_id={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="next" iexplain="run instance"}</a></td>
-	  {/if}
 	  {*abort*}
       {if $gBitUser->hasPermission('bit_p_abort_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].user_id eq $user_id}
 	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to abort this instance?{/tr}');" title="{tr}abort instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance"}</a></td>
       {/if}
-	  {/if}
-	  {if $items[ix].user_id eq NULL and $items[ix].status eq 'active'}
-	  {*grab*}
-	  <td><a title="{tr}grab instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?grab=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="fix" iexplain="grab instance"}</a></td>
-	  {else}
-	  {*release*}
-	  {if $items[ix].status eq 'active'}
-	  <td><a title="{tr}release instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?release=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="float" iexplain="release instance"}</a></td>
-	  {/if}
 	  {/if}
 	  </tr>
 	  </table>
