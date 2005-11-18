@@ -265,25 +265,25 @@ class ProcessManager extends BaseManager {
     $actids = Array();
     // Foreach activity create activities
     foreach($data['activities'] as $activity) {
-	    if (isset($data['last_modified'])) {
-		$last_modified = $data['last_modified'];
-	    } elseif (isset($data['lastModif'])) {
+	    if (isset($activity['last_modified'])) {
+		$last_modified = $activity['last_modified'];
+	    } elseif (isset($activity['lastModif'])) {
 		// if Bonnie or TW
-		$last_modified = $data['lastModif'];
+		$last_modified = $activity['lastModif'];
 	    }
 
-	    if (isset($data['is_interactive'])) {
-		$is_interactive = $data['is_interactive'];
-	    } elseif (isset($data['isInteractive'])) {
+	    if (isset($activity['is_interactive'])) {
+		$is_interactive = $activity['is_interactive'];
+	    } elseif (isset($activity['isInteractive'])) {
 		// if Bonnie or TW
-		$is_interactive = $data['isInteractive'];
+		$is_interactive = $activity['isInteractive'];
 	    }
 
-	    if (isset($data['is_auto_routed'])) {
-		$is_auto_routed = $data['is_auto_routed'];
-	    } elseif (isset($data['isAutoRouted'])) {
+	    if (isset($activity['is_auto_routed'])) {
+		$is_auto_routed = $activity['is_auto_routed'];
+	    } elseif (isset($activity['isAutoRouted'])) {
 		// if Bonnie or TW
-		$is_auto_routed = $data['isAutoRouted'];
+		$is_auto_routed = $activity['isAutoRouted'];
 	    }
 
       $expiration_time = (isset($activity['expiration_time'])) ? $activity['expiration_time'] : 0;
