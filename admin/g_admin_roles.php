@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_roles.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_roles.php,v 1.4 2005/11/22 07:26:01 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -14,7 +14,7 @@ $gBitSystem->verifyPackage( 'galaxia' );
 $gBitSystem->verifyPermission( 'bit_p_admin_workflow', "Permission denied you cannot admin the workflow" );
 
 
-if (!isset($_REQUEST['pid'])) {
+if (!isset($_REQUEST['pid']) || empty($_REQUEST['pid'])) {
 	galaxia_show_error("No process indicated");
 	die;
 }

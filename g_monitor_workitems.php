@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_workitems.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_workitems.php,v 1.4 2005/11/22 07:26:01 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -23,7 +23,7 @@ if (isset($_REQUEST['filter_instance']) && $_REQUEST['filter_instance'])
 	$wheres[] = "instance_id=" . $_REQUEST['filter_instance'] . "";
 
 if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process'])
-	$wheres[] = "gp.p_id=" . $_REQUEST['filter_process'] . "";
+	$wheres[] = "gp.`p_id`=" . $_REQUEST['filter_process'] . "";
 
 if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 	$wheres[] = "ga.activity_id=" . $_REQUEST['filter_activity'] . "";
@@ -86,7 +86,7 @@ $all_procs = $processMonitor->monitor_list_processes(0, -1, 'procname_desc', '',
 $gBitSmarty->assign_by_ref('all_procs', $all_procs["data"]);
 
 if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process']) {
-	$where = ' p_id=' . $_REQUEST['filter_process'];
+	$where = ' `p_id`=' . $_REQUEST['filter_process'];
 } else {
 	$where = '';
 }
