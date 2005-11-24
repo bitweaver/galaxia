@@ -59,8 +59,11 @@
 			<a href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?filter_process={$items[ix].p_id}&amp;filter_activity={$items[ix].activity_id}">{$items[ix].name}</a>
 		{else}
 			{if $items[ix].is_interactive eq 'y' and ($items[ix].type eq 'start' or $items[ix].type eq 'standalone')}
-			<!--<a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}">-->
-			<a href="#" onclick="var answer = prompt('{tr}Enter the name of this instance{/tr}:',''); while(answer == '')answer = prompt('{tr}The name is not valid. Please, enter the name again{/tr}:',''); if (answer != null) window.location = '{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}&ins_name='+answer;">
+				{if $gBitSystem->getPreference( 'galaxia_instance_names' ) eq 'y'}
+					<a href="#" onclick="var answer = prompt('{tr}Enter the name of this instance{/tr}:',''); while(answer == '')answer = prompt('{tr}The name is not valid. Please, enter the name again{/tr}:',''); if (answer != null) window.location = '{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}&ins_name='+answer;">
+				{else}
+					<a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}">
+				{/if}
 			{/if}
 			{$items[ix].name}
 		{/if}
