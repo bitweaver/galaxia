@@ -538,7 +538,9 @@ class ActivityManager extends BaseManager {
       
       $user_file_old = GALAXIA_PROCESSES.'/'.$proc_info['normalized_name'].'/code/activities/'.$oldname.'.php';
       $user_file_new = GALAXIA_PROCESSES.'/'.$proc_info['normalized_name'].'/code/activities/'.$newname.'.php';
-      rename($user_file_old, $user_file_new);
+      if ($user_file_old != $user_file_new) {
+        @rename($user_file_old, $user_file_new);
+      }
 
       $user_file_old = GALAXIA_PROCESSES.'/'.$proc_info['normalized_name'].'/code/templates/'.$oldname.'.tpl';
       $user_file_new = GALAXIA_PROCESSES.'/'.$proc_info['normalized_name'].'/code/templates/'.$newname.'.tpl';
@@ -680,10 +682,11 @@ class ActivityManager extends BaseManager {
     }
     fclose($fp);
     
-    mkdir_p(GALAXIA_PROCESSES."/".$proc_info['normalized_name']."/code/activities/");
+    while( !( $fp = @fopen($user_file,"rb")) ) {
+        mkdir_p(GALAXIA_PROCESSES."/".$proc_info['normalized_name']."/code/activities/");
+    }
     // Get the user data for the activity 
-    $fp = fopen($user_file,"rb");    
-    while (!feof($fp)) {
+    while ($fp && !feof($fp)) {
         $data = fread($fp, 4096);
         fwrite($fw,$data);
     }
