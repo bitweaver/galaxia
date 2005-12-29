@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.4 2005/12/29 18:27:09 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -48,7 +48,8 @@ if ($activity->is_interactive() == 'y') {
 $act_role_names = $activity->getActivityRoleNames($user_id);
 
 foreach ($act_role_names as $role) {
-	$name = 'bw-role-' . $role['name'];
+	$rolename = str_replace( " ", "_", $role['name']);
+	$name = 'bw-role-' . $rolename;
 
 	if (in_array($role['role_id'], $user_roles)) {
 		$gBitSmarty->assign("$name", 'y');
