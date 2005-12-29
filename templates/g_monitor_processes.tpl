@@ -1,4 +1,4 @@
-{popup_init src="`$smarty.const.THEMES_PKG_URL`js/overlib.js"}
+{popup_init src="`$smarty.const.UTIL_PKG_URL`javascript/libs/overlib.js"}
 {strip}
 <div class="floaticon">{bithelp}</div>
 
