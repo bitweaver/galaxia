@@ -16,7 +16,7 @@
 				{/foreach}
 
 				<div class="row submit">
-					<input type="submit" name="listTabSubmit" value="{tr}Change preferences{/tr}" />
+					<input type="submit" name="list_submit" value="{tr}Change preferences{/tr}" />
 				</div>
 			{/legend}
 		{/jstab}
