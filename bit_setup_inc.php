@@ -4,7 +4,7 @@
 
 	if( $gBitSystem->isPackageActive( 'galaxia' ) ) {
 		if ($gBitUser->hasPermission( 'bit_p_use_workflow' ))
-			$gBitSystem->registerAppMenu( GALAXIA_PKG_DIR, 'Workflow', GALAXIA_PKG_URL.'g_user_processes.php', 'bitpackage:Galaxia/menu_galaxia.tpl' );
+			$gBitSystem->registerAppMenu( GALAXIA_PKG_NAME, 'Workflow', GALAXIA_PKG_URL.'g_user_processes.php', 'bitpackage:Galaxia/menu_galaxia.tpl' );
 
 		// **********  GALAXIA  ************
 /*		if ($bit_p_admin_workflow == 'y')
