@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_processes.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_processes.php,v 1.4 2006/02/04 19:04:34 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -69,8 +69,6 @@ if ($offset > 0) {
 }
 
 $gBitSmarty->assign_by_ref('items', $items["data"]);
-
-$section = 'workflow';
 
 $sameurl_elements = array(
 	'offset',

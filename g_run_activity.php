@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.4 2005/12/29 18:27:09 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.5 2006/02/04 19:04:34 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -118,8 +118,6 @@ elseif (!isset($_REQUEST['auto']) && $activity->is_interactive() && isset($_REQU
 }
 else {
 	if (!isset($_REQUEST['auto']) && $activity->is_interactive()) {
-		$section = 'workflow';
-
 		$template = $activity->getNormalizedName(). '.tpl';
 		$gBitSystem->display( GALAXIA_PROCESSES . $process->getNormalizedName(). '/code/templates/' . $template, tra("Run Activity") );
 	}

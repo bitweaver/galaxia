@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.4 2005/12/05 23:52:31 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.5 2006/02/04 19:04:34 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -81,48 +81,47 @@ if (count($processes['data']) == 1 && empty($_REQUEST['filter_process'])) {
 }
 
 if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process']) {
-    $actid2item = array();
-    foreach (array_keys($items["data"]) as $index) {
-        $actid2item[$items["data"][$index]['activity_id']] = $index;
-    }
-    foreach ($processes['data'] as $info) {
-        if ($info['p_id'] == $_REQUEST['filter_process'] && !empty($info['normalized_name'])) {
-            $graph = $info['normalized_name']."/graph/".$info['normalized_name'].".png";
-            $mapfile = $info['normalized_name']."/graph/".$info['normalized_name'].".map";
-            if (file_exists(GALAXIA_PROCESSES.$graph) && file_exists(GALAXIA_PROCESSES.$mapfile)) {
-                $maplines = file(GALAXIA_PROCESSES.$mapfile);
-                $map = '';
-                foreach ($maplines as $mapline) {
-                    if (!preg_match('/activity_id=(\d+)/', $mapline, $matches)) continue;
-                    $actid = $matches[1];
-                    if (!isset($actid2item[$actid])) continue;
-                    $index = $actid2item[$actid];
-                    $item = $items['data'][$index];
-                    if ($item['instances'] > 0) {
-                        $url = GALAXIA_PKG_URL."g_user_instances.php?filter_process=".$info['p_id'];
-                        $mapline = preg_replace('/href=".*?activity_id/', 'href="' . $url . '&amp;filter_activity', $mapline);
-                        $map .= $mapline;
-                    } elseif ($item['is_interactive'] == 'y' && ($item['type'] == 'start' || $item['type'] == 'standalone')) {
-			if ($gBitSystem->getPreference( 'galaxia_instance_names' ) == 'y') {
-	                        $mapline = preg_replace('/href=".*?activity_id=(\d+)/', 'href="#" onClick="var answer = prompt(\''.tra("Enter the name of this instance").':\',\'\'); while(answer == \'\')answer = prompt(\''.tra("The name is not valid. Please, enter the name again").':\',\'\'); if (answer != null) window.location = \''.GALAXIA_PKG_URL.'g_run_activity.php?activity_id=$1&ins_name=\'+answer;', $mapline);
+	$actid2item = array();
+	foreach (array_keys($items["data"]) as $index) {
+		$actid2item[$items["data"][$index]['activity_id']] = $index;
+	}
+	foreach ($processes['data'] as $info) {
+		if ($info['p_id'] == $_REQUEST['filter_process'] && !empty($info['normalized_name'])) {
+			$graph = $info['normalized_name']."/graph/".$info['normalized_name'].".png";
+			$mapfile = $info['normalized_name']."/graph/".$info['normalized_name'].".map";
+			if (file_exists(GALAXIA_PROCESSES.$graph) && file_exists(GALAXIA_PROCESSES.$mapfile)) {
+				$maplines = file(GALAXIA_PROCESSES.$mapfile);
+				$map = '';
+				foreach ($maplines as $mapline) {
+					if (!preg_match('/activity_id=(\d+)/', $mapline, $matches)) continue;
+					$actid = $matches[1];
+					if (!isset($actid2item[$actid])) continue;
+					$index = $actid2item[$actid];
+					$item = $items['data'][$index];
+					if ($item['instances'] > 0) {
+						$url = GALAXIA_PKG_URL."g_user_instances.php?filter_process=".$info['p_id'];
+						$mapline = preg_replace('/href=".*?activity_id/', 'href="' . $url . '&amp;filter_activity', $mapline);
+						$map .= $mapline;
+					} elseif ($item['is_interactive'] == 'y' && ($item['type'] == 'start' || $item['type'] == 'standalone')) {
+						if ($gBitSystem->getPreference( 'galaxia_instance_names' ) == 'y') {
+							$mapline = preg_replace('/href=".*?activity_id=(\d+)/', 'href="#" onClick="var answer = prompt(\''.tra("Enter the name of this instance").':\',\'\'); while(answer == \'\')answer = prompt(\''.tra("The name is not valid. Please, enter the name again").':\',\'\'); if (answer != null) window.location = \''.GALAXIA_PKG_URL.'g_run_activity.php?activity_id=$1&ins_name=\'+answer;', $mapline);
+						} else {
+							$mapline = preg_replace('/href=".*?activity_id=(\d+)/', 'href="'.GALAXIA_PKG_URL.'g_run_activity.php?activity_id=$1', $mapline);
+						}
+						$map .= $mapline;
+					}
+				}
+				$gBitSmarty->assign('graph', GALAXIA_PROCESSES_URL.$graph);
+				$gBitSmarty->assign('map', $map);
+				$gBitSmarty->assign('procname', $info['procname']);
 			} else {
-	                        $mapline = preg_replace('/href=".*?activity_id=(\d+)/', 'href="'.GALAXIA_PKG_URL.'g_run_activity.php?activity_id=$1', $mapline);
+				$gBitSmarty->assign('graph', '');
 			}
-                        $map .= $mapline;
-                    }
-                }
-                $gBitSmarty->assign('graph', GALAXIA_PROCESSES_URL.$graph);
-                $gBitSmarty->assign('map', $map);
-                $gBitSmarty->assign('procname', $info['procname']);
-            } else {
-                $gBitSmarty->assign('graph', '');
-            }
-            break;
-        }
-    }
+			break;
+		}
+	}
 }
 
-$section = 'workflow';
 $sameurl_elements = array(
 	'offset',
 	'sort_mode',
