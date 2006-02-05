@@ -111,9 +111,6 @@ foreach( array_keys( $tables ) AS $tableName ) {
 $gBitInstaller->registerPackageInfo( GALAXIA_PKG_NAME, array(
 	'description' => "Galaxia is a open source activity-based Workflow engine based on Openflow (http://www.openflow.it).",
 	'license' => '<a href="http://www.gnu.org/licenses/licenses.html#LGPL">LGPL</a>',
-	'version' => '0.1',
-	'state' => 'experimental',
-	'dependencies' => '',
 ) );
 
 
