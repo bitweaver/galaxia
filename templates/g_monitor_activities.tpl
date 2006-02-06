@@ -155,7 +155,7 @@
 {if $direct_pagination eq 'y'}
 <br />
 {section loop=$cant_pages name=foo}
-{assign var=selector_offset value=$smarty.section.foo.index|times:`$gBitSystem->getPreference( 'max_records' )`}
+{assign var=selector_offset value=$smarty.section.foo.index|times:`$gBitSystemPrefs.max_records`}
 <a href="{sameurl offset=$selector_offset}">
 {$smarty.section.foo.index_next}</a>&nbsp;
 {/section}
