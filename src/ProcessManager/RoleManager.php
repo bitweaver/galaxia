@@ -69,7 +69,7 @@ class RoleManager extends BaseManager {
   /*!
     List mappings
   */
-  function list_mappings($p_id,$offset,$maxRecords,$sort_mode,$find)  {
+  function list_mappings($p_id,$offset,$max_records,$sort_mode,$find)  {
     $sort_mode = $this->mDb->convert_sortmode($sort_mode);
     if($find) {
       // no more quoting here - this is done in bind vars already
@@ -77,7 +77,7 @@ class RoleManager extends BaseManager {
       $query = "select `name`,gr.`role_id`,gur.`group_id` as group_id,`group_name` from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur
 	INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id`
 	where gr.`role_id`=gur.`role_id` and gur.`p_id`=? and ((`name` like ?) or (`group_id` like ?) or (`description` like ?)) order by $sort_mode";
-      $result = $this->mDb->query($query,array($p_id,$findesc,$findesc,$findesc), $maxRecords, $offset);
+      $result = $this->mDb->query($query,array($p_id,$findesc,$findesc,$findesc), $max_records, $offset);
       $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur
 	INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id`
 	where gr.`role_id`=gur.`role_id` and gur.`p_id`=? and ((`name` like ?) or (`group_id` like ?) or (`description` like ?))";
@@ -86,7 +86,7 @@ class RoleManager extends BaseManager {
       $query = "select `name`,gr.`role_id`,gur.`group_id` as group_id,`group_name` from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur
 	INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id`
 	where gr.`role_id`=gur.`role_id` and gur.`p_id`=? order by $sort_mode";
-      $result = $this->mDb->query($query,array($p_id), $maxRecords, $offset);
+      $result = $this->mDb->query($query,array($p_id), $max_records, $offset);
       $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."roles` gr, `".GALAXIA_TABLE_PREFIX."group_roles` gur
 	INNER JOIN `".BIT_DB_PREFIX."users_groups` ug ON ug.`group_id`=gur.`group_id`
 	where gr.`role_id`=gur.`role_id` and gur.`p_id`=?";
@@ -105,7 +105,7 @@ class RoleManager extends BaseManager {
   /*!
     Lists roles at a per-process level
   */
-  function list_roles($p_id,$offset,$maxRecords,$sort_mode,$find,$where='')
+  function list_roles($p_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
     $sort_mode = $this->mDb->convert_sortmode($sort_mode);
     if($find) {
@@ -122,7 +122,7 @@ class RoleManager extends BaseManager {
     }
     $query = "select * from `".GALAXIA_TABLE_PREFIX."roles` $mid order by $sort_mode";
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."roles` $mid";
-    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$bindvars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {

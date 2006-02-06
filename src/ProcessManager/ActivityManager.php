@@ -425,7 +425,7 @@ class ActivityManager extends BaseManager {
   /*!
    Lists activities at a per-process level
   */
-  function list_activities($p_id,$offset,$maxRecords,$sort_mode,$find,$where='')
+  function list_activities($p_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
     $sort_mode = $this->mDb->convert_sortmode($sort_mode);
     if($find) {
@@ -441,7 +441,7 @@ class ActivityManager extends BaseManager {
     }
     $query = "select * from `".GALAXIA_TABLE_PREFIX."activities` $mid order by $sort_mode";
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."activities` $mid";
-    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$bindvars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {

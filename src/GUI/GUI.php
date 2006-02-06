@@ -19,7 +19,7 @@ class GUI extends Base {
   and it also returns the number of instances that are in the
   process matching the conditions.
   */
-  function gui_list_user_processes($user_id,$offset,$maxRecords,$sort_mode,$find,$where='')
+  function gui_list_user_processes($user_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
     // FIXME: this doesn't support multiple sort criteria
     $sort_mode = $this->mDb->convert_sortmode($sort_mode);
@@ -57,7 +57,7 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gar.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
 		$mid";
-    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$bindvars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {
@@ -88,7 +88,7 @@ class GUI extends Base {
   }
 
 
-  function gui_list_user_activities($user_id,$offset,$maxRecords,$sort_mode,$find,$where='')
+  function gui_list_user_activities($user_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
     // FIXME: this doesn't support multiple sort criteria
     $sort_mode = $this->mDb->convert_sortmode($sort_mode);
@@ -132,7 +132,7 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."group_roles` ggr ON ggr.`role_id`=gar.`role_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
 		$mid";
-    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$bindvars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {
@@ -154,7 +154,7 @@ class GUI extends Base {
   }
 
 
-  function gui_list_user_instances($user_id,$offset,$maxRecords,$sort_mode,$find,$where='')
+  function gui_list_user_instances($user_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
     // FIXME: this doesn't support multiple sort criteria
     $sort_mode = $this->mDb->convert_sortmode($sort_mode);
@@ -208,7 +208,7 @@ class GUI extends Base {
                 INNER JOIN `".GALAXIA_TABLE_PREFIX."processes` gp ON gp.`p_id`=ga.`p_id`
 		INNER JOIN `".BIT_DB_PREFIX."users_groups_map` ugm ON ugm.`group_id`=ggr.`group_id`
               $mid";
-    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$bindvars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {

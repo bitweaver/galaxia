@@ -459,7 +459,7 @@ class ProcessManager extends BaseManager {
   /*!
    Lists processes (all processes)
   */
-  function list_processes($offset,$maxRecords,$sort_mode,$find,$where='')
+  function list_processes($offset,$max_records,$sort_mode,$find,$where='')
   {
     $sort_mode = $this->mDb->convert_sortmode($sort_mode);
     if($find) {
@@ -479,7 +479,7 @@ class ProcessManager extends BaseManager {
     }
     $query = "select * from `".GALAXIA_TABLE_PREFIX."processes` $mid order by $sort_mode";
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."processes` $mid";
-    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$bindvars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {

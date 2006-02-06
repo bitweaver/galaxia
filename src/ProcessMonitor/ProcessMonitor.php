@@ -75,7 +75,7 @@ class ProcessMonitor extends Base {
   }
 
 
-  function monitor_list_processes($offset,$maxRecords,$sort_mode,$find,$where='') {
+  function monitor_list_processes($offset,$max_records,$sort_mode,$find,$where='') {
     $sort_mode = $this->mDb->convert_sortmode($sort_mode);
     if($find) {
       $findesc = '%'.$find.'%';
@@ -95,7 +95,7 @@ class ProcessMonitor extends Base {
     // get the requested processes
     $query = "select * from `".GALAXIA_TABLE_PREFIX."processes` $mid order by $sort_mode";
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."processes` $mid";
-    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$bindvars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {
@@ -164,7 +164,7 @@ class ProcessMonitor extends Base {
     return $retval;
   }
 
-  function monitor_list_activities($offset,$maxRecords,$sort_mode,$find,$where='') {
+  function monitor_list_activities($offset,$max_records,$sort_mode,$find,$where='') {
     $sort_mode = $this->mDb->convert_sortmode($sort_mode);
     if($find) {
       $findesc = '%'.$find.'%';
@@ -187,7 +187,7 @@ class ProcessMonitor extends Base {
                 left join `".GALAXIA_TABLE_PREFIX."processes` gp on gp.`p_id`=ga.`p_id`
               $mid order by $sort_mode";
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."activities` ga $mid";
-    $result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$bindvars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$bindvars);
     $ret = Array();
     while($res = $result->fetchRow()) {
@@ -229,7 +229,7 @@ class ProcessMonitor extends Base {
     return $retval;
   }
 
-  function monitor_list_instances($offset,$maxRecords,$sort_mode,$find,$where='',$wherevars=array()) {
+  function monitor_list_instances($offset,$max_records,$sort_mode,$find,$where='',$wherevars=array()) {
     if($find) {
       $findesc = $this->qstr('%'.$find.'%');
       $mid=" where (`properties` like $findesc)";
@@ -253,7 +253,7 @@ class ProcessMonitor extends Base {
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON gi.`instance_id`=gia.`instance_id`
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gia.`activity_id` = ga.`activity_id`
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."processes` gp ON gp.`p_id`=gi.`p_id` $mid";
-    $result = $this->mDb->query($query,$wherevars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$wherevars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$wherevars);
     $ret = Array();
     while($res = $result->fetchRow()) {
@@ -369,7 +369,7 @@ class ProcessMonitor extends Base {
   }
 
   // List workitems per instance, remove workitem, update_workitem
-  function monitor_list_workitems($offset,$maxRecords,$sort_mode,$find,$where='',$wherevars=array()) {
+  function monitor_list_workitems($offset,$max_records,$sort_mode,$find,$where='',$wherevars=array()) {
     $mid = '';
     if ($where) {
       $mid.= " and ($where) ";
@@ -385,7 +385,7 @@ class ProcessMonitor extends Base {
         where gw.`activity_id`=ga.`activity_id` and ga.`p_id`=gp.`p_id` $mid order by gp.`p_id` desc,".$this->mDb->convert_sortmode($sort_mode);
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."workitems` gw,`".GALAXIA_TABLE_PREFIX."activities` ga,
         `".GALAXIA_TABLE_PREFIX."processes` gp where gw.`activity_id`=ga.`activity_id` and ga.`p_id`=gp.`p_id` $mid";
-    $result = $this->mDb->query($query,$wherevars,$maxRecords,$offset);
+    $result = $this->mDb->query($query,$wherevars,$max_records,$offset);
     $cant = $this->mDb->getOne($query_cant,$wherevars);
     $ret = Array();
     while($res = $result->fetchRow()) {

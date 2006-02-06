@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_activities.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_activities.php,v 1.4 2006/02/06 00:06:36 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -60,21 +60,21 @@ $gBitSmarty->assign('find', $find);
 $gBitSmarty->assign('where', $where);
 $gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
 
-$items = $processMonitor->monitor_list_activities($offset, $maxRecords, $sort_mode, $find, $where);
+$items = $processMonitor->monitor_list_activities($offset, $max_records, $sort_mode, $find, $where);
 $gBitSmarty->assign('cant', $items['cant']);
 
-$cant_pages = ceil($items["cant"] / $maxRecords);
+$cant_pages = ceil($items["cant"] / $max_records);
 $gBitSmarty->assign_by_ref('cant_pages', $cant_pages);
-$gBitSmarty->assign('actual_page', 1 + ($offset / $maxRecords));
+$gBitSmarty->assign('actual_page', 1 + ($offset / $max_records));
 
-if ($items["cant"] > ($offset + $maxRecords)) {
-	$gBitSmarty->assign('next_offset', $offset + $maxRecords);
+if ($items["cant"] > ($offset + $max_records)) {
+	$gBitSmarty->assign('next_offset', $offset + $max_records);
 } else {
 	$gBitSmarty->assign('next_offset', -1);
 }
 
 if ($offset > 0) {
-	$gBitSmarty->assign('prev_offset', $offset - $maxRecords);
+	$gBitSmarty->assign('prev_offset', $offset - $max_records);
 } else {
 	$gBitSmarty->assign('prev_offset', -1);
 }

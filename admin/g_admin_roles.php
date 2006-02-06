@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_roles.php,v 1.4 2005/11/22 07:26:01 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_roles.php,v 1.5 2006/02/06 00:06:36 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -122,22 +122,22 @@ if (isset($_REQUEST["find"])) {
 
 $gBitSmarty->assign('find', $find);
 $gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
-$mapitems = $roleManager->list_mappings($_REQUEST['pid'], $offset, $maxRecords, $sort_mode, $find);
+$mapitems = $roleManager->list_mappings($_REQUEST['pid'], $offset, $max_records, $sort_mode, $find);
 
 $gBitSmarty->assign('cant', $mapitems['cant']);
-$cant_pages = ceil($mapitems["cant"] / $maxRecords);
+$cant_pages = ceil($mapitems["cant"] / $max_records);
 if ($cant_pages == 0) $cant_pages = 1;
 $gBitSmarty->assign_by_ref('cant_pages', $cant_pages);
-$gBitSmarty->assign('actual_page', 1 + ($offset / $maxRecords));
+$gBitSmarty->assign('actual_page', 1 + ($offset / $max_records));
 
-if ($mapitems["cant"] > ($offset + $maxRecords)) {
-	$gBitSmarty->assign('next_offset', $offset + $maxRecords);
+if ($mapitems["cant"] > ($offset + $max_records)) {
+	$gBitSmarty->assign('next_offset', $offset + $max_records);
 } else {
 	$gBitSmarty->assign('next_offset', -1);
 }
 
 if ($offset > 0) {
-	$gBitSmarty->assign('prev_offset', $offset - $maxRecords);
+	$gBitSmarty->assign('prev_offset', $offset - $max_records);
 } else {
 	$gBitSmarty->assign('prev_offset', -1);
 }
