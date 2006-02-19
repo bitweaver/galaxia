@@ -8,7 +8,7 @@ $tables = array(
 	name C(80),
 	normalized_name C(80),
 	p_id I4 NOTNULL,
-	type C(12) NOTNULL,
+	act_type C(12) NOTNULL,
 	is_auto_routed C(1),
 	flow_num I8,
 	is_interactive C(1),
@@ -40,7 +40,7 @@ $tables = array(
 	title C(250),
 	comment X,
 	activity C(80),
-	timestamp I8
+	com_timestamp I8
 ",
 
 'galaxia_instances' => "

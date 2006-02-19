@@ -373,7 +373,7 @@ class Instance extends Base {
     
     // If we are completing a start activity then the instance must 
     // be created first!
-    $type = $this->mDb->getOne("select `type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));    
+    $type = $this->mDb->getOne("select `act_type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));    
     if($type=='start') {
       $this->_createNewInstance((int)$activity_id,$theuser);
     }
@@ -470,7 +470,7 @@ class Instance extends Base {
     
     // If we are completing a start activity then the instance must 
     // be created first!
-    $type = $this->mDb->getOne("select `type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));    
+    $type = $this->mDb->getOne("select `act_type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));    
     if($type=='start') {
       $this->_createNewInstance((int)$activity_id,$theuser);
     }
@@ -540,7 +540,7 @@ class Instance extends Base {
     //if this instance is also in
     //other activity if so do
     //nothing
-    $type = $this->mDb->getOne("select `type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));
+    $type = $this->mDb->getOne("select `act_type` from `".GALAXIA_TABLE_PREFIX."activities` where `activity_id`=?",array((int)$activity_id));
     
     // Verify the existance of a transition
     if(!$this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=? and `act_to_id`=?",array($from,(int)$activity_id))) {
@@ -645,7 +645,7 @@ class Instance extends Base {
         return false;
       }
       $now = date("U");
-      $query ="insert into `".GALAXIA_TABLE_PREFIX."instance_comments`(`instance_id`,`user_id`,`activity_id`,`activity`,`title`,`comment`,`timestamp`,`hash`) values(?,?,?,?,?,?,?,?)";
+      $query ="insert into `".GALAXIA_TABLE_PREFIX."instance_comments`(`instance_id`,`user_id`,`activity_id`,`activity`,`title`,`comment`,`com_timestamp`,`hash`) values(?,?,?,?,?,?,?,?)";
       $this->mDb->query($query,array((int)$iid,$user_id,(int)$activity_id,$activity,$title,$comment,(int)$now,$hash));
     }  
   }
@@ -664,7 +664,7 @@ class Instance extends Base {
   */
   function get_instance_comments($aid) {
     $iid = $this->instance_id;
-    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `activity_id`=? order by ".$this->mDb->convert_sortmode("timestamp_asc");
+    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `activity_id`=? order by ".$this->mDb->convert_sortmode("com_timestamp_asc");
     $result = $this->mDb->query($query,array((int)$iid,(int)$aid));    
     $ret = Array();
     while($res = $result->fetchRow()) {    

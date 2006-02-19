@@ -243,7 +243,7 @@ class ProcessMonitor extends Base {
         $mid.= " where ($where) ";
       }
     }
-    $query = "select gp.`p_id`, ga.`is_interactive`, gi.`owner_id`, gp.`procname`, gp.`version`, ga.`type`,
+    $query = "select gp.`p_id`, ga.`is_interactive`, gi.`owner_id`, gp.`procname`, gp.`version`, ga.`act_type`,
         ga.`activity_id`, ga.`name`, gi.`instance_id`, gi.`status`, gia.`activity_id`, gia.`user_id`, gi.`started`, gi.`name` as ins_name, gi.`ended`, gia.`status` as `actstatus`
         from `".GALAXIA_TABLE_PREFIX."instances` gi LEFT JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON gi.`instance_id`=gia.`instance_id`
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gia.`activity_id` = ga.`activity_id`
@@ -348,17 +348,17 @@ class ProcessMonitor extends Base {
   }
 
   function monitor_list_activity_types() {
-    $query = "select distinct(`type`) from `".GALAXIA_TABLE_PREFIX."activities`";
+    $query = "select distinct(`act_type`) from `".GALAXIA_TABLE_PREFIX."activities`";
     $result = $this->mDb->query($query);
     $ret = Array();
     while($res = $result->fetchRow()) {
-      $ret[] = $res['type'];
+      $ret[] = $res['act_type'];
     }
     return $ret;
   }
 
   function monitor_get_workitem($item_id) {
-    $query = "select gw.`order_id`,ga.`name`,ga.`type`,ga.`is_interactive`,gp.`procname`,gp.`version`,
+    $query = "select gw.`order_id`,ga.`name`,ga.`act_type`,ga.`is_interactive`,gp.`procname`,gp.`version`,
           gw.`item_id`,gw.`properties`,gw.`user_id`,`started`,`ended`-`started` as `duration`
           from `".GALAXIA_TABLE_PREFIX."workitems` gw,`".GALAXIA_TABLE_PREFIX."activities` ga,
           `".GALAXIA_TABLE_PREFIX."processes` gp where ga.`activity_id`=gw.`activity_id` and ga.`p_id`=gp.`p_id` and `item_id`=?";
@@ -379,7 +379,7 @@ class ProcessMonitor extends Base {
       $mid.=" and (`properties` like $findesc)";
     }
 // TODO: retrieve instance status as well
-    $query = "select `item_id`,`ended`-`started` as `duration`, ga.`is_interactive`, ga.`type`,gp.`procname`,
+    $query = "select `item_id`,`ended`-`started` as `duration`, ga.`is_interactive`, ga.`act_type`,gp.`procname`,
         gp.`version`,ga.`name` as `actname`, ga.`activity_id`,`instance_id`,`order_id`,`properties`,`started`,`ended`,`user_id`
         from `".GALAXIA_TABLE_PREFIX."workitems` gw,`".GALAXIA_TABLE_PREFIX."activities` ga,`".GALAXIA_TABLE_PREFIX."processes` gp 
         where gw.`activity_id`=ga.`activity_id` and ga.`p_id`=gp.`p_id` $mid order by gp.`p_id` desc,".$this->mDb->convert_sortmode($sort_mode);

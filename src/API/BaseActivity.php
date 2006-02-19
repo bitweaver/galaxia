@@ -38,7 +38,7 @@ class BaseActivity extends Base {
     $result = $this->mDb->query($query,array($activity_id));
     if(!$result->numRows()) return false;
     $res = $result->fetchRow();
-    switch($res['type']) {
+    switch($res['act_type']) {
       case 'start':
         $act = new Start();  
         break;
@@ -61,7 +61,7 @@ class BaseActivity extends Base {
         $act = new Activity();
         break;
       default:
-        trigger_error('Unknown activity type:'.$res['type'],E_USER_WARNING);
+        trigger_error('Unknown activity type:'.$res['act_type'],E_USER_WARNING);
     }
     
     $act->setName($res['name']);
@@ -71,7 +71,7 @@ class BaseActivity extends Base {
     $act->setIsInteractive($res['is_interactive']);
     $act->setIsAutoRouted($res['is_auto_routed']);
     $act->setActivityId($res['activity_id']);
-    $act->setType($res['type']);
+    $act->setType($res['act_type']);
     
     //Now get forward transitions 
     

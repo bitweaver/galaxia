@@ -80,7 +80,7 @@ class ActivityManager extends BaseManager {
     $a1 = $this->get_activity($p_id, $act_from_id);
     $a2 = $this->get_activity($p_id, $act_to_id);
     if(!$a1 || !$a2) return false;
-    if($a1['type'] != 'switch' && $a1['type'] != 'split') {
+    if($a1['act_type'] != 'switch' && $a1['act_type'] != 'split') {
       if($this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=$act_from_id")) {
         $this->error = tra('Cannot add transition only split activities can have more than one outbound transition');
         return false;
@@ -88,11 +88,11 @@ class ActivityManager extends BaseManager {
     }
     
     // Rule: if act is standalone no transitions allowed
-    if($a1['type'] == 'standalone' || $a2['type']=='standalone') return false;
+    if($a1['act_type'] == 'standalone' || $a2['act_type']=='standalone') return false;
     // No inbound to start
-    if($a2['type'] == 'start') return false;
+    if($a2['act_type'] == 'start') return false;
     // No outbound from end
-    if($a1['type'] == 'end') return false;
+    if($a1['act_type'] == 'end') return false;
      
     
     $query = "delete from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=? and `act_to_id`=?";
@@ -192,7 +192,7 @@ class ActivityManager extends BaseManager {
       $auto[$node['name']] = $node['is_auto_routed'];
       $graph->addNode($node['name'],array('URL'=>"foourl?activity_id=".$node['activity_id'],
                                       'label'=>$node['name'],
-                                      'shape' => $this->_get_activity_shape($node['type']),
+                                      'shape' => $this->_get_activity_shape($node['act_type']),
                                       'color' => $color
 
                                       )
@@ -242,23 +242,23 @@ class ActivityManager extends BaseManager {
     }
 
     // Rule 1 must have exactly one start and end activity
-    $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='start'");
+    $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `act_type`='start'");
     if($cant < 1) {
       $errors[] = tra('Process does not have a start activity');
     }
-    $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='end'");
+    $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `act_type`='end'");
     if($cant != 1) {
       $errors[] = tra('Process does not have exactly one end activity');
     }
     
     // Rule 2 end must be reachable from start
     $nodes = Array();
-    $endId = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='end'");
+    $endId = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `act_type`='end'");
     $aux['id']=$endId;
     $aux['visited']=false;
     $nodes[] = $aux;
     
-    $startId = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `type`='start'");
+    $startId = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=$p_id and `act_type`='start'");
     $start_node['id']=$startId;
     $start_node['visited']=true;    
     
@@ -299,14 +299,14 @@ class ActivityManager extends BaseManager {
             $errors[] = tra('Activity').': '.$res['name'].tra(' is interactive but has no role assigned');
           }
       } else {
-        if( $res['type'] != 'end' && $res['is_auto_routed'] == 'n') {
+        if( $res['act_type'] != 'end' && $res['is_auto_routed'] == 'n') {
           $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activity_roles` where `activity_id`=".$res['activity_id']);
             if(!$cant) {
               $errors[] = tra('Activity').': '.$res['name'].tra(' is non-interactive and non-autorouted but has no role assigned');
             }
         }
       }
-      if($res['type']=='standalone') {
+      if($res['act_type']=='standalone') {
         if($this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."transitions` where `act_from_id`=$aid or `act_to_id`=$aid")) {
            $errors[] = tra('Activity').': '.$res['name'].tra(' is standalone but has transitions');
         }
@@ -375,7 +375,7 @@ class ActivityManager extends BaseManager {
         $data.=fread($fp,8192);
       }
       fclose($fp);
-      if($res['type']=='standalone') {
+      if($res['act_type']=='standalone') {
           if(strstr($data,'$instance')) {
             $errors[] = tra('Activity '.$res['name'].' is standalone and is using the $instance object');
           }    
@@ -389,7 +389,7 @@ class ActivityManager extends BaseManager {
             $errors[] = tra('Activity '.$res['name'].' is non-interactive so it must not use the $instance->complete() method');
           }
         }
-        if($res['type']=='switch') {
+        if($res['act_type']=='switch') {
           if(!strstr($data,'$instance->setNextActivity(')) { 
             $errors[] = tra('Activity '.$res['name'].' is switch so it must use $instance->setNextActivity($actname) method');          
           }
@@ -650,8 +650,8 @@ class ActivityManager extends BaseManager {
     $compiled_file = GALAXIA_PROCESSES.'/'.$proc_info['normalized_name'].'/compiled/'.$act_info['normalized_name'].'.php';    
     $template_file = GALAXIA_PROCESSES.'/'.$proc_info['normalized_name'].'/code/templates/'.$actname.'.tpl';    
     $user_file = GALAXIA_PROCESSES.'/'.$proc_info['normalized_name'].'/code/activities/'.$actname.'.php';
-    $pre_file = GALAXIA_LIBRARY.'/compiler/'.$act_info['type'].'_pre.php';
-    $pos_file = GALAXIA_LIBRARY.'/compiler/'.$act_info['type'].'_pos.php';
+    $pre_file = GALAXIA_LIBRARY.'/compiler/'.$act_info['act_type'].'_pre.php';
+    $pos_file = GALAXIA_LIBRARY.'/compiler/'.$act_info['act_type'].'_pos.php';
 
     while( !($fw = @fopen($compiled_file,"wb")) ) {
         mkdir_p(GALAXIA_PROCESSES.'/'.$proc_info['normalized_name'].'/compiled/');
@@ -839,7 +839,7 @@ class ActivityManager extends BaseManager {
     ///an empty list of nodes starts the process
     $nodes = Array();
     // the end activity id
-    $endId = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=? and `type`='end'", array($p_id));
+    $endId = $this->mDb->getOne("select `activity_id` from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=? and `act_type`='end'", array($p_id));
     // and the number of total nodes (=activities)
     $cant = $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."activities` where `p_id`=?", array($p_id));
     $nodes[] = $endId;

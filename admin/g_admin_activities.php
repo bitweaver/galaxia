@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_activities.php,v 1.4 2006/02/19 20:09:31 lsces Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -54,7 +54,7 @@ if ($_REQUEST["activity_id"]) {
 		'activity_id' => 0,
 		'is_interactive' => 'y',
 		'is_auto_routed' => 'n',
-		'type' => 'activity',
+		'act_type' => 'activity',
 		'month'=> 0,
 		'day'=> 0,
 		'hour'=> 0,
@@ -84,7 +84,7 @@ if (!empty($_REQUEST['rolename']) && isset($_REQUEST['addrole'])) {
 		'activity_id' => $_REQUEST['activity_id'],
 		'is_interactive' => $is_interactive,
 		'is_auto_routed' => $is_auto_routed,
-		'type' => $_REQUEST['type'],
+		'act_type' => $_REQUEST['act_type'],
 		'month'=> 0,
 		'day'=> 0,
 		'hour'=> 0,
@@ -128,7 +128,7 @@ if (isset($_REQUEST['save_act'])) {
 		'activity_id' => $_REQUEST['activity_id'],
 		'is_interactive' => $is_interactive,
 		'is_auto_routed' => $is_auto_routed,
-		'type' => $_REQUEST['type'],
+		'act_type' => $_REQUEST['act_type'],
 		'expiration_time' => $_REQUEST['year']*535680+$_REQUEST['month']*44640+$_REQUEST['day']*1440+$_REQUEST['hour']*60+$_REQUEST['minute'],
 	);
 
@@ -162,7 +162,7 @@ if (isset($_REQUEST['save_act'])) {
 		'activity_id' => 0,
 		'is_interactive' => 'y',
 		'is_auto_routed' => 'n',
-		'type' => 'activity'
+		'act_type' => 'activity'
 	);
 
 	$_REQUEST['activity_id'] = 0;

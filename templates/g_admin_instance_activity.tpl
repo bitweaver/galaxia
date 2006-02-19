@@ -63,7 +63,7 @@
 	<td>{displayname user_id=$comments[ix].user_id}</td>
 </tr><tr>
     	<td>{tr}Date{/tr}:</td>
-	<td colspan="3">{$comments[ix].timestamp|bit_long_datetime}</td>
+	<td colspan="3">{$comments[ix].com_timestamp|bit_long_datetime}</td>
 </tr><tr>
 	<td>{tr}Subject{/tr}:</td>
 	<td colspan="3">{$comments[ix].title}</td>

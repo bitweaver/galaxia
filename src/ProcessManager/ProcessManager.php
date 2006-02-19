@@ -72,7 +72,7 @@ class ProcessManager extends BaseManager {
       $name = $res['normalized_name'];
       $out.='    <activity>'."\n";
       $out.='      <name>'.htmlspecialchars($res['name']).'</name>'."\n";
-      $out.='      <type>'.htmlspecialchars($res['type']).'</type>'."\n";
+      $out.='      <type>'.htmlspecialchars($res['act_type']).'</type>'."\n";
       $out.='      <description>'.htmlspecialchars($res['description']).'</description>'."\n";
       $out.='      <last_modified>'.date("d/m/Y [h:i:s]",$res['last_modified']).'</last_modified>'."\n";
       $out.='      <is_interactive>'.$res['is_interactive'].'</is_interactive>'."\n";
@@ -290,7 +290,7 @@ class ProcessManager extends BaseManager {
       $vars = Array(
         'name' => $activity['name'],
         'description' => $activity['description'],
-        'type' => $activity['type'],
+        'act_type' => $activity['act_type'],
         'last_modified' => $last_modified,
         'is_interactive' => $is_interactive,
         'is_auto_routed' => $is_auto_routed,
@@ -616,14 +616,14 @@ class ProcessManager extends BaseManager {
         $vars1 = Array(
           'name' => 'start',
           'description' => 'default start activity',
-          'type' => 'start',
+          'act_type' => 'start',
           'is_interactive' => 'y',
           'is_auto_routed' => 'y'
         );
         $vars2 = Array(
           'name' => 'end',
           'description' => 'default end activity',
-          'type' => 'end',
+          'act_type' => 'end',
           'is_interactive' => 'n',
           'is_auto_routed' => 'y'
         );

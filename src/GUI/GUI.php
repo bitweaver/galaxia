@@ -110,7 +110,7 @@ class GUI extends Base {
 
     $query = "select distinct(ga.`activity_id`),
                      ga.`name`,
-                     ga.`type`,
+                     ga.`act_type`,
                      gp.`procname`,
                      ga.`is_interactive`,
                      ga.`is_auto_routed`,
@@ -183,7 +183,7 @@ class GUI extends Base {
                      gi.`status`,
                      gia.`status` as `actstatus`,
                      ga.`name`,
-                     ga.`type`,
+                     ga.`act_type`,
 		     ga.`expiration_time` as exptime,
                      gp.`procname`,
                      ga.`is_interactive`,

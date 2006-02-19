@@ -25,7 +25,7 @@ class InstanceManager extends BaseManager {
   	else {
   		$and = "and ga.`activity_id` = $aid";
   	}
-    $query = "select ga.`activity_id`, ga.`type`, ga.`is_interactive`, ga.`is_auto_routed`, gi.`p_id`, ga.`name`,
+    $query = "select ga.`activity_id`, ga.`act_type`, ga.`is_interactive`, ga.`is_auto_routed`, gi.`p_id`, ga.`name`,
 		gi.`instance_id`, gi.`status`, ga.`expiration_time` as exptime, gia.`user_id`, gi.`started`, gia.`started` as ia_started, gia.`status` as `actstatus`, gia.`ended`
 		FROM `".GALAXIA_TABLE_PREFIX."activities` ga
 		INNER JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON ga.`activity_id`=gia.`activity_id`

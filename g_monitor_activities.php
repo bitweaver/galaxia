@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_activities.php,v 1.4 2006/02/06 00:06:36 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_activities.php,v 1.5 2006/02/19 20:09:30 lsces Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -32,9 +32,9 @@ if (isset($_REQUEST['filter_activity']) && $_REQUEST['filter_activity'])
 	$wheres[] = "`activity_id`=" . $_REQUEST['filter_activity'] . "";
 
 if (isset($_REQUEST['filter_type']) && $_REQUEST['filter_type'])
-	$wheres[] = "`type`='" . $_REQUEST['filter_type'] . "'";
+	$wheres[] = "`act_type`='" . $_REQUEST['filter_type'] . "'";
 
-$where = implode(' and ', $wheres);
+$where = implode(' AND ', $wheres);
 
 if ( empty( $_REQUEST["sort_mode"] ) ) {
 	$sort_mode = 'flow_num_asc';
