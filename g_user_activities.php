@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.7 2006/02/19 20:09:30 lsces Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.8 2006/03/01 20:16:09 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -103,7 +103,7 @@ if (isset($_REQUEST['filter_process']) && $_REQUEST['filter_process']) {
 						$mapline = preg_replace('/href=".*?activity_id/', 'href="' . $url . '&amp;filter_activity', $mapline);
 						$map .= $mapline;
 					} elseif ($item['is_interactive'] == 'y' && ($item['act_type'] == 'start' || $item['act_type'] == 'standalone')) {
-						if ($gBitSystem->getPreference( 'galaxia_instance_names' ) == 'y') {
+						if ($gBitSystem->getConfig( 'galaxia_instance_names' ) == 'y') {
 							$mapline = preg_replace('/href=".*?activity_id=(\d+)/', 'href="#" onClick="var answer = prompt(\''.tra("Enter the name of this instance").':\',\'\'); while(answer == \'\')answer = prompt(\''.tra("The name is not valid. Please, enter the name again").':\',\'\'); if (answer != null) window.location = \''.GALAXIA_PKG_URL.'g_run_activity.php?activity_id=$1&ins_name=\'+answer;', $mapline);
 						} else {
 							$mapline = preg_replace('/href=".*?activity_id=(\d+)/', 'href="'.GALAXIA_PKG_URL.'g_run_activity.php?activity_id=$1', $mapline);

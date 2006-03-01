@@ -59,7 +59,7 @@
 			<a href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?filter_process={$items[ix].p_id}&amp;filter_activity={$items[ix].activity_id}">{$items[ix].name}</a>
 		{else}
 			{if $items[ix].is_interactive eq 'y' and ($items[ix].type eq 'start' or $items[ix].type eq 'standalone')}
-				{if $gBitSystem->getPreference( 'galaxia_instance_names' ) eq 'y'}
+				{if $gBitSystem->getConfig( 'galaxia_instance_names' ) eq 'y'}
 					<a href="#" onclick="var answer = prompt('{tr}Enter the name of this instance{/tr}:',''); while(answer == '')answer = prompt('{tr}The name is not valid. Please, enter the name again{/tr}:',''); if (answer != null) window.location = '{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}&ins_name='+answer;">
 				{else}
 					<a href="{$smarty.const.GALAXIA_PKG_URL}g_run_activity.php?activity_id={$items[ix].activity_id}">
@@ -97,7 +97,7 @@
 {if $gBitSystem->isFeatureActive( 'direct_pagination' )}
 <br />
 {section loop=$cant_pages name=foo}
-{assign var=selector_offset value=$smarty.section.foo.index|times:`$gBitSystemPrefs.max_records`}
+{assign var=selector_offset value=$smarty.section.foo.index|times:`$gBitSystem->getConfig('max_records')`}
 <a href="{sameurl offset=$selector_offset}">{$smarty.section.foo.index_next}</a>&nbsp;
 {/section}
 {/if}
