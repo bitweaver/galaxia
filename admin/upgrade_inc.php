@@ -9,10 +9,10 @@ $upgrades = array(
 array( 'DATADICT' => array(
 	array( 'RENAMECOLUMN' => array(
 		'galaxia_instance_comments' => array(
-			'`timestamp`' => 'com_timestamp'
+			'`timestamp`' => '`com_timestamp` I8'
 		),
 		'galaxia_activities' => array(
-			'`type`' => 'act_type'
+			'`type`' => '`act_type` C(12) NOTNULL'
 		),
 	)),
 )),
