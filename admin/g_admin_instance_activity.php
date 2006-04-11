@@ -1,7 +1,7 @@
 <?php
 
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance_activity.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance_activity.php,v 1.4 2006/04/11 13:04:36 squareing Exp $
 
 // Copyright (c) 2002-2005, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -14,7 +14,7 @@ include_once( GALAXIA_PKG_PATH.'ProcessManager.php');
 include_once( GALAXIA_PKG_PATH.'API.php');
 
 $gBitSystem->verifyPackage( 'galaxia' );
-$gBitSystem->verifyPermission( 'bit_p_admin_workflow', "Permission denied you cannot admin the workflow" );
+$gBitSystem->verifyPermission( 'p_galaxia_admin', "Permission denied you cannot admin the workflow" );
 
 
 if (!isset($_REQUEST['iid'])) {
@@ -108,7 +108,7 @@ if (isset($_REQUEST['__removecomment'])) {
 
 	$__comment = $instance->get_instance_comment($_REQUEST['__removecomment']);
 
-	if ($__comment['user_id'] == $user_id or $gBitUser->hasPermission('bit_p_admin_workflow')) {
+	if ($__comment['user_id'] == $user_id or $gBitUser->hasPermission('p_galaxia_admin')) {
 		$instance->remove_instance_comment($_REQUEST['__removecomment']);
 	}
 }

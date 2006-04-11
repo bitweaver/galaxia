@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_activities.php,v 1.5 2006/02/19 20:09:30 lsces Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_activities.php,v 1.6 2006/04/11 13:04:36 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -10,7 +10,7 @@ require_once( '../bit_setup_inc.php' );
 include_once( GALAXIA_PKG_PATH.'ProcessMonitor.php');
 
 $gBitSystem->verifyPackage( 'galaxia' );
-$gBitSystem->verifyPermission( 'bit_p_admin_workflow', "Permission denied you cannot admin the workflow" );
+$gBitSystem->verifyPermission( 'p_galaxia_admin', "Permission denied you cannot admin the workflow" );
 
 // Filtering data to be received by request and
 // used to build the where part of a query

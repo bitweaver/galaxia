@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.8 2006/03/01 20:16:09 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.9 2006/04/11 13:04:36 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -10,7 +10,7 @@ require_once( '../bit_setup_inc.php' );
 include_once( GALAXIA_PKG_PATH.'/GUI.php');
 
 $gBitSystem->verifyPackage( 'galaxia' );
-$gBitSystem->verifyPermission( 'bit_p_use_workflow', "Permission denied you cannot use the workflow" );
+$gBitSystem->verifyPermission( 'p_galaxia_use', "Permission denied you cannot use the workflow" );
 
 // Filtering data to be received by request and
 // used to build the where part of a query

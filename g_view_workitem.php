@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_view_workitem.php,v 1.3 2005/10/12 15:13:50 spiderr Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_view_workitem.php,v 1.4 2006/04/11 13:04:36 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -10,7 +10,7 @@ require_once( '../bit_setup_inc.php' );
 include_once( GALAXIA_PKG_PATH.'/ProcessMonitor.php');
 
 $gBitSystem->verifyPackage( 'galaxia' );
-$gBitSystem->verifyPermission( 'bit_p_use_workflow', "Permission denied you cannot use the workflow" );
+$gBitSystem->verifyPermission( 'p_galaxia_use', "Permission denied you cannot use the workflow" );
 
 if (!isset($_REQUEST['item_id'])) {
 	galaxia_show_error("No item indicated");

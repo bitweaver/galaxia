@@ -123,7 +123,7 @@
 	  {/if}
 	  {/if}
 	  {*exception*}
-      {if $gBitUser->hasPermission('bit_p_exception_instance')}
+      {if $gBitUser->hasPermission('p_galaxia_exception_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].status ne 'exception' and $items[ix].user_id eq $user_id}
 	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to exception this instance?{/tr}');" title="{tr}exception instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?exception=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="stop" iexplain="exception instance"}</a></td>
 	  {/if}
@@ -133,7 +133,7 @@
 	  <td><a title="{tr}send instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?send=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="linkto" iexplain="send instance"}</a></td>
 	  {/if}
 	  {*abort*}
-      {if $gBitUser->hasPermission('bit_p_abort_instance')}
+      {if $gBitUser->hasPermission('p_galaxia_abort_instance')}
 	  {if $items[ix].status ne 'aborted' and $items[ix].user_id eq $user_id}
 	  <td><a onclick="javascript:return confirm('{tr}Are you sure you want to abort this instance?{/tr}');" title="{tr}abort instance{/tr}" href="{$smarty.const.GALAXIA_PKG_URL}g_user_instances.php?abort=1&amp;iid={$items[ix].instance_id}&amp;aid={$items[ix].activity_id}">{biticon ipackage="Galaxia" iname="trash" iexplain="abort instance"}</a></td>
       {/if}

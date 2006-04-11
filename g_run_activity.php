@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.5 2006/02/04 19:04:34 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.6 2006/04/11 13:04:36 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -15,7 +15,7 @@ $__activity_completed = false;
 $gBitSystem->verifyPackage( 'galaxia' );
 
 if (!isset($_REQUEST['auto'])) {
-	$gBitSystem->verifyPermission( 'bit_p_use_workflow', "Permission denied you cannot use the workflow" );
+	$gBitSystem->verifyPermission( 'p_galaxia_use', "Permission denied you cannot use the workflow" );
 }
 
 // Determine the activity using the activity_id request
@@ -77,7 +77,7 @@ include_once ($source);
 if (isset($_REQUEST['__removecomment'])) {
 	$__comment = $instance->get_instance_comment($_REQUEST['__removecomment']);
 
-	if ($__comment['user_id'] == $user_id or $gBitUser->hasPermission('bit_p_admin_workflow')) {
+	if ($__comment['user_id'] == $user_id or $gBitUser->hasPermission('p_galaxia_admin')) {
 		$instance->remove_instance_comment($_REQUEST['__removecomment']);
 	}
 }

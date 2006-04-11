@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.4 2006/02/06 00:06:36 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_instances.php,v 1.5 2006/04/11 13:04:36 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -10,7 +10,7 @@ require_once( '../bit_setup_inc.php' );
 include_once( GALAXIA_PKG_PATH.'/GUI.php');
 
 $gBitSystem->verifyPackage( 'galaxia' );
-$gBitSystem->verifyPermission( 'bit_p_use_workflow', "Permission denied you cannot use the workflow" );
+$gBitSystem->verifyPermission( 'p_galaxia_use', "Permission denied you cannot use the workflow" );
 
 // Filtering data to be received by request and
 // used to build the where part of a query
@@ -22,13 +22,13 @@ if (isset($_REQUEST['send'])) {
 }
 
 if (isset($_REQUEST['abort'])) {
-	$gBitSystem->verifyPermission('bit_p_abort_instance', tra("You don't have permission to abort an instance"));
+	$gBitSystem->verifyPermission('p_galaxia_abort_instance', tra("You don't have permission to abort an instance"));
 
         $GUI->gui_abort_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
 }
 
 if (isset($_REQUEST['exception'])) {
-        $gBitSystem->verifyPermission('bit_p_exception_instance', tra("You don't have permission to exception an instance"));
+        $gBitSystem->verifyPermission('p_galaxia_exception_instance', tra("You don't have permission to exception an instance"));
 
         $GUI->gui_exception_instance($gBitUser->getUserId(), $_REQUEST['aid'], $_REQUEST['iid']);
 }

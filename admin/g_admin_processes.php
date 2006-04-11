@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.4 2006/02/06 00:06:36 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_processes.php,v 1.5 2006/04/11 13:04:36 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -11,7 +11,7 @@ include_once( GALAXIA_PKG_PATH.'ProcessManager.php');
 
 // The galaxia process manager PHP script.
 $gBitSystem->verifyPackage( 'galaxia' );
-$gBitSystem->verifyPermission( 'bit_p_admin_workflow', "Permission denied you cannot admin the workflow" );
+$gBitSystem->verifyPermission( 'p_galaxia_admin', "Permission denied you cannot admin the workflow" );
 
 
 // Check if we are editing an existing process

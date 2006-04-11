@@ -120,11 +120,11 @@ $gBitInstaller->registerPackageInfo( GALAXIA_PKG_NAME, array(
 
 // ### Default UserPermissions
 $gBitInstaller->registerUserPermissions( GALAXIA_PKG_NAME, array(
-	array('bit_p_admin_workflow', 'Can admin workflow processes', 'admin', GALAXIA_PKG_NAME),
-	array('bit_p_abort_instance', 'Can abort a process instance', 'editors', GALAXIA_PKG_NAME),
-	array('bit_p_use_workflow', 'Can execute workflow activities', 'registered', GALAXIA_PKG_NAME),
-	array('bit_p_exception_instance', 'Can declare an instance as exception', 'registered', GALAXIA_PKG_NAME),
-	array('bit_p_send_instance', 'Can send instances after completion', 'registered', GALAXIA_PKG_NAME),
+	array('p_galaxia_admin', 'Can admin workflow processes', 'admin', GALAXIA_PKG_NAME),
+	array('p_galaxia_abort_instance', 'Can abort a process instance', 'editors', GALAXIA_PKG_NAME),
+	array('p_galaxia_use', 'Can execute workflow activities', 'registered', GALAXIA_PKG_NAME),
+	array('p_galaxia_exception_instance', 'Can declare an instance as exception', 'registered', GALAXIA_PKG_NAME),
+	array('p_galaxia_send_instance', 'Can send instances after completion', 'registered', GALAXIA_PKG_NAME),
 ) );
 
 ?>
