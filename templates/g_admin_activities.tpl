@@ -305,6 +305,6 @@
 	</form>
 	</td></tr>
 </table>
-</div>
+</div><!-- end .body -->
 
 </div> {* end .workflow *}

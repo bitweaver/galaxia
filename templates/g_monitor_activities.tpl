@@ -141,7 +141,7 @@
 </form>
 {* END OF LISTING *}
 
-</div> {* end .body *}
+</div><!-- end .body -->
 
 {* PAGINATION *}
 <div class="pagination">
