@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Configuration of the Galaxia Workflow Engine for TikiWiki
  */
