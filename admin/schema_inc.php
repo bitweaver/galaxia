@@ -102,8 +102,6 @@ $tables = array(
 
 global $gBitInstaller;
 
-$gBitInstaller->makePackageHomeable(GALAXIA_PKG_NAME);
-
 foreach( array_keys( $tables ) AS $tableName ) {
 	$gBitInstaller->registerSchemaTable( GALAXIA_PKG_NAME, $tableName, $tables[$tableName] );
 }
