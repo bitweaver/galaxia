@@ -13,10 +13,9 @@ if( $gBitSystem->isPackageActive( 'galaxia' ) ) {
 		$menuHash = array(
 			'package_name'  => GALAXIA_PKG_NAME,
 			'index_url'     => GALAXIA_PKG_URL.'g_user_processes.php',
-			'menu_template' => 'bitpackage:GALAXIA/menu_GALAXIA.tpl',
+			'menu_template' => 'bitpackage:galaxia/menu_galaxia.tpl',
 		);
 		$gBitSystem->registerAppMenu( $menuHash );
-		$gBitSystem->registerAppMenu( GALAXIA_PKG_NAME, 'Workflow', GALAXIA_PKG_URL.'g_user_processes.php', 'bitpackage:Galaxia/menu_galaxia.tpl' );
 	}
 
 /*
