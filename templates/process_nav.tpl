@@ -1,5 +1,5 @@
 <div class="box">
-<div class="boxtitle">{$proc_info.name} {tr}version{/tr} {$proc_info.version}</div>
+<h3 class="boxtitle">{$proc_info.name} {tr}version{/tr} {$proc_info.version}</h3>
 <div class="boxcontent">
   <div class="navbar workflow">
     {if $proc_info.is_valid eq 'y'}
