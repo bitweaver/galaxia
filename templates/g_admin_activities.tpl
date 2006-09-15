@@ -261,7 +261,7 @@
 			<tr class="{cycle}"><td>
 				<input type="checkbox" name="transition[{$transitions[ix].act_from_id}_{$transitions[ix].act_to_id}]" /></td><td>
 				<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id={$transitions[ix].act_from_id}">{$transitions[ix].actfromname}</a>
-				{biticon ipackage="Galaxia" iname="next" iexplain="next class="icon"}
+				{biticon ipackage="Galaxia" iname="next" iexplain="next}
 				<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={$sort_mode}&amp;activity_id={$transitions[ix].act_to_id}">{$transitions[ix].acttoname}</a></td> {* <td>
 				{$transitions[ix].acttoname}</td> *}
 			</tr>
