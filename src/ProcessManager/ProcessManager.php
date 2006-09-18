@@ -440,7 +440,7 @@ class ProcessManager extends BaseManager {
   function process_name_exists($name,$version)
   {
     $name = addslashes($this->_normalize_name($name,$version));
-    return $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."processes` where `normalized_name`='$name'");
+    return $this->mDb->getOne("select count(*) from `".GALAXIA_TABLE_PREFIX."processes` where `normalized_name`=?", array($name));
   }
   
   
@@ -449,8 +449,8 @@ class ProcessManager extends BaseManager {
   */
   function get_process($p_id)
   {
-    $query = "select * from `".GALAXIA_TABLE_PREFIX."processes` where `p_id`=$p_id";
-    $result = $this->mDb->query($query);
+    $query = "select * from `".GALAXIA_TABLE_PREFIX."processes` where `p_id`=?";
+    $result = $this->mDb->query($query, array($p_id) );
     if(!$result->numRows()) return false;
     $res = $result->fetchRow();
     return $res;
