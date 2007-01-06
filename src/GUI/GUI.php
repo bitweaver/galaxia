@@ -22,7 +22,7 @@ class GUI extends Base {
   function gui_list_user_processes($user_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
     // FIXME: this doesn't support multiple sort criteria
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convertSortmode($sort_mode);
 
     if (!isset($user_id))
 	galaxia_show_error("No user id");
@@ -91,7 +91,7 @@ class GUI extends Base {
   function gui_list_user_activities($user_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
     // FIXME: this doesn't support multiple sort criteria
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convertSortmode($sort_mode);
 
     if (!isset($user_id))
 	galaxia_show_error("No user id");
@@ -157,7 +157,7 @@ class GUI extends Base {
   function gui_list_user_instances($user_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
     // FIXME: this doesn't support multiple sort criteria
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convertSortmode($sort_mode);
 
     if (!isset($user_id))
 	galaxia_show_error("No user id");

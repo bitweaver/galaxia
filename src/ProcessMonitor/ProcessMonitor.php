@@ -76,7 +76,7 @@ class ProcessMonitor extends Base {
 
 
   function monitor_list_processes($offset,$max_records,$sort_mode,$find,$where='') {
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convertSortmode($sort_mode);
     if($find) {
       $findesc = '%'.$find.'%';
       $mid=" where ((`name` like ?) or (`description` like ?))";
@@ -165,7 +165,7 @@ class ProcessMonitor extends Base {
   }
 
   function monitor_list_activities($offset,$max_records,$sort_mode,$find,$where='') {
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convertSortmode($sort_mode);
     if($find) {
       $findesc = '%'.$find.'%';
       $mid=" where ((ga.`name` like ?) or (ga.`description` like ?))";
@@ -247,7 +247,7 @@ class ProcessMonitor extends Base {
         ga.`activity_id`, ga.`name`, gi.`instance_id`, gi.`status`, gia.`activity_id`, gia.`user_id`, gi.`started`, gi.`name` as ins_name, gi.`ended`, gia.`status` as `actstatus`
         from `".GALAXIA_TABLE_PREFIX."instances` gi LEFT JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON gi.`instance_id`=gia.`instance_id`
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."activities` ga ON gia.`activity_id` = ga.`activity_id`
-        LEFT JOIN `".GALAXIA_TABLE_PREFIX."processes` gp ON gp.`p_id`=gi.`p_id` $mid order by gi.".$this->mDb->convert_sortmode($sort_mode);   
+        LEFT JOIN `".GALAXIA_TABLE_PREFIX."processes` gp ON gp.`p_id`=gi.`p_id` $mid order by gi.".$this->mDb->convertSortmode($sort_mode);   
 
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."instances` gi
         LEFT JOIN `".GALAXIA_TABLE_PREFIX."instance_activities` gia ON gi.`instance_id`=gia.`instance_id`
@@ -272,7 +272,7 @@ class ProcessMonitor extends Base {
     if (!empty($where)) {
       $where = " where ($where) ";
     }
-    $query = "select `name`,`version`,`p_id` from `".GALAXIA_TABLE_PREFIX."processes` $where order by ".$this->mDb->convert_sortmode($sort_mode);
+    $query = "select `name`,`version`,`p_id` from `".GALAXIA_TABLE_PREFIX."processes` $where order by ".$this->mDb->convertSortmode($sort_mode);
     $result = $this->mDb->query($query);
     $ret = Array();
     while($res = $result->fetchRow()) {
@@ -286,7 +286,7 @@ class ProcessMonitor extends Base {
     if (!empty($where)) {
       $where = " where ($where) ";
     }
-    $query = "select `name`,`activity_id` from `".GALAXIA_TABLE_PREFIX."activities` $where order by ".$this->mDb->convert_sortmode($sort_mode);
+    $query = "select `name`,`activity_id` from `".GALAXIA_TABLE_PREFIX."activities` $where order by ".$this->mDb->convertSortmode($sort_mode);
     $result = $this->mDb->query($query);
     $ret = Array();
     while($res = $result->fetchRow()) {
@@ -382,7 +382,7 @@ class ProcessMonitor extends Base {
     $query = "select `item_id`,`ended`-`started` as `duration`, ga.`is_interactive`, ga.`act_type`,gp.`procname`,
         gp.`version`,ga.`name` as `actname`, ga.`activity_id`,`instance_id`,`order_id`,`properties`,`started`,`ended`,`user_id`
         from `".GALAXIA_TABLE_PREFIX."workitems` gw,`".GALAXIA_TABLE_PREFIX."activities` ga,`".GALAXIA_TABLE_PREFIX."processes` gp 
-        where gw.`activity_id`=ga.`activity_id` and ga.`p_id`=gp.`p_id` $mid order by gp.`p_id` desc,".$this->mDb->convert_sortmode($sort_mode);
+        where gw.`activity_id`=ga.`activity_id` and ga.`p_id`=gp.`p_id` $mid order by gp.`p_id` desc,".$this->mDb->convertSortmode($sort_mode);
     $query_cant = "select count(*) from `".GALAXIA_TABLE_PREFIX."workitems` gw,`".GALAXIA_TABLE_PREFIX."activities` ga,
         `".GALAXIA_TABLE_PREFIX."processes` gp where gw.`activity_id`=ga.`activity_id` and ga.`p_id`=gp.`p_id` $mid";
     $result = $this->mDb->query($query,$wherevars,$max_records,$offset);

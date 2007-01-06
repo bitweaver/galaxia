@@ -70,7 +70,7 @@ class RoleManager extends BaseManager {
     List mappings
   */
   function list_mappings($p_id,$offset,$max_records,$sort_mode,$find)  {
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convertSortmode($sort_mode);
     if($find) {
       // no more quoting here - this is done in bind vars already
       $findesc = '%'.$find.'%';
@@ -107,7 +107,7 @@ class RoleManager extends BaseManager {
   */
   function list_roles($p_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convertSortmode($sort_mode);
     if($find) {
       // no more quoting here - this is done in bind vars already
       $findesc = '%'.$find.'%';

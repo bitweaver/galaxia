@@ -461,7 +461,7 @@ class ProcessManager extends BaseManager {
   */
   function list_processes($offset,$max_records,$sort_mode,$find,$where='')
   {
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convertSortmode($sort_mode);
     if($find) {
       $findesc = '%'.$find.'%';
       $mid=" where ((`name` like ?) or (`description` like ?))";

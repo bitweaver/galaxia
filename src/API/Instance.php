@@ -664,7 +664,7 @@ class Instance extends Base {
   */
   function get_instance_comments($aid) {
     $iid = $this->instance_id;
-    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `activity_id`=? order by ".$this->mDb->convert_sortmode("com_timestamp_asc");
+    $query = "select * from `".GALAXIA_TABLE_PREFIX."instance_comments` where `instance_id`=? and `activity_id`=? order by ".$this->mDb->convertSortmode("com_timestamp_asc");
     $result = $this->mDb->query($query,array((int)$iid,(int)$aid));    
     $ret = Array();
     while($res = $result->fetchRow()) {    

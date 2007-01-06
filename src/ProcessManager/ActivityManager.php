@@ -427,7 +427,7 @@ class ActivityManager extends BaseManager {
   */
   function list_activities($p_id,$offset,$max_records,$sort_mode,$find,$where='')
   {
-    $sort_mode = $this->mDb->convert_sortmode($sort_mode);
+    $sort_mode = $this->mDb->convertSortmode($sort_mode);
     if($find) {
       $findesc = '%'.$find.'%';
       $mid=" where `p_id`=? and ((`name` like ?) or (`description` like ?))";
