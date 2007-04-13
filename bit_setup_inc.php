@@ -8,8 +8,7 @@ $registerHash = array(
 );
 $gBitSystem->registerPackage( $registerHash );
 
-if( $gBitSystem->isPackageActive( 'galaxia' ) ) {
-	if( $gBitUser->hasPermission( 'p_galaxia_use' ) ) {
+if( $gBitSystem->isPackageActive( 'galaxia' ) && $gBitUser->hasPermission( 'p_galaxia_use' ) ) {
 		$menuHash = array(
 			'package_name'  => GALAXIA_PKG_NAME,
 			'index_url'     => GALAXIA_PKG_URL.'g_user_processes.php',
@@ -30,5 +29,4 @@ if( $gBitSystem->isPackageActive( 'galaxia' ) ) {
 		}
 	}
 */
-}
 ?>
