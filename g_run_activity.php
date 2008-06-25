@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.6 2006/04/11 13:04:36 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_run_activity.php,v 1.7 2008/06/25 22:21:09 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -104,7 +104,7 @@ if (!isset($_REQUEST['auto']) && $__activity_completed && $activity->is_interact
 	$gBitSmarty->assign('actid',$activity->getActivityId());
 	$gBitSmarty->assign('post','n');
 	$gBitSmarty->assign('iid',$instance->instance_id);
-	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl', tra("Activity Completed") );
+	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl', tra("Activity Completed") , array( 'display_mode' => 'display' ));
 } 
 elseif (!isset($_REQUEST['auto']) && $activity->is_interactive() && isset($_REQUEST['__post'])) {
 	$gBitSmarty->assign('procname', $process->getName());
@@ -114,12 +114,12 @@ elseif (!isset($_REQUEST['auto']) && $activity->is_interactive() && isset($_REQU
 	$gBitSmarty->assign('title',$_REQUEST['__title']);
 	$gBitSmarty->assign('comment',$_REQUEST['__comment']);
 	$gBitSmarty->assign('post','y');
-	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl', tra("Activity Completed") );
+	$gBitSystem->display( 'bitpackage:Galaxia/g_activity_completed.tpl', tra("Activity Completed") , array( 'display_mode' => 'display' ));
 }
 else {
 	if (!isset($_REQUEST['auto']) && $activity->is_interactive()) {
 		$template = $activity->getNormalizedName(). '.tpl';
-		$gBitSystem->display( GALAXIA_PROCESSES . $process->getNormalizedName(). '/code/templates/' . $template, tra("Run Activity") );
+		$gBitSystem->display( GALAXIA_PROCESSES . $process->getNormalizedName(). '/code/templates/' . $template, tra("Run Activity") , array( 'display_mode' => 'display' ));
 	}
 }
 

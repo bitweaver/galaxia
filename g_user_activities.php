@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.9 2006/04/11 13:04:36 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_user_activities.php,v 1.10 2008/06/25 22:21:09 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -136,6 +136,6 @@ $sameurl_elements = array(
 );
 
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_user_activities.tpl', tra('User Activities') );
+$gBitSystem->display( 'bitpackage:Galaxia/g_user_activities.tpl', tra('User Activities') , array( 'display_mode' => 'display' ));
 
 ?>

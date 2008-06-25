@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_workitems.php,v 1.6 2006/04/11 13:04:36 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/g_monitor_workitems.php,v 1.7 2008/06/25 22:21:09 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -115,6 +115,6 @@ $gBitSmarty->assign('stats', $processMonitor->monitor_stats());
 $gBitSmarty->assign('users', $processMonitor->monitor_list_wi_users());
 
 
-$gBitSystem->display( 'bitpackage:Galaxia/g_monitor_workitems.tpl', tra('Monitor Workitems') );
+$gBitSystem->display( 'bitpackage:Galaxia/g_monitor_workitems.tpl', tra('Monitor Workitems') , array( 'display_mode' => 'display' ));
 
 ?>
