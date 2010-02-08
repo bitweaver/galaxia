@@ -1,14 +1,14 @@
 <?php
 
 
-// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance_activity.php,v 1.7 2009/10/01 14:16:59 wjames5 Exp $
+// $Header: /cvsroot/bitweaver/_bit_galaxia/admin/g_admin_instance_activity.php,v 1.8 2010/02/08 21:27:22 wjames5 Exp $
 
 // Copyright (c) 2002-2005, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See below for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See http://www.gnu.org/copyleft/lesser.html for details.
 // This file was created by Víctor Codocedo on 01/31/2005
 
-require_once( '../../bit_setup_inc.php' );
+require_once( '../../kernel/setup_inc.php' );
 
 include_once( GALAXIA_PKG_PATH.'ProcessManager.php');
 include_once( GALAXIA_PKG_PATH.'API.php');
