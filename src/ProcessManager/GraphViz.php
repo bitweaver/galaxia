@@ -13,7 +13,7 @@
 // | license@php.net so we can mail you a copy immediately.               |
 // +----------------------------------------------------------------------+
 //
-// $Id: GraphViz.php,v 1.2 2005/08/01 20:56:43 squareing Exp $
+// $Id$
 //
 
 /**
