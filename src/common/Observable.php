@@ -19,7 +19,7 @@ class Observable extends BitBase {
   var $_observers=Array();
   
   function Observable() {
- 	BitBase::BitBase(); 
+ 	parent::__construct(); 
   }
   
   /*!
