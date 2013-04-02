@@ -107,7 +107,7 @@
 <tr>
   <td>{tr}Roles{/tr}</td><td>
   {section name=ix loop=$roles}
-  {$roles[ix].name}<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;sort_mode={$sort_mode}&amp;find={$find}&amp;where={$where}&amp;activity_id={$info.activity_id}&amp;pid={$pid}&amp;remove_role={$roles[ix].role_id}">{biticon ipackage="icons" iname="edit-delete" iexplain="{tr}delete{/tr}"}</a><br />
+  {$roles[ix].name}<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;sort_mode={$sort_mode}&amp;find={$find}&amp;where={$where}&amp;activity_id={$info.activity_id}&amp;pid={$pid}&amp;remove_role={$roles[ix].role_id}">{booticon iname="icon-trash" ipackage="icons" iexplain="{tr}delete{/tr}"}</a><br />
   {sectionelse}
 <div class="norecords">{tr}No roles associated to this activity{/tr}</div>
   {/section}
