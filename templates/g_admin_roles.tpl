@@ -29,7 +29,7 @@
 					<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 					<input type="hidden" name="sort_mode2" value="{$sort_mode2|escape}" />
 
-					<div class="row">
+					<div class="control-group">
 						{formlabel label="Role Name" for="name"}
 						{forminput}
 							<input type="text" name="name" id="name" value="{$info.name|escape}" />
@@ -37,7 +37,7 @@
 						{/forminput}
 					</div>
 
-					<div class="row">
+					<div class="control-group">
 						{formlabel label="Description" for="description"}
 						{forminput}
 							<textarea rows="5" cols="50" name="description" id="description">{$info.description|escape}</textarea>
@@ -45,7 +45,7 @@
 						{/forminput}
 					</div>
 
-					<div class="row submit">
+					<div class="control-group submit">
 						<input type="submit" name="save" value="{if $info.role_id > 0}{tr}Update{/tr}{else}{tr}Create{/tr}{/if}" />
 						{if $info.role_id > 0}
 							&nbsp; {smartlink ititle="New Role" pid=$info.p_id}
