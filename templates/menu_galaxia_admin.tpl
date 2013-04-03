@@ -1,4 +1,4 @@
-<ul>
+<ul class="dropdown-menu sub-menu">
 {if $gBitUser->hasPermission('p_galaxia_admin')}
 <li><a class="item" href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_processes.php">{tr}Admin processes{/tr}</a></li>
 {/if}
