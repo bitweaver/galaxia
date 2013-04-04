@@ -60,7 +60,7 @@
 			</div>
 
 			<div class="control-group submit">
-				<input type="submit" name="filter" value="{tr}Filter{/tr}" />
+				<input type="submit" class="btn" name="filter" value="{tr}Filter{/tr}" />
 			</div>
 		{/form}
 

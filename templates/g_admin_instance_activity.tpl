@@ -50,7 +50,7 @@
 	</td>
 </tr>
 <tr class="panelsubmitrow"><td colspan="2">
-	{if $acts.actstatus eq 'running'}<input type="submit" name="save" value="{tr}update{/tr}" />{/if}
+	{if $acts.actstatus eq 'running'}<input type="submit" class="btn" name="save" value="{tr}update{/tr}" />{/if}
 </td></tr>
 </table>
 </form>
@@ -73,7 +73,7 @@
 </tr><tr>
 	<td class="panelsubmitrow">
 	<form action="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_instance_activity.php" method="post">
-		<input type="submit" name="eraser" value="{tr}erase{/tr}" />
+		<input type="submit" class="btn" name="eraser" value="{tr}erase{/tr}" />
 		<input type="hidden" name="__removecomment" value="{$comments[ix].cId}" />
 		<input type="hidden" name="iid" value="{$iid|escape}" />
 		<input type="hidden" name="aid" value="{$aid|escape}" />
@@ -96,7 +96,7 @@
 	<td><textarea rows="5" cols="50" name="__comment"></textarea></td>
 </tr>
 <tr class="panelsubmitrow"><td colspan="2">
-	<input type="submit" name="answer" value="{tr}Save{/tr}"/></td>
+	<input type="submit" class="btn" name="answer" value="{tr}Save{/tr}"/></td>
 </tr>
 </table>
 <input type="hidden" name="__post" value="y" />

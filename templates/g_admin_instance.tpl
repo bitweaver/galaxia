@@ -85,7 +85,7 @@
 	</td>
 </tr>
 <tr class="panelsubmitrow"><td colspan="2">
-	<input type="submit" name="save" value="{tr}update{/tr}" />
+	<input type="submit" class="btn" name="save" value="{tr}update{/tr}" />
 </td></tr>
 </table>
 </form>
@@ -112,7 +112,7 @@
 </tr>
 {/foreach}
 <tr class="panelsubmitrow"><td colspan="2">
-	<input type="submit" name="saveprops" value="{tr}update{/tr}" />
+	<input type="submit" class="btn" name="saveprops" value="{tr}update{/tr}" />
 </td></tr>
 </table>
 </form>
@@ -131,7 +131,7 @@
 	<td><textarea name="value" rows="4" cols="50"></textarea></td>
 </tr>
 <tr class="panelsubmitrow"><td colspan="2">
-	<input type="submit" name="addprop" value="{tr}add{/tr}" />
+	<input type="submit" class="btn" name="addprop" value="{tr}add{/tr}" />
 </td></tr>
 </table>
 </form>

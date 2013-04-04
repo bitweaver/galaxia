@@ -46,7 +46,7 @@
 					</div>
 
 					<div class="control-group submit">
-						<input type="submit" name="save" value="{if $info.role_id > 0}{tr}Update{/tr}{else}{tr}Create{/tr}{/if}" />
+						<input type="submit" class="btn" name="save" value="{if $info.role_id > 0}{tr}Update{/tr}{else}{tr}Create{/tr}{/if}" />
 						{if $info.role_id > 0}
 							&nbsp; {smartlink ititle="New Role" pid=$info.p_id}
 						{/if}
@@ -90,7 +90,7 @@
 					</table>
 
 					{if $items}
-						<input type="submit" name="delete" value="{tr}Remove Selected{/tr}" />
+						<input type="submit" class="btn" name="delete" value="{tr}Remove Selected{/tr}" />
 					{/if}
 				{/form}
 				<p class="total small">
@@ -116,7 +116,7 @@
 								<tr>
 									<td>{tr}Groups{/tr}:
 										<input type="text" size="10" name="find_groups" value="{$find_groups|escape}" />&nbsp;
-										<input type="submit" name="findgroups" value="{tr}filter{/tr}" />	  
+										<input type="submit" class="btn" name="findgroups" value="{tr}filter{/tr}" />	  
 									</td>
 									<td>{tr}Roles{/tr}:</td>
 								</tr>
@@ -141,7 +141,7 @@
 							</tr>
 							<tr class="panelsubmitrow">
 								<td colspan="2">
-									<input type="submit" name="save_map" value="{tr}map{/tr}" />
+									<input type="submit" class="btn" name="save_map" value="{tr}map{/tr}" />
 								</td>
 							</tr>
 						</table>
@@ -189,7 +189,7 @@
 					</table>
 
 					{if $items}
-						<input type="submit" name="delete" value="{tr}Remove Selected{/tr}" />
+						<input type="submit" class="btn" name="delete" value="{tr}Remove Selected{/tr}" />
 					{/if}
 				{/form}
 				<p class="total small">

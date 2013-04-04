@@ -61,7 +61,7 @@
 					</div>
 
 					<div class="control-group submit">
-						<input type="submit" name="save" value="{if $pid > 0}{tr}Update{/tr}{else}{tr}Create{/tr}{/if}" />
+						<input type="submit" class="btn" name="save" value="{if $pid > 0}{tr}Update{/tr}{else}{tr}Create{/tr}{/if}" />
 						{if $pid > 0}
 							&nbsp; {smartlink ititle="New Process"}
 						{/if}
@@ -81,7 +81,7 @@
 					</div>
 
 					<div class="control-group submit">
-						<input type="submit" name="upload" value="{tr}Upload{/tr}" />
+						<input type="submit" class="btn" name="upload" value="{tr}Upload{/tr}" />
 					</div>
 				{/form}
 			{/jstab}
@@ -142,7 +142,7 @@
 					</div>
 
 					<div class="control-group submit">
-						<input type="submit" name="filter" value="{tr}Filter{/tr}" />
+						<input type="submit" class="btn" name="filter" value="{tr}Filter{/tr}" />
 					</div>
 				{/form}
 			{/jstab}
@@ -208,7 +208,7 @@
 			</table>
 
 			{if $items}
-				<input type="submit" name="delete" value="{tr}Remove Selected{/tr}" />
+				<input type="submit" class="btn" name="delete" value="{tr}Remove Selected{/tr}" />
 			{/if}
 		{/form}
 

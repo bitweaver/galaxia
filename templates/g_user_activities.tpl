@@ -32,7 +32,7 @@
 	{/section}
 	</select>
 </td><td>
-	<input type="submit" name="filter" value="{tr}filter{/tr}" />
+	<input type="submit" class="btn" name="filter" value="{tr}filter{/tr}" />
 </td></tr>
 </table>
 </form>

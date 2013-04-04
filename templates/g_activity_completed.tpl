@@ -27,7 +27,7 @@
 	</tr>
 	{if $post eq 'n'}
 	<tr>
-		<td class="odd" colspan="2"><input type="submit" name="save" value="{tr}Save{/tr}" /></td>
+		<td class="odd" colspan="2"><input type="submit" class="btn" name="save" value="{tr}Save{/tr}" /></td>
 	</tr>
 	{/if}
 </tr>

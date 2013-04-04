@@ -21,7 +21,7 @@
 <th>&nbsp;</th>
 </tr><tr>
 <td><input size="8" type="text" name="find" value="{$find|escape}" /></td>
-<td><input type="submit" name="filter" value="{tr}filter{/tr}" /></td>
+<td><input type="submit" class="btn" name="filter" value="{tr}filter{/tr}" /></td>
 </tr>
 </table>	
 </form>

@@ -33,7 +33,7 @@ Errors:<br />
 		  	<tr>
 		  		<td>{tr}Users{/tr}:
 				<input type="text" size="10" name="find_users" value="{$find_users|escape}" />&nbsp;
-				<input type="submit" name="findusers" value="{tr}filter{/tr}" />
+				<input type="submit" class="btn" name="findusers" value="{tr}filter{/tr}" />
 		  		</td>
 		  		<td>{tr}Roles{/tr}:</td>
 		  	</tr>
@@ -57,7 +57,7 @@ Errors:<br />
 		</td>
 	</tr><tr class="panelsubmitrow">
 		<td colspan="2">
-			<input type="submit" name="save" value="{tr}map{/tr}" />
+			<input type="submit" class="btn" name="save" value="{tr}map{/tr}" />
 		</td>
 	</tr>
 	</table>
@@ -73,7 +73,7 @@ Errors:<br />
 <input type="hidden" name="offset" value="{$offset|escape}" />
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 {tr}Find{/tr}:<input size="8" type="text" name="find" value="{$find|escape}" />
-<input type="submit" name="filter" value="{tr}find{/tr}" />
+<input type="submit" class="btn" name="filter" value="{tr}find{/tr}" />
 </form>
 
 <form action="tiki-g-map_roles.php" method="post">
@@ -84,7 +84,7 @@ Errors:<br />
 
 <table>
 <tr>
-<th><input type="submit" name="delete" value="{tr}Delete{/tr}" /></th>
+<th><input type="submit" class="btn" name="delete" value="{tr}Delete{/tr}" /></th>
 <th><a href="tiki-g-map_roles.php?pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}Role{/tr}</a></th>
 <th><a href="tiki-g-map_roles.php?pid={$pid}&amp;find={$find}&amp;offset={$offset}&amp;sort_mode={if $sort_mode eq 'user_desc'}user_asc{else}user_desc{/if}">{tr}User{/tr}</a></th>
 </tr>
