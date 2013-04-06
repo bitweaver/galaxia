@@ -1,5 +1,6 @@
 {strip}
-<ul>
+<a class="dropdown-toggle" data-toggle="dropdown" href="#"> {tr}{$packageMenuTitle}{/tr} <b class="caret"></b></a>
+<ul class="{$packageMenuClass}">
 {if $gBitUser->hasPermission('p_galaxia_admin')}
 	<li><a class="item" href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_processes.php">{tr}Admin processes{/tr}</a></li>
 	<li><a class="item" href="{$smarty.const.GALAXIA_PKG_URL}g_monitor_processes.php">{tr}Monitor processes{/tr}</a></li>
