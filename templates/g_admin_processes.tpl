@@ -53,11 +53,10 @@
 					</div>
 
 					<div class="control-group">
-						{formlabel label="Is Process Active?" for="is_active"}
-						{forminput}
-							<input type="checkbox" name="is_active" id="is_active" {if $info.is_active eq 'y'}checked="checked"{/if} />
+						<label class="checkbox">
+							<input type="checkbox" name="is_active" id="is_active" {if $info.is_active eq 'y'}checked="checked"{/if} />Is Process Active?
 							{formhelp note="Indicates if the process is active. Invalid processes cannot be active"}
-						{/forminput}
+						</label>
 					</div>
 
 					<div class="control-group submit">
@@ -155,7 +154,7 @@
 			<input type="hidden" name="find" value="{$find|escape}" />
 			<input type="hidden" name="where" value="{$where|escape}" />
 			<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
-			<table class="data">
+			<table class="table data">
 				<caption>{tr}List of processes{/tr}</caption>
 				<tr>
 					<th>&nbsp;</th>

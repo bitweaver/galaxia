@@ -61,7 +61,7 @@
 					<input type="hidden" name="sort_mode2" value="{$sort_mode2|escape}" />
 					<input type="hidden" name="find" value="{$find|escape}" />
 					<input type="hidden" name="offset" value="{$offset|escape}" />
-					<table class="data">
+					<table class="table data">
 						<caption>{tr}List of roles{/tr}</caption>
 						<tr>
 							<th>&nbsp;</th>
@@ -160,7 +160,7 @@
 					<input type="hidden" name="sort_mode2" value="{$sort_mode2|escape}" />
 					<input type="hidden" name="find" value="{$find|escape}" />
 					<input type="hidden" name="offset" value="{$offset|escape}" />
-					<table class="data">
+					<table class="table data">
 						<caption>{tr}List of mappings{/tr}</caption>
 						<tr>
 							<th>&nbsp;</th>

@@ -73,7 +73,7 @@
 <input type="hidden" name="find" value="{$find|escape}" />
 <input type="hidden" name="where" value="{$where|escape}" />
 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
-<table class="data">
+<table class="table data">
 <tr>
 <th><a href="{if $sort_mode eq 'type_desc'}{sameurl sort_mode='type_asc'}{else}{sameurl sort_mode='type_desc'}{/if}">{tr}Type{/tr}</a></th>
 <th><a href="{if $sort_mode eq 'proc_desc'}{sameurl sort_mode='proc_asc'}{else}{sameurl sort_mode='proc_desc'}{/if}">{tr}Process{/tr}</a></th>
