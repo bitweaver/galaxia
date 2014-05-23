@@ -123,11 +123,11 @@
   {/section}
   </select>
   {/if}
-  <input type="text" name="rolename" />&nbsp;<input type="submit" class="btn" name="addrole" value="{tr}add role{/tr}" />
+  <input type="text" name="rolename" />&nbsp;<input type="submit" class="btn btn-default" name="addrole" value="{tr}add role{/tr}" />
   </td>
 </tr>
 <tr class="panelsubmitrow">
-  <td colspan="2"><input type="submit" class="btn" name="save_act" value="{tr}save{/tr}" /> </td>
+  <td colspan="2"><input type="submit" class="btn btn-default" name="save_act" value="{tr}save{/tr}" /> </td>
 </tr>
 </table>
 </form>
@@ -172,7 +172,7 @@
 		<option value="n">{tr}Manual{/tr}</option>
 	</select>
 </td><td>
-	<input type="submit" class="btn" name="filter" value="{tr}filter{/tr}" />
+	<input type="submit" class="btn btn-default" name="filter" value="{tr}filter{/tr}" />
 </td></tr>
 </table>	
 </form>
@@ -187,7 +187,7 @@
 <input type="hidden" name="activity_id" value="{$info.activity_id|escape}" />
 <table>
 	<tr><th>
-		<input type="submit" class="btn" name="delete_act" value="Delete" /></th><th>
+		<input type="submit" class="btn btn-default" name="delete_act" value="Delete" /></th><th>
 		<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'flow_num_desc'}flow_num_asc{else}flow_num_desc{/if}">{tr}#{/tr}</a></th><th>
 		<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}Name{/tr}</a></th><th>
 		<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'type_desc'}type_asc{else}type_desc{/if}">{tr}Type{/tr}</a></th><th>
@@ -218,7 +218,7 @@
 </td></tr>
 {/section}
 <tr class="panelsubmitrow"><td colspan="7">
-<input type="submit" class="btn" name="update_act" value="{tr}update{/tr}" />
+<input type="submit" class="btn btn-default" name="update_act" value="{tr}update{/tr}" />
 </td></tr>
 </table>
 </form>
@@ -252,7 +252,7 @@
 
 	<table>
 		<tr><th>
-			<input type="submit" class="btn" name="delete_tran" value="{tr}Delete{/tr}" /></th><th>
+			<input type="submit" class="btn btn-default" name="delete_tran" value="{tr}Delete{/tr}" /></th><th>
 			<a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'actfromname_desc'}actfromname_asc{else}actfromname_desc{/if}">{tr}Origin{/tr}</a></th>
 				{* <th><a href="{$smarty.const.GALAXIA_PKG_URL}admin/g_admin_activities.php?where2={$where2}&amp;sort_mode2={$sort_mode2}&amp;pid={$pid}&amp;find={$find}&amp;where={$where}&amp;sort_mode={if $sort_mode eq 'acttoname_desc'}acttoname_asc{else}acttoname_desc{/if}">{tr}To{/tr}</a></th> *}
 			</tr>
@@ -299,7 +299,7 @@
 				</select>
 			</td></tr>
 			<tr class="panelsubmitrow"><td colspan="2">
-				<input type="submit" class="btn" name="add_trans" value="{tr}add{/tr}" />
+				<input type="submit" class="btn btn-default" name="add_trans" value="{tr}add{/tr}" />
 			</td></tr>
 		</table>
 	</form>

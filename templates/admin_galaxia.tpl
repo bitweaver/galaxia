@@ -16,7 +16,7 @@
 				{/foreach}
 
 				<div class="control-group submit">
-					<input type="submit" class="btn" name="list_submit" value="{tr}Change preferences{/tr}" />
+					<input type="submit" class="btn btn-default" name="list_submit" value="{tr}Change preferences{/tr}" />
 				</div>
 			{/legend}
 		{/jstab}

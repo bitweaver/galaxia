@@ -61,7 +61,7 @@
 	<option value="n" {if 'n' eq $smarty.request.filter_is_auto_routed}selected="selected"{/if}>{tr}Automatic{/tr}</option>
 	</select>
 </td><td>	
-	<input type="submit" class="btn" name="filter" value="{tr}filter{/tr}" />
+	<input type="submit" class="btn btn-default" name="filter" value="{tr}filter{/tr}" />
 </td></tr>
 </table>
 </form>

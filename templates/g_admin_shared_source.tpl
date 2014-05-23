@@ -46,18 +46,18 @@
   <td style="text-align:center;">
     {if $activity_id > 0 and $act_info.is_interactive eq 'y'}
         {if $template eq 'y'}
-	    <input type="submit" class="btn" name="code" value="{tr}code{/tr}" />
+	    <input type="submit" class="btn btn-default" name="code" value="{tr}code{/tr}" />
             <input type="hidden" name="template" value="{$template|escape}">
         {else}
-            <input type="submit" class="btn" name="template" value="{tr}template{/tr}" />
+            <input type="submit" class="btn btn-default" name="template" value="{tr}template{/tr}" />
         {/if}
     {else}
         {tr}Non Interactive{/tr}
     {/if}
   </td>
   <td>
-  	<input type="submit" class="btn" name="save" value="{tr}save{/tr}" />
-  	<input type="submit" class="btn" name="cancel" value="{tr}cancel{/tr}" />
+  	<input type="submit" class="btn btn-default" name="save" value="{tr}save{/tr}" />
+  	<input type="submit" class="btn btn-default" name="cancel" value="{tr}cancel{/tr}" />
   </td>
 </tr>
 <tr>

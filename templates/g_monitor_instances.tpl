@@ -74,7 +74,7 @@
 	<option {if $owners[ix] eq $smarty.request.filter_owner}selected="selected"{/if} value="{$owners[ix]|escape}">{displayname user_id=$owners[ix]}</option>
 	{/section}
 	</select>
-</td><td><input type="submit" class="btn" name="filter" value="{tr}filter{/tr}" /></td>
+</td><td><input type="submit" class="btn btn-default" name="filter" value="{tr}filter{/tr}" /></td>
 </tr>
 </table>
 </form>

@@ -53,7 +53,7 @@
 		<option {if $smarty.request.filter_user eq '*'}selected="selected"{/if} value="*">*</option>
 	</select>
 </td><td>	
-	<input type="submit" class="btn" name="filter" value="{tr}filter{/tr}" />
+	<input type="submit" class="btn btn-default" name="filter" value="{tr}filter{/tr}" />
 </td></tr>
 </table>	
 </form>
