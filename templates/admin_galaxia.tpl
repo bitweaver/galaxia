@@ -6,7 +6,7 @@
 				<input type="hidden" name="page" value="{$page}" />
 
 				{foreach from=$formGalaxia key=item item=output}
-					<div class="control-group">
+					<div class="form-group">
 						{formlabel label=$output.label for=$item}
 						{forminput}
 							{html_checkboxes name="$item" values="y" checked=$gBitSystem->getConfig($item) labels=false id=$item}
@@ -15,7 +15,7 @@
 					</div>
 				{/foreach}
 
-				<div class="control-group submit">
+				<div class="form-group submit">
 					<input type="submit" class="btn btn-default" name="list_submit" value="{tr}Change preferences{/tr}" />
 				</div>
 			{/legend}

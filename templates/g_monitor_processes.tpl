@@ -14,7 +14,7 @@
 			<input type="hidden" name="offset" value="{$offset|escape}" />
 			<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Processes" for="find"}
 				{forminput}
 					<input size="8" type="text" name="find" id="find" value="{$find|escape}" />
@@ -22,7 +22,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Version" for="filter_process"}
 				{forminput}
 					<select name="filter_process" id="filter_process">
@@ -35,7 +35,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Status" for="filter_active"}
 				{forminput}
 					<select name="filter_active" id="filter_active">
@@ -47,7 +47,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Valid" for="filter_valid"}
 				{forminput}
 					<select name="filter_valid" id="filter_valid">
@@ -59,7 +59,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group submit">
+			<div class="form-group submit">
 				<input type="submit" class="btn btn-default" name="filter" value="{tr}Filter{/tr}" />
 			</div>
 		{/form}

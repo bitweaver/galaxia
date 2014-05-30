@@ -28,7 +28,7 @@
 					<input type="hidden" name="find" value="{$find|escape}" />
 					<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 				
-					<div class="control-group">
+					<div class="form-group">
 						{formlabel label="Process Name" for="name"}
 						{forminput}
 							<input type="text" maxlength="80" name="name" id="name" value="{$info.procname|escape}" /> {tr}ver:{/tr}{$info.version}
@@ -36,7 +36,7 @@
 						{/forminput}
 					</div>
 
-					<div class="control-group">
+					<div class="form-group">
 						{formlabel label="Version" for=""}
 						{forminput}
 							{$info.version}
@@ -44,7 +44,7 @@
 						{/forminput}
 					</div>
 
-					<div class="control-group">
+					<div class="form-group">
 						{formlabel label="Description" for="description"}
 						{forminput}
 							<textarea rows="5" cols="50" name="description" id="description">{$info.description|escape}</textarea>
@@ -52,14 +52,14 @@
 						{/forminput}
 					</div>
 
-					<div class="control-group">
+					<div class="form-group">
 						<label class="checkbox">
 							<input type="checkbox" name="is_active" id="is_active" {if $info.is_active eq 'y'}checked="checked"{/if} />Is Process Active?
 							{formhelp note="Indicates if the process is active. Invalid processes cannot be active"}
 						</label>
 					</div>
 
-					<div class="control-group submit">
+					<div class="form-group submit">
 						<input type="submit" class="btn btn-default" name="save" value="{if $pid > 0}{tr}Update{/tr}{else}{tr}Create{/tr}{/if}" />
 						{if $pid > 0}
 							&nbsp; {smartlink ititle="New Process"}
@@ -70,7 +70,7 @@
 
 			{jstab title="Upload Process"}
 				{form legend="Upload a Process" enctype="multipart/form-data"}
-					<div class="control-group">
+					<div class="form-group">
 						{formlabel label="Upload File" for="upload"}
 						{forminput}
 							<input type="hidden" name="MAX_FILE_SIZE" value="10000000000000" />
@@ -79,7 +79,7 @@
 						{/forminput}
 					</div>
 
-					<div class="control-group submit">
+					<div class="form-group submit">
 						<input type="submit" class="btn btn-default" name="upload" value="{tr}Upload{/tr}" />
 					</div>
 				{/form}
@@ -90,7 +90,7 @@
 					<input type="hidden" name="offset" value="{$offset|escape}" />
 					<input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
 
-					<div class="control-group">
+					<div class="form-group">
 						{formlabel label="Processes" for="filter_name"}
 						{forminput}
 							<select name="filter_name" id="filter_name">
@@ -103,7 +103,7 @@
 						{/forminput}
 					</div>
 
-					<div class="control-group">
+					<div class="form-group">
 						{formlabel label="Version" for="filter_version"}
 						{forminput}
 							<select name="filter_version" id="filter_version">
@@ -116,7 +116,7 @@
 						{/forminput}
 					</div>
 
-					<div class="control-group">
+					<div class="form-group">
 						{formlabel label="Status" for="filter_active"}
 						{forminput}
 							<select name="filter_active" id="filter_active">
@@ -128,7 +128,7 @@
 						{/forminput}
 					</div>
 
-					<div class="control-group">
+					<div class="form-group">
 						{formlabel label="Valid" for="filter_valid"}
 						{forminput}
 							<select name="filter_valid" id="filter_valid">
@@ -140,7 +140,7 @@
 						{/forminput}
 					</div>
 
-					<div class="control-group submit">
+					<div class="form-group submit">
 						<input type="submit" class="btn btn-default" name="filter" value="{tr}Filter{/tr}" />
 					</div>
 				{/form}
