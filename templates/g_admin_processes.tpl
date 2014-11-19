@@ -53,10 +53,10 @@
 					</div>
 
 					<div class="form-group">
-						<label class="checkbox">
+						{forminput label="checkbox"}
 							<input type="checkbox" name="is_active" id="is_active" {if $info.is_active eq 'y'}checked="checked"{/if} />Is Process Active?
 							{formhelp note="Indicates if the process is active. Invalid processes cannot be active"}
-						</label>
+						{/forminput}
 					</div>
 
 					<div class="form-group submit">
